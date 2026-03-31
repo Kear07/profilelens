@@ -868,14 +868,59 @@ body {
   cursor: not-allowed !important;
 }
 
-.badge-mock-block {
-  background: rgba(245, 166, 35, 0.1);
-  color: var(--yellow);
+.tab-wrapper {
+  flex: 1;
+  position: relative;
+}
+
+.tab-wrapper .tab {
+  width: 100%;
+}
+
+.pdf-locked-tooltip {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  background: #1E2340;
+  border: 1px solid rgba(108, 99, 255, 0.4);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 1rem;
+  font-size: 0.85rem;
+  color: var(--text);
+  line-height: 1.5;
+  z-index: 10;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  animation: tooltipFade 0.2s ease;
+}
+
+.pdf-locked-tooltip::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 2rem;
+  width: 12px;
+  height: 12px;
+  background: #1E2340;
+  border-left: 1px solid rgba(108, 99, 255, 0.4);
+  border-top: 1px solid rgba(108, 99, 255, 0.4);
+  transform: rotate(45deg);
+}
+
+@keyframes tooltipFade {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.badge-demo-positive {
+  background: rgba(33, 194, 94, 0.1);
+  color: var(--green);
   padding: 0.5rem 1rem;
   border-radius: var(--radius-sm);
   font-size: 0.85rem;
   margin-bottom: 1rem;
   text-align: center;
+  border: 1px solid rgba(33, 194, 94, 0.15);
 }
 
 /* ====== File Upload ====== */

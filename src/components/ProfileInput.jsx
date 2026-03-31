@@ -10,6 +10,17 @@ export default function ProfileInput({ onAnalyze, onBack, error, provider, lang 
   const [pdfFile, setPdfFile] = useState(null)
   const [parsing, setParsing] = useState(false)
   const [localError, setLocalError] = useState(null)
+  const [showPdfTooltip, setShowPdfTooltip] = useState(false)
+
+  const handlePdfTabClick = () => {
+    if (isDemo) {
+      setShowPdfTooltip(true)
+      setTimeout(() => setShowPdfTooltip(false), 5000)
+    } else {
+      setMode('pdf')
+      setShowPdfTooltip(false)
+    }
+  }
 
   const handleSubmitText = (e) => {
     e.preventDefault()
@@ -44,24 +55,30 @@ export default function ProfileInput({ onAnalyze, onBack, error, provider, lang 
       <h2 className="section-title">{t(lang, 'yourProfile')}</h2>
 
       <div className="input-mode-tabs">
-        <button
-          className={`tab ${mode === 'pdf' ? 'active' : ''} ${isDemo ? 'tab-disabled' : ''}`}
-          onClick={() => !isDemo && setMode('pdf')}
-          title={isDemo ? t(lang, 'demoBadge').replace('{settings}', t(lang, 'settings')) : ''}
-        >
-          {t(lang, 'tabPdf')} {isDemo && '🔒'}
-        </button>
+        <div className="tab-wrapper">
+          <button
+            className={`tab ${mode === 'pdf' ? 'active' : ''} ${isDemo ? 'tab-disabled' : ''}`}
+            onClick={handlePdfTabClick}
+          >
+            {t(lang, 'tabPdf')} {isDemo && '🔒'}
+          </button>
+          {showPdfTooltip && (
+            <div className="pdf-locked-tooltip">
+              {t(lang, 'pdfLockedTooltip').replace('{settings}', t(lang, 'settings'))}
+            </div>
+          )}
+        </div>
         <button
           className={`tab ${mode === 'text' ? 'active' : ''}`}
-          onClick={() => setMode('text')}
+          onClick={() => { setMode('text'); setShowPdfTooltip(false) }}
         >
           {t(lang, 'tabText')}
         </button>
       </div>
 
       {isDemo && (
-        <p className="badge-mock-block">
-          {t(lang, 'demoBadge').replace('{settings}', t(lang, 'settings'))}
+        <p className="badge-demo-positive">
+          {t(lang, 'demoBadge')}
         </p>
       )}
 
