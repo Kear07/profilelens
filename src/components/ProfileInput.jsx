@@ -18,8 +18,9 @@ HABILIDADES:
 React, Node.js, TypeScript, Python, AWS, Docker`
 
 export default function ProfileInput({ onAnalyze, onBack, error, provider }) {
+  const isDemo = provider === 'mock'
   const [text, setText] = useState('')
-  const [mode, setMode] = useState('pdf') // pdf | text
+  const [mode, setMode] = useState(isDemo ? 'text' : 'pdf')
   const [pdfFile, setPdfFile] = useState(null)
   const [parsing, setParsing] = useState(false)
   const [localError, setLocalError] = useState(null)
@@ -58,10 +59,11 @@ export default function ProfileInput({ onAnalyze, onBack, error, provider }) {
 
       <div className="input-mode-tabs">
         <button
-          className={`tab ${mode === 'pdf' ? 'active' : ''}`}
-          onClick={() => setMode('pdf')}
+          className={`tab ${mode === 'pdf' ? 'active' : ''} ${isDemo ? 'tab-disabled' : ''}`}
+          onClick={() => !isDemo && setMode('pdf')}
+          title={isDemo ? 'Configure uma IA em Configurações para usar PDF' : ''}
         >
-          📄 Upload PDF
+          📄 Upload PDF {isDemo && '🔒'}
         </button>
         <button
           className={`tab ${mode === 'text' ? 'active' : ''}`}
@@ -71,9 +73,9 @@ export default function ProfileInput({ onAnalyze, onBack, error, provider }) {
         </button>
       </div>
 
-      {provider === 'mock' && (
+      {isDemo && (
         <p className="badge-mock-block">
-          Modo demo — configure a IA em ⚙ para análise real
+          Modo demo — clique em <strong>Configurações</strong> (topo direito) para conectar uma IA e desbloquear o upload de PDF
         </p>
       )}
 

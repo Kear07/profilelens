@@ -64,7 +64,7 @@ export default function App() {
           onClick={() => setShowSettings(!showSettings)}
           title="Configurar IA"
         >
-          ⚙
+          ⚙ Configurações
         </button>
       </header>
 

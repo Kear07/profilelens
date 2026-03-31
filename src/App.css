@@ -103,18 +103,21 @@ body {
   background: var(--bg-card);
   border: 1px solid var(--border);
   color: var(--text-muted);
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  font-size: 1.2rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  font-weight: 500;
   cursor: pointer;
   transition: all 0.2s;
+  font-family: var(--font);
+  white-space: nowrap;
 }
 
 .settings-btn:hover {
   background: var(--bg-card-hover);
-  border-color: var(--border-hover);
+  border-color: var(--primary);
   color: var(--text);
+  box-shadow: 0 0 12px var(--primary-glow);
 }
 
 /* ====== Footer ====== */
@@ -826,6 +829,11 @@ body {
   color: #fff;
   box-shadow: 0 0 12px rgba(108, 99, 255, 0.3);
   font-weight: 600;
+}
+
+.tab-disabled {
+  opacity: 0.35;
+  cursor: not-allowed !important;
 }
 
 .badge-mock-block {
