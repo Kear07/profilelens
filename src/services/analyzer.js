@@ -1,5 +1,13 @@
 import { MOCK_ANALYSIS } from '../data/mockAnalysis'
 
+const analysisCache = new Map()
+
+async function hashText(text) {
+  const data = new TextEncoder().encode(text)
+  const buf = await crypto.subtle.digest('SHA-256', data)
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('')
+}
+
 function getSystemPrompt() {
   const today = new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' })
   return `Você é o ProfileLens, um especialista em otimização de perfis LinkedIn.
@@ -56,6 +64,8 @@ async function callOpenAI(profileText, apiKey, model, baseUrl) {
         { role: 'user', content: `Analise este perfil LinkedIn:\n\n${profileText}` },
       ],
       temperature: 0,
+      top_p: 1,
+      seed: 42,
     }),
   })
 
@@ -87,6 +97,8 @@ async function callGemini(profileText, apiKey, model) {
     ],
     generationConfig: {
       temperature: 0,
+      topP: 1,
+      topK: 1,
       responseMimeType: 'application/json',
     },
   }
@@ -111,18 +123,29 @@ async function callGemini(profileText, apiKey, model) {
 export async function analyzeProfile(profileText, settings) {
   const { provider, apiKey, model, baseUrl } = settings
 
-  switch (provider) {
-    case 'gemini':
-      if (!apiKey) throw new Error('Configure sua Gemini API Key em ⚙ (grátis em aistudio.google.com)')
-      return callGemini(profileText, apiKey, model)
+  if (provider !== 'mock') {
+    const cacheKey = await hashText(`${provider}:${model}:${profileText.trim()}`)
+    const cached = analysisCache.get(cacheKey)
+    if (cached) return JSON.parse(JSON.stringify(cached))
 
-    case 'custom':
-      if (!baseUrl) throw new Error('Configure a URL base da API em ⚙')
-      return callOpenAI(profileText, apiKey, model, baseUrl)
+    let result
+    switch (provider) {
+      case 'gemini':
+        if (!apiKey) throw new Error('Configure sua Gemini API Key em Configurações (grátis em aistudio.google.com)')
+        result = await callGemini(profileText, apiKey, model)
+        break
+      case 'custom':
+        if (!baseUrl) throw new Error('Configure a URL base da API em Configurações')
+        result = await callOpenAI(profileText, apiKey, model, baseUrl)
+        break
+      default:
+        throw new Error('Provider desconhecido')
+    }
 
-    case 'mock':
-    default:
-      await new Promise((r) => setTimeout(r, 2000 + Math.random() * 1500))
-      return { ...MOCK_ANALYSIS }
+    analysisCache.set(cacheKey, JSON.parse(JSON.stringify(result)))
+    return result
   }
+
+  await new Promise((r) => setTimeout(r, 2000 + Math.random() * 1500))
+  return { ...MOCK_ANALYSIS }
 }
