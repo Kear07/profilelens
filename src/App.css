@@ -100,24 +100,27 @@ body {
 }
 
 .settings-btn {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  color: var(--text-muted);
-  padding: 0.5rem 1rem;
+  background: rgba(108, 99, 255, 0.1);
+  border: 1px solid rgba(108, 99, 255, 0.3);
+  color: var(--text);
+  padding: 0.55rem 1.2rem;
   border-radius: var(--radius-sm);
-  font-size: 0.85rem;
-  font-weight: 500;
+  font-size: 0.9rem;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
   font-family: var(--font);
   white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
 }
 
 .settings-btn:hover {
-  background: var(--bg-card-hover);
+  background: rgba(108, 99, 255, 0.2);
   border-color: var(--primary);
-  color: var(--text);
-  box-shadow: 0 0 12px var(--primary-glow);
+  color: #fff;
+  box-shadow: 0 0 16px var(--primary-glow);
 }
 
 /* ====== Footer ====== */
@@ -916,7 +919,6 @@ body {
   color: var(--text);
   font-weight: 500;
   font-size: 0.95rem;
-  margin-left: auto;
 }
 
 .file-remove {
@@ -932,6 +934,7 @@ body {
   align-items: center;
   justify-content: center;
   transition: all 0.2s;
+  margin-left: auto;
 }
 
 .file-remove:hover {

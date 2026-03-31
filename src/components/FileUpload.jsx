@@ -50,6 +50,8 @@ export default function FileUpload({ onFileText, loading }) {
         />
         {fileName ? (
           <div className="file-selected">
+            <span className="file-icon">📄</span>
+            <span className="file-name">{fileName}</span>
             <button
               className="file-remove"
               onClick={(e) => {
@@ -60,8 +62,6 @@ export default function FileUpload({ onFileText, loading }) {
             >
               ✕
             </button>
-            <span className="file-icon">📄</span>
-            <span className="file-name">{fileName}</span>
           </div>
         ) : (
           <>
