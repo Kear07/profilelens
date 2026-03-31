@@ -38,14 +38,6 @@ export const MOCK_ANALYSIS = {
         'Lista sólida de tecnologias relevantes. Considere adicionar soft skills e ferramentas de produtividade. Ordene por relevância para o cargo que busca.',
       suggestion: null,
     },
-    {
-      title: '📸 Presença Visual',
-      score: 70,
-      status: 'Razoável',
-      feedback:
-        'Não foi possível avaliar foto e banner diretamente, mas a estrutura textual sugere um perfil com seções preenchidas. Perfis com foto profissional recebem 14x mais visualizações.',
-      suggestion: null,
-    },
   ],
   tips: [
     'Use números sempre que possível: "5 anos" é melhor que "vários anos"',

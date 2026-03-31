@@ -1,32 +1,36 @@
 import { useState } from 'react'
+import { t } from '../i18n'
 
-const PROVIDERS = [
-  {
-    id: 'mock',
-    name: 'Demo (sem API)',
-    desc: 'Resultado de exemplo para testar a interface',
-    fields: [],
-  },
-  {
-    id: 'gemini',
-    name: 'Google Gemini',
-    desc: 'Gemini 2.5 Flash (grátis), 2.5 Pro, 2.0 Flash',
-    fields: ['apiKey', 'model'],
-    models: ['gemini-2.5-flash', 'gemini-2.5-pro', 'gemini-2.0-flash', 'gemini-2.0-flash-lite'],
-    defaultModel: 'gemini-2.5-flash',
-  },
-  {
-    id: 'custom',
-    name: 'Custom (OpenAI-compatible)',
-    desc: 'Qualquer API compatível com formato OpenAI',
-    fields: ['baseUrl', 'apiKey', 'model'],
-    models: [],
-    defaultModel: '',
-  },
-]
+function getProviders(lang) {
+  return [
+    {
+      id: 'mock',
+      name: t(lang, 'providerMockName'),
+      desc: t(lang, 'providerMockDesc'),
+      fields: [],
+    },
+    {
+      id: 'gemini',
+      name: t(lang, 'providerGeminiName'),
+      desc: t(lang, 'providerGeminiDesc'),
+      fields: ['apiKey', 'model'],
+      models: ['gemini-2.5-flash', 'gemini-2.5-pro', 'gemini-2.0-flash', 'gemini-2.0-flash-lite'],
+      defaultModel: 'gemini-2.5-flash',
+    },
+    {
+      id: 'custom',
+      name: t(lang, 'providerCustomName'),
+      desc: t(lang, 'providerCustomDesc'),
+      fields: ['baseUrl', 'apiKey', 'model'],
+      models: [],
+      defaultModel: '',
+    },
+  ]
+}
 
-export default function Settings({ settings, onChange, onClose }) {
+export default function Settings({ settings, onChange, onClose, lang }) {
   const [local, setLocal] = useState({ ...settings })
+  const PROVIDERS = getProviders(lang)
   const provider = PROVIDERS.find((p) => p.id === local.provider) || PROVIDERS[0]
 
   const update = (key, val) => setLocal((s) => ({ ...s, [key]: val }))
@@ -37,7 +41,7 @@ export default function Settings({ settings, onChange, onClose }) {
       provider: id,
       apiKey: '',
       model: p?.defaultModel || '',
-      baseUrl: p?.defaultUrl || '',
+      baseUrl: '',
     })
   }
 
@@ -50,7 +54,7 @@ export default function Settings({ settings, onChange, onClose }) {
     <div className="settings-overlay" onClick={onClose}>
       <div className="settings-panel" onClick={(e) => e.stopPropagation()}>
         <div className="settings-header">
-          <h3>Configurar IA</h3>
+          <h3>{t(lang, 'settingsTitle')}</h3>
           <button className="btn-ghost" onClick={onClose}>✕</button>
         </div>
 
@@ -69,40 +73,40 @@ export default function Settings({ settings, onChange, onClose }) {
 
         {provider.fields.includes('apiKey') && (
           <label className="field">
-            <span>API Key</span>
+            <span>{t(lang, 'apiKey')}</span>
             <input
               type="password"
               value={local.apiKey}
               onChange={(e) => update('apiKey', e.target.value)}
               placeholder={
                 local.provider === 'gemini'
-                  ? 'Cole sua Gemini API key (grátis em aistudio.google.com)'
-                  : `Cole sua ${provider.name} API key`
+                  ? t(lang, 'geminiHint')
+                  : `${t(lang, 'apiKey')} ${provider.name}`
               }
             />
             <small className="field-hint">
               {local.provider === 'gemini'
-                ? 'Grátis: pegue sua key em aistudio.google.com/apikey'
-                : 'Sua key fica apenas no navegador, nunca é enviada a terceiros'}
+                ? t(lang, 'geminiHint')
+                : t(lang, 'keyPrivacy')}
             </small>
           </label>
         )}
 
         {provider.fields.includes('baseUrl') && (
           <label className="field">
-            <span>URL Base</span>
+            <span>{t(lang, 'baseUrl')}</span>
             <input
               type="url"
               value={local.baseUrl}
               onChange={(e) => update('baseUrl', e.target.value)}
-              placeholder={provider.defaultUrl || 'https://api.example.com/v1'}
+              placeholder="https://api.example.com/v1"
             />
           </label>
         )}
 
         {provider.fields.includes('model') && (
           <label className="field">
-            <span>Modelo</span>
+            <span>{t(lang, 'model')}</span>
             {provider.models.length > 0 ? (
               <select
                 value={local.model}
@@ -117,15 +121,15 @@ export default function Settings({ settings, onChange, onClose }) {
                 type="text"
                 value={local.model}
                 onChange={(e) => update('model', e.target.value)}
-                placeholder="Nome do modelo"
+                placeholder={t(lang, 'model')}
               />
             )}
           </label>
         )}
 
         <div className="settings-footer">
-          <button className="btn-ghost" onClick={onClose}>Cancelar</button>
-          <button className="btn-primary" onClick={handleSave}>Salvar</button>
+          <button className="btn-ghost" onClick={onClose}>{t(lang, 'cancel')}</button>
+          <button className="btn-primary" onClick={handleSave}>{t(lang, 'save')}</button>
         </div>
       </div>
     </div>

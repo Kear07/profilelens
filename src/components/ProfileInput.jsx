@@ -1,23 +1,9 @@
 import { useState } from 'react'
 import FileUpload from './FileUpload'
 import { extractTextFromPDF } from '../services/pdfParser'
+import { t } from '../i18n'
 
-const PLACEHOLDER = `Cole aqui o texto do seu perfil LinkedIn. Exemplo:
-
-HEADLINE:
-Desenvolvedor Full Stack | React, Node.js, Python
-
-SOBRE:
-Profissional com 5 anos de experiência em desenvolvimento web...
-
-EXPERIÊNCIA:
-Empresa X - Desenvolvedor Sênior (2022 - atual)
-- Liderança técnica de squad com 5 devs...
-
-HABILIDADES:
-React, Node.js, TypeScript, Python, AWS, Docker`
-
-export default function ProfileInput({ onAnalyze, onBack, error, provider }) {
+export default function ProfileInput({ onAnalyze, onBack, error, provider, lang }) {
   const isDemo = provider === 'mock'
   const [text, setText] = useState('')
   const [mode, setMode] = useState(isDemo ? 'text' : 'pdf')
@@ -39,11 +25,11 @@ export default function ProfileInput({ onAnalyze, onBack, error, provider }) {
     try {
       const extracted = await extractTextFromPDF(pdfFile)
       if (extracted.trim().length < 30) {
-        throw new Error('Não consegui extrair texto do PDF. Tente colar o texto manualmente.')
+        throw new Error(t(lang, 'pdfExtractError'))
       }
       onAnalyze(extracted.trim())
     } catch (err) {
-      setLocalError(err.message || 'Erro ao processar PDF')
+      setLocalError(err.message || t(lang, 'pdfError'))
     } finally {
       setParsing(false)
     }
@@ -52,30 +38,30 @@ export default function ProfileInput({ onAnalyze, onBack, error, provider }) {
   return (
     <section className="input-section fade-up">
       <button className="btn-ghost back-btn" onClick={onBack}>
-        ← Voltar
+        {t(lang, 'back')}
       </button>
 
-      <h2 className="section-title">Seu perfil</h2>
+      <h2 className="section-title">{t(lang, 'yourProfile')}</h2>
 
       <div className="input-mode-tabs">
         <button
           className={`tab ${mode === 'pdf' ? 'active' : ''} ${isDemo ? 'tab-disabled' : ''}`}
           onClick={() => !isDemo && setMode('pdf')}
-          title={isDemo ? 'Configure uma IA em Configurações para usar PDF' : ''}
+          title={isDemo ? t(lang, 'demoBadge').replace('{settings}', t(lang, 'settings')) : ''}
         >
-          📄 Upload PDF {isDemo && '🔒'}
+          {t(lang, 'tabPdf')} {isDemo && '🔒'}
         </button>
         <button
           className={`tab ${mode === 'text' ? 'active' : ''}`}
           onClick={() => setMode('text')}
         >
-          ✏️ Colar texto
+          {t(lang, 'tabText')}
         </button>
       </div>
 
       {isDemo && (
         <p className="badge-mock-block">
-          Modo demo: clique em <strong>Configurações</strong> (topo direito) para conectar uma IA e desbloquear o upload de PDF
+          {t(lang, 'demoBadge').replace('{settings}', t(lang, 'settings'))}
         </p>
       )}
 
@@ -84,17 +70,18 @@ export default function ProfileInput({ onAnalyze, onBack, error, provider }) {
           <FileUpload
             onFileText={(file) => setPdfFile(file)}
             loading={parsing}
+            lang={lang}
           />
           <div className="input-footer">
             <span className="char-count">
-              {pdfFile ? '✓ PDF pronto' : 'Nenhum arquivo selecionado'}
+              {pdfFile ? t(lang, 'pdfReady') : t(lang, 'noFile')}
             </span>
             <button
               type="submit"
               className="btn-primary"
               disabled={!pdfFile || parsing}
             >
-              {parsing ? 'Lendo PDF...' : 'Analisar perfil'}
+              {parsing ? t(lang, 'readingPdf') : t(lang, 'analyzeBtn')}
             </button>
           </div>
           {(error || localError) && <p className="error-msg">{localError || error}</p>}
@@ -105,20 +92,20 @@ export default function ProfileInput({ onAnalyze, onBack, error, provider }) {
             className="profile-textarea"
             value={text}
             onChange={(e) => setText(e.target.value)}
-            placeholder={PLACEHOLDER}
+            placeholder={t(lang, 'placeholder')}
             rows={14}
             autoFocus
           />
           <div className="input-footer">
             <span className="char-count">
-              {text.length} caracteres {text.length < 50 && text.length > 0 && '(mínimo 50)'}
+              {text.length} {t(lang, 'chars')} {text.length < 50 && text.length > 0 && t(lang, 'min50')}
             </span>
             <button
               type="submit"
               className="btn-primary"
               disabled={text.trim().length < 50}
             >
-              Analisar perfil
+              {t(lang, 'analyzeBtn')}
             </button>
           </div>
           {error && <p className="error-msg">{error}</p>}

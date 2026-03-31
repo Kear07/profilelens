@@ -1,27 +1,28 @@
-export default function Hero({ onStart }) {
+import { t } from '../i18n'
+
+export default function Hero({ onStart, lang }) {
+  const chips = t(lang, 'heroChips')
+  const providers = t(lang, 'heroProviders')
+
   return (
     <section className="hero">
       <div className="hero-glow" />
       <h1 className="hero-title">
-        Analise seu perfil LinkedIn
+        {t(lang, 'heroTitle1')}
         <br />
-        <span className="gradient-text">com inteligência artificial</span>
+        <span className="gradient-text">{t(lang, 'heroTitle2')}</span>
       </h1>
-      <p className="hero-subtitle">
-        Descubra o que recrutadores realmente pensam do seu perfil.
-        Score detalhado + sugestões reescritas por IA.
-      </p>
+      <p className="hero-subtitle">{t(lang, 'heroSubtitle')}</p>
       <div className="hero-features">
-        <div className="feature-chip">🎯 Score detalhado</div>
-        <div className="feature-chip">✍️ Sugestões reescritas</div>
-        <div className="feature-chip">🔒 100% no navegador</div>
-        <div className="feature-chip">🤖 Escolha sua IA</div>
+        {chips.map((chip, i) => (
+          <div key={i} className="feature-chip">{chip}</div>
+        ))}
       </div>
       <button className="btn-primary btn-lg" onClick={onStart}>
-        Analisar meu perfil
+        {t(lang, 'heroBtn')}
       </button>
       <p className="hero-providers">
-        Funciona com <strong>Gemini (grátis)</strong> ou qualquer API compatível
+        {providers[0]}<strong>{providers[1]}</strong>{providers[2]}
       </p>
     </section>
   )

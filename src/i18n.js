@@ -1,0 +1,191 @@
+const translations = {
+  pt: {
+    // Topbar
+    settings: 'Configurações',
+
+    // Hero
+    heroTitle1: 'Analise seu perfil LinkedIn',
+    heroTitle2: 'com inteligência artificial',
+    heroSubtitle: 'Descubra o que recrutadores realmente pensam do seu perfil. Score detalhado + sugestões reescritas por IA.',
+    heroChips: ['🎯 Score detalhado', '✍️ Sugestões reescritas', '🔒 100% no navegador', '🤖 Escolha sua IA'],
+    heroBtn: 'Analisar meu perfil',
+    heroProviders: ['Funciona com ', 'Gemini (grátis)', ' ou qualquer API compatível'],
+
+    // Input
+    back: '← Voltar',
+    yourProfile: 'Seu perfil',
+    tabPdf: '📄 Upload PDF',
+    tabText: '✏️ Colar texto',
+    demoBadge: 'Modo demo: clique em {settings} (topo direito) para conectar uma IA e desbloquear o upload de PDF',
+    pdfReady: '✓ PDF pronto',
+    noFile: 'Nenhum arquivo selecionado',
+    readingPdf: 'Lendo PDF...',
+    analyzeBtn: 'Analisar perfil',
+    chars: 'caracteres',
+    min50: '(mínimo 50)',
+    placeholder: `Cole aqui o texto do seu perfil LinkedIn. Exemplo:
+
+HEADLINE:
+Desenvolvedor Full Stack | React, Node.js, Python
+
+SOBRE:
+Profissional com 5 anos de experiência em desenvolvimento web...
+
+EXPERIÊNCIA:
+Empresa X - Desenvolvedor Sênior (2022 - atual)
+- Liderança técnica de squad com 5 devs...
+
+HABILIDADES:
+React, Node.js, TypeScript, Python, AWS, Docker`,
+
+    // File upload
+    dragHere: 'Arraste seu PDF aqui',
+    orClick: ' ou clique para selecionar',
+    pdfHint: 'Perfil LinkedIn salvo como PDF',
+    onlyPdf: 'Só aceita PDF. Baixe seu perfil LinkedIn como PDF.',
+    fileTooBig: 'Arquivo muito grande (máx 10MB).',
+    howToPdf: 'Como baixar o PDF do LinkedIn?',
+    howStep1: 'Abra seu perfil no LinkedIn',
+    howStep2: 'Clique no botão ',
+    howStep2Bold: '"Mais"',
+    howStep2After: ' (abaixo da foto)',
+    howStep3: 'Selecione ',
+    howStep3Bold: '"Salvar como PDF"',
+    howStep4: 'Arraste o arquivo aqui',
+    pdfExtractError: 'Não consegui extrair texto do PDF. Tente colar o texto manualmente.',
+    pdfError: 'Erro ao processar PDF',
+
+    // Loading
+    loadingTips: [
+      'Analisando sua headline...',
+      'Lendo sua experiência...',
+      'Avaliando suas habilidades...',
+      'Gerando sugestões personalizadas...',
+      'Quase lá...',
+    ],
+
+    // Results
+    overallScore: 'Score geral',
+    suggestionLabel: 'SUGESTÃO DE REESCRITA',
+    tipsTitle: '💡 Dicas rápidas',
+    analyzeAnother: 'Analisar outro perfil',
+
+    // Settings
+    settingsTitle: 'Configurar IA',
+    apiKey: 'API Key',
+    baseUrl: 'URL Base',
+    model: 'Modelo',
+    cancel: 'Cancelar',
+    save: 'Salvar',
+    geminiHint: 'Grátis: pegue sua key em aistudio.google.com/apikey',
+    keyPrivacy: 'Sua key fica apenas no navegador, nunca é enviada a terceiros',
+
+    // Footer
+    madeBy: 'Feito por',
+    privacy: 'Seus dados não saem do navegador',
+
+    // Providers
+    providerMockName: 'Demo (sem API)',
+    providerMockDesc: 'Resultado de exemplo para testar a interface',
+    providerGeminiName: 'Google Gemini',
+    providerGeminiDesc: 'Gemini 2.5 Flash (grátis), 2.5 Pro, 2.0 Flash',
+    providerCustomName: 'Custom (OpenAI-compatible)',
+    providerCustomDesc: 'Qualquer API compatível com formato OpenAI',
+
+    // Errors
+    geminiKeyError: 'Configure sua Gemini API Key em Configurações (grátis em aistudio.google.com)',
+    customUrlError: 'Configure a URL base da API em Configurações',
+  },
+
+  en: {
+    settings: 'Settings',
+
+    heroTitle1: 'Analyze your LinkedIn profile',
+    heroTitle2: 'with artificial intelligence',
+    heroSubtitle: 'Find out what recruiters really think of your profile. Detailed score + AI-rewritten suggestions.',
+    heroChips: ['🎯 Detailed score', '✍️ Rewritten suggestions', '🔒 100% in browser', '🤖 Choose your AI'],
+    heroBtn: 'Analyze my profile',
+    heroProviders: ['Works with ', 'Gemini (free)', ' or any compatible API'],
+
+    back: '← Back',
+    yourProfile: 'Your profile',
+    tabPdf: '📄 Upload PDF',
+    tabText: '✏️ Paste text',
+    demoBadge: 'Demo mode: click {settings} (top right) to connect an AI and unlock PDF upload',
+    pdfReady: '✓ PDF ready',
+    noFile: 'No file selected',
+    readingPdf: 'Reading PDF...',
+    analyzeBtn: 'Analyze profile',
+    chars: 'characters',
+    min50: '(minimum 50)',
+    placeholder: `Paste your LinkedIn profile text here. Example:
+
+HEADLINE:
+Full Stack Developer | React, Node.js, Python
+
+ABOUT:
+Professional with 5 years of experience in web development...
+
+EXPERIENCE:
+Company X - Senior Developer (2022 - present)
+- Technical leadership of a 5-dev squad...
+
+SKILLS:
+React, Node.js, TypeScript, Python, AWS, Docker`,
+
+    dragHere: 'Drag your PDF here',
+    orClick: ' or click to select',
+    pdfHint: 'LinkedIn profile saved as PDF',
+    onlyPdf: 'Only PDF files. Download your LinkedIn profile as PDF.',
+    fileTooBig: 'File too large (max 10MB).',
+    howToPdf: 'How to download your LinkedIn PDF?',
+    howStep1: 'Open your LinkedIn profile',
+    howStep2: 'Click the ',
+    howStep2Bold: '"More"',
+    howStep2After: ' button (below your photo)',
+    howStep3: 'Select ',
+    howStep3Bold: '"Save to PDF"',
+    howStep4: 'Drag the file here',
+    pdfExtractError: 'Could not extract text from PDF. Try pasting the text manually.',
+    pdfError: 'Error processing PDF',
+
+    loadingTips: [
+      'Analyzing your headline...',
+      'Reading your experience...',
+      'Evaluating your skills...',
+      'Generating personalized suggestions...',
+      'Almost there...',
+    ],
+
+    overallScore: 'Overall score',
+    suggestionLabel: 'REWRITE SUGGESTION',
+    tipsTitle: '💡 Quick tips',
+    analyzeAnother: 'Analyze another profile',
+
+    settingsTitle: 'Configure AI',
+    apiKey: 'API Key',
+    baseUrl: 'Base URL',
+    model: 'Model',
+    cancel: 'Cancel',
+    save: 'Save',
+    geminiHint: 'Free: get your key at aistudio.google.com/apikey',
+    keyPrivacy: 'Your key stays in your browser only, never sent to third parties',
+
+    madeBy: 'Made by',
+    privacy: 'Your data never leaves the browser',
+
+    providerMockName: 'Demo (no API)',
+    providerMockDesc: 'Sample result to test the interface',
+    providerGeminiName: 'Google Gemini',
+    providerGeminiDesc: 'Gemini 2.5 Flash (free), 2.5 Pro, 2.0 Flash',
+    providerCustomName: 'Custom (OpenAI-compatible)',
+    providerCustomDesc: 'Any API compatible with OpenAI format',
+
+    geminiKeyError: 'Set your Gemini API Key in Settings (free at aistudio.google.com)',
+    customUrlError: 'Set the API base URL in Settings',
+  },
+}
+
+export function t(lang, key) {
+  return translations[lang]?.[key] ?? translations.pt[key] ?? key
+}

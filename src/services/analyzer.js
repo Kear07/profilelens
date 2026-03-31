@@ -1,4 +1,5 @@
 import { MOCK_ANALYSIS } from '../data/mockAnalysis'
+import { t } from '../i18n'
 
 const analysisCache = new Map()
 
@@ -8,8 +9,48 @@ async function hashText(text) {
   return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('')
 }
 
-function getSystemPrompt() {
-  const today = new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' })
+function getSystemPrompt(lang) {
+  const today = new Date().toLocaleDateString(lang === 'en' ? 'en-US' : 'pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' })
+
+  if (lang === 'en') {
+    return `You are ProfileLens, a LinkedIn profile optimization expert.
+Today's date is ${today}. Use this to evaluate experience dates. Future dates relative to today are NOT errors, they mean current position.
+
+Analyze the provided profile and return a JSON with EXACTLY this structure:
+{
+  "overallScore": 0,
+  "summary": "<overall summary in 2-3 sentences>",
+  "sections": [
+    {
+      "title": "<emoji + section name>",
+      "score": <number 0-100>,
+      "status": "<short status>",
+      "feedback": "<detailed analysis>",
+      "suggestion": "<rewrite suggestion or null>"
+    }
+  ],
+  "tips": ["<tip 1>", "<tip 2>", ...]
+}
+
+Required sections: Headline, About, Experience, Skills.
+
+SCORING CRITERIA (follow strictly):
+- 90-100: Exceptional profile, professionally optimized
+- 70-89: Good profile with minor adjustments
+- 50-69: Average profile, needs clear improvements
+- 30-49: Weak profile, missing important sections or generic content
+- 0-29: Very incomplete profile
+
+Evaluate based on: specificity (numbers > generic), differentiation (unique > cliche), completeness (all sections > partial), impact (results > responsibilities).
+
+MANDATORY RULE: NEVER use the em dash character in any text. Use commas, periods, colons, or semicolons instead.
+
+All text in the JSON MUST be in English.
+
+Be direct, specific, and actionable. Give rewrite suggestions when relevant.
+Respond ONLY with the JSON, no markdown, no explanation.`
+  }
+
   return `Você é o ProfileLens, um especialista em otimização de perfis LinkedIn.
 A data de hoje é ${today}. Use isso para avaliar datas de experiências. Datas futuras relativas a hoje NÃO são erro, significam posição atual.
 
@@ -29,7 +70,7 @@ Analise o perfil fornecido e retorne um JSON com EXATAMENTE esta estrutura:
   "tips": ["<dica 1>", "<dica 2>", ...]
 }
 
-Seções obrigatórias: Headline, Sobre (About), Experiência, Habilidades, Presença Visual.
+Seções obrigatórias: Headline, Sobre (About), Experiência, Habilidades.
 
 CRITÉRIOS DE PONTUAÇÃO (siga rigorosamente):
 - 90-100: Perfil excepcional, otimizado profissionalmente
@@ -46,7 +87,13 @@ Seja direto, específico e acionável. Dê sugestões de reescrita quando releva
 Responda APENAS com o JSON, sem markdown, sem explicação.`
 }
 
-async function callOpenAI(profileText, apiKey, model, baseUrl) {
+function getUserMessage(profileText, lang) {
+  return lang === 'en'
+    ? `Analyze this LinkedIn profile:\n\n${profileText}`
+    : `Analise este perfil LinkedIn:\n\n${profileText}`
+}
+
+async function callOpenAI(profileText, apiKey, model, baseUrl, lang) {
   const url = baseUrl
     ? `${baseUrl.replace(/\/$/, '')}/chat/completions`
     : 'https://api.openai.com/v1/chat/completions'
@@ -60,8 +107,8 @@ async function callOpenAI(profileText, apiKey, model, baseUrl) {
     body: JSON.stringify({
       model: model || 'gpt-4.1-mini',
       messages: [
-        { role: 'system', content: getSystemPrompt() },
-        { role: 'user', content: `Analise este perfil LinkedIn:\n\n${profileText}` },
+        { role: 'system', content: getSystemPrompt(lang) },
+        { role: 'user', content: getUserMessage(profileText, lang) },
       ],
       temperature: 0,
       top_p: 1,
@@ -71,7 +118,7 @@ async function callOpenAI(profileText, apiKey, model, baseUrl) {
 
   if (!res.ok) {
     const err = await res.json().catch(() => ({}))
-    throw new Error(err.error?.message || `Erro ${res.status}: ${res.statusText}`)
+    throw new Error(err.error?.message || `Error ${res.status}: ${res.statusText}`)
   }
 
   const data = await res.json()
@@ -79,7 +126,7 @@ async function callOpenAI(profileText, apiKey, model, baseUrl) {
   return JSON.parse(content)
 }
 
-async function callGemini(profileText, apiKey, model) {
+async function callGemini(profileText, apiKey, model, lang) {
   const modelId = model || 'gemini-2.5-flash'
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelId}:generateContent`
 
@@ -87,12 +134,12 @@ async function callGemini(profileText, apiKey, model) {
 
   const payload = {
     system_instruction: {
-      parts: [{ text: getSystemPrompt() }]
+      parts: [{ text: getSystemPrompt(lang) }]
     },
     contents: [
       {
         role: 'user',
-        parts: [{ text: `Analise este perfil LinkedIn:\n\n${cleanText}` }]
+        parts: [{ text: getUserMessage(cleanText, lang) }]
       }
     ],
     generationConfig: {
@@ -111,7 +158,7 @@ async function callGemini(profileText, apiKey, model) {
 
   if (!res.ok) {
     const err = await res.json().catch(() => ({}))
-    const msg = err.error?.message || `Erro ${res.status}: ${res.statusText}`
+    const msg = err.error?.message || `Error ${res.status}: ${res.statusText}`
     throw new Error(msg)
   }
 
@@ -120,26 +167,26 @@ async function callGemini(profileText, apiKey, model) {
   return JSON.parse(content)
 }
 
-export async function analyzeProfile(profileText, settings) {
+export async function analyzeProfile(profileText, settings, lang = 'pt') {
   const { provider, apiKey, model, baseUrl } = settings
 
   if (provider !== 'mock') {
-    const cacheKey = await hashText(`${provider}:${model}:${profileText.trim()}`)
+    const cacheKey = await hashText(`${provider}:${model}:${lang}:${profileText.trim()}`)
     const cached = analysisCache.get(cacheKey)
     if (cached) return JSON.parse(JSON.stringify(cached))
 
     let result
     switch (provider) {
       case 'gemini':
-        if (!apiKey) throw new Error('Configure sua Gemini API Key em Configurações (grátis em aistudio.google.com)')
-        result = await callGemini(profileText, apiKey, model)
+        if (!apiKey) throw new Error(t(lang, 'geminiKeyError'))
+        result = await callGemini(profileText, apiKey, model, lang)
         break
       case 'custom':
-        if (!baseUrl) throw new Error('Configure a URL base da API em Configurações')
-        result = await callOpenAI(profileText, apiKey, model, baseUrl)
+        if (!baseUrl) throw new Error(t(lang, 'customUrlError'))
+        result = await callOpenAI(profileText, apiKey, model, baseUrl, lang)
         break
       default:
-        throw new Error('Provider desconhecido')
+        throw new Error('Unknown provider')
     }
 
     analysisCache.set(cacheKey, JSON.parse(JSON.stringify(result)))

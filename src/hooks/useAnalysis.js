@@ -7,10 +7,9 @@ const SECTION_WEIGHTS = {
   'about': 0.25,
   'experiência': 0.30,
   'experiencia': 0.30,
+  'experience': 0.30,
   'habilidades': 0.15,
-  'presença': 0.10,
-  'presenca': 0.10,
-  'visual': 0.10,
+  'skills': 0.15,
 }
 
 function calcOverallScore(sections) {
@@ -35,11 +34,11 @@ export function useAnalysis() {
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
 
-  const analyze = useCallback(async (profileText, settings) => {
+  const analyze = useCallback(async (profileText, settings, lang) => {
     setLoading(true)
     setError(null)
     try {
-      const data = await analyzeProfile(profileText, settings)
+      const data = await analyzeProfile(profileText, settings, lang)
       // Recalcula overallScore no client, não confia no da IA
       data.overallScore = calcOverallScore(data.sections)
       setResult(data)

@@ -1,21 +1,14 @@
 import { useEffect, useState } from 'react'
+import { t } from '../i18n'
 
-const TIPS = [
-  'Analisando sua headline...',
-  'Avaliando a seção Sobre...',
-  'Verificando experiências...',
-  'Checando palavras-chave...',
-  'Calculando score final...',
-  'Gerando sugestões...',
-]
-
-export default function Loading() {
+export default function Loading({ lang }) {
+  const tips = t(lang, 'loadingTips')
   const [tipIdx, setTipIdx] = useState(0)
   const [progress, setProgress] = useState(0)
 
   useEffect(() => {
     const tipTimer = setInterval(() => {
-      setTipIdx((i) => (i + 1) % TIPS.length)
+      setTipIdx((i) => (i + 1) % tips.length)
     }, 1800)
     const progTimer = setInterval(() => {
       setProgress((p) => Math.min(p + Math.random() * 15, 95))
@@ -24,7 +17,7 @@ export default function Loading() {
       clearInterval(tipTimer)
       clearInterval(progTimer)
     }
-  }, [])
+  }, [tips.length])
 
   return (
     <section className="loading-section fade-up">
@@ -43,7 +36,7 @@ export default function Loading() {
         </svg>
         <span className="ring-percent">{Math.round(progress)}%</span>
       </div>
-      <p className="loading-tip">{TIPS[tipIdx]}</p>
+      <p className="loading-tip">{tips[tipIdx]}</p>
     </section>
   )
 }

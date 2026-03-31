@@ -5,6 +5,7 @@ import Settings from './components/Settings'
 import Loading from './components/Loading'
 import Results from './components/Results'
 import { useAnalysis } from './hooks/useAnalysis'
+import { t } from './i18n'
 import logoImg from './assets/logo.png'
 
 const DEFAULT_SETTINGS = {
@@ -28,11 +29,24 @@ function saveSettings(s) {
   } catch {}
 }
 
+function loadLang() {
+  try {
+    return localStorage.getItem('profilelens-lang') || 'pt'
+  } catch {}
+  return 'pt'
+}
+
 export default function App() {
-  const [screen, setScreen] = useState('hero') // hero | input | loading | results
+  const [screen, setScreen] = useState('hero')
   const [settings, setSettings] = useState(loadSettings)
   const [showSettings, setShowSettings] = useState(false)
+  const [lang, setLang] = useState(loadLang)
   const { analyze, result, error, loading } = useAnalysis()
+
+  const handleLangChange = (newLang) => {
+    setLang(newLang)
+    try { localStorage.setItem('profilelens-lang', newLang) } catch {}
+  }
 
   const handleSettingsChange = (s) => {
     setSettings(s)
@@ -42,7 +56,7 @@ export default function App() {
   const handleAnalyze = async (profileText) => {
     setScreen('loading')
     try {
-      await analyze(profileText, settings)
+      await analyze(profileText, settings, lang)
       setScreen('results')
     } catch {
       setScreen('input')
@@ -62,9 +76,9 @@ export default function App() {
         <button
           className="settings-btn"
           onClick={() => setShowSettings(!showSettings)}
-          title="Configurar IA"
+          title={t(lang, 'settings')}
         >
-          <span style={{ fontSize: '1.3rem' }}>⚙</span> Configurações
+          <span style={{ fontSize: '1.3rem' }}>⚙</span> {t(lang, 'settings')}
         </button>
       </header>
 
@@ -73,28 +87,38 @@ export default function App() {
           settings={settings}
           onChange={handleSettingsChange}
           onClose={() => setShowSettings(false)}
+          lang={lang}
         />
       )}
 
       <main className="main">
-        {screen === 'hero' && <Hero onStart={() => setScreen('input')} />}
+        {screen === 'hero' && <Hero onStart={() => setScreen('input')} lang={lang} />}
         {screen === 'input' && (
           <ProfileInput
             onAnalyze={handleAnalyze}
             onBack={() => setScreen('hero')}
             error={error}
             provider={settings.provider}
+            lang={lang}
           />
         )}
-        {screen === 'loading' && <Loading />}
+        {screen === 'loading' && <Loading lang={lang} />}
         {screen === 'results' && result && (
-          <Results data={result} onReset={handleReset} />
+          <Results data={result} onReset={handleReset} lang={lang} />
         )}
       </main>
 
+      <button
+        className="lang-toggle"
+        onClick={() => handleLangChange(lang === 'pt' ? 'en' : 'pt')}
+        title={lang === 'pt' ? 'Switch to English' : 'Mudar para Português'}
+      >
+        {lang === 'pt' ? '🇧🇷' : '🇺🇸'}
+      </button>
+
       <footer className="footer">
         <p>
-          Feito por <strong>Luke Pereira</strong> · Seus dados não saem do navegador
+          {t(lang, 'madeBy')} <strong>Luke Pereira</strong> · {t(lang, 'privacy')}
         </p>
       </footer>
     </div>

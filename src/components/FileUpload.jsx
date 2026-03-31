@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react'
+import { t } from '../i18n'
 
-export default function FileUpload({ onFileText, loading }) {
+export default function FileUpload({ onFileText, loading, lang }) {
   const [dragOver, setDragOver] = useState(false)
   const [fileName, setFileName] = useState(null)
   const [error, setError] = useState(null)
@@ -9,11 +10,11 @@ export default function FileUpload({ onFileText, loading }) {
   const handleFile = async (file) => {
     if (!file) return
     if (file.type !== 'application/pdf') {
-      setError('Só aceita PDF. Baixe seu perfil LinkedIn como PDF.')
+      setError(t(lang, 'onlyPdf'))
       return
     }
     if (file.size > 10 * 1024 * 1024) {
-      setError('Arquivo muito grande (máx 10MB).')
+      setError(t(lang, 'fileTooBig'))
       return
     }
     setError(null)
@@ -67,9 +68,9 @@ export default function FileUpload({ onFileText, loading }) {
           <>
             <span className="upload-icon">📄</span>
             <p className="upload-text">
-              <strong>Arraste seu PDF aqui</strong> ou clique para selecionar
+              <strong>{t(lang, 'dragHere')}</strong>{t(lang, 'orClick')}
             </p>
-            <p className="upload-hint">Perfil LinkedIn salvo como PDF</p>
+            <p className="upload-hint">{t(lang, 'pdfHint')}</p>
           </>
         )}
       </div>
@@ -77,12 +78,12 @@ export default function FileUpload({ onFileText, loading }) {
       {error && <p className="error-msg">{error}</p>}
 
       <details className="how-to-pdf">
-        <summary>Como baixar o PDF do LinkedIn?</summary>
+        <summary>{t(lang, 'howToPdf')}</summary>
         <ol>
-          <li>Abra seu perfil no LinkedIn</li>
-          <li>Clique no botão <strong>"Mais"</strong> (abaixo da foto)</li>
-          <li>Selecione <strong>"Salvar como PDF"</strong></li>
-          <li>Arraste o arquivo aqui</li>
+          <li>{t(lang, 'howStep1')}</li>
+          <li>{t(lang, 'howStep2')}<strong>{t(lang, 'howStep2Bold')}</strong>{t(lang, 'howStep2After')}</li>
+          <li>{t(lang, 'howStep3')}<strong>{t(lang, 'howStep3Bold')}</strong></li>
+          <li>{t(lang, 'howStep4')}</li>
         </ol>
       </details>
     </div>

@@ -1,4 +1,6 @@
-export default function SectionCard({ section }) {
+import { t } from '../i18n'
+
+export default function SectionCard({ section, lang }) {
   const { title, score, status, feedback, suggestion } = section
   const color =
     score >= 80 ? '#21C25E' : score >= 60 ? '#F5A623' : score >= 40 ? '#FF8C42' : '#EF4444'
@@ -21,7 +23,7 @@ export default function SectionCard({ section }) {
       <p className="section-feedback">{feedback}</p>
       {suggestion && (
         <div className="section-suggestion">
-          <span className="suggestion-label">Sugestão de reescrita:</span>
+          <span className="suggestion-label">{t(lang, 'suggestionLabel')}</span>
           <p className="suggestion-text">{suggestion}</p>
         </div>
       )}
