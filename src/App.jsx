@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import Hero from './components/Hero'
 import ProfileInput from './components/ProfileInput'
 import Settings from './components/Settings'
@@ -43,9 +43,21 @@ export default function App() {
   const [lang, setLang] = useState(loadLang)
   const { analyze, result, error, loading } = useAnalysis()
 
-  const handleLangChange = (newLang) => {
+  const lastProfileText = useRef('')
+
+  const handleLangChange = async (newLang) => {
     setLang(newLang)
     try { localStorage.setItem('profilelens-lang', newLang) } catch {}
+    // Se ta na tela de resultados, re-analisa no novo idioma
+    if (screen === 'results' && lastProfileText.current) {
+      setScreen('loading')
+      try {
+        await analyze(lastProfileText.current, settings, newLang)
+        setScreen('results')
+      } catch {
+        setScreen('results')
+      }
+    }
   }
 
   const handleSettingsChange = (s) => {
@@ -54,6 +66,7 @@ export default function App() {
   }
 
   const handleAnalyze = async (profileText) => {
+    lastProfileText.current = profileText
     setScreen('loading')
     try {
       await analyze(profileText, settings, lang)

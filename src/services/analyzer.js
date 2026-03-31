@@ -1,4 +1,4 @@
-import { MOCK_ANALYSIS } from '../data/mockAnalysis'
+import { getMockAnalysis } from '../data/mockAnalysis'
 import { t } from '../i18n'
 
 const analysisCache = new Map()
@@ -93,6 +93,76 @@ function getUserMessage(profileText, lang) {
     : `Analise este perfil LinkedIn:\n\n${profileText}`
 }
 
+function getUserMessageWithScores(profileText, lang, targetScores) {
+  const scoreList = targetScores.map(s => `- ${s.title}: ${s.score}/100`).join('\n')
+  if (lang === 'en') {
+    return `Analyze this LinkedIn profile. IMPORTANT: The scores for each section have already been determined. Use EXACTLY these scores (do not change them):\n\n${scoreList}\n\nGenerate the feedback text and suggestions based on these scores.\n\nProfile:\n${profileText}`
+  }
+  return `Analise este perfil LinkedIn. IMPORTANTE: As notas de cada seção já foram determinadas. Use EXATAMENTE estas notas (não mude):\n\n${scoreList}\n\nGere o texto de feedback e sugestões baseado nessas notas.\n\nPerfil:\n${profileText}`
+}
+
+async function analyzeWithFixedScores(profileText, settings, lang, targetScores) {
+  const { provider, apiKey, model, baseUrl } = settings
+  const cleanText = profileText.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g, ' ').trim()
+
+  if (provider === 'gemini') {
+    const modelId = model || 'gemini-2.5-flash'
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelId}:generateContent`
+    const payload = {
+      system_instruction: { parts: [{ text: getSystemPrompt(lang) }] },
+      contents: [{ role: 'user', parts: [{ text: getUserMessageWithScores(cleanText, lang, targetScores) }] }],
+      generationConfig: { temperature: 0, topP: 1, topK: 1, responseMimeType: 'application/json' },
+    }
+    const res = await fetch(`${url}?key=${encodeURIComponent(apiKey)}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    })
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}))
+      throw new Error(err.error?.message || `Error ${res.status}: ${res.statusText}`)
+    }
+    const data = await res.json()
+    const content = data.candidates?.[0]?.content?.parts?.[0]?.text
+    const result = JSON.parse(content)
+    // Force exact scores even if AI changed them
+    if (result.sections && targetScores.length) {
+      for (let i = 0; i < Math.min(result.sections.length, targetScores.length); i++) {
+        result.sections[i].score = targetScores[i].score
+      }
+    }
+    return result
+  }
+
+  // Custom (OpenAI-compatible)
+  const url = baseUrl ? `${baseUrl.replace(/\/$/, '')}/chat/completions` : 'https://api.openai.com/v1/chat/completions'
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${apiKey}` },
+    body: JSON.stringify({
+      model: model || 'gpt-4.1-mini',
+      messages: [
+        { role: 'system', content: getSystemPrompt(lang) },
+        { role: 'user', content: getUserMessageWithScores(cleanText, lang, targetScores) },
+      ],
+      temperature: 0, top_p: 1, seed: 42,
+    }),
+  })
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}))
+    throw new Error(err.error?.message || `Error ${res.status}: ${res.statusText}`)
+  }
+  const data = await res.json()
+  const content = data.choices?.[0]?.message?.content
+  const result = JSON.parse(content)
+  if (result.sections && targetScores.length) {
+    for (let i = 0; i < Math.min(result.sections.length, targetScores.length); i++) {
+      result.sections[i].score = targetScores[i].score
+    }
+  }
+  return result
+}
+
 async function callOpenAI(profileText, apiKey, model, baseUrl, lang) {
   const url = baseUrl
     ? `${baseUrl.replace(/\/$/, '')}/chat/completions`
@@ -171,22 +241,34 @@ export async function analyzeProfile(profileText, settings, lang = 'pt') {
   const { provider, apiKey, model, baseUrl } = settings
 
   if (provider !== 'mock') {
-    const cacheKey = await hashText(`${provider}:${model}:${lang}:${profileText.trim()}`)
+    const textHash = await hashText(`${provider}:${model}:${profileText.trim()}`)
+    const cacheKey = `${textHash}:${lang}`
     const cached = analysisCache.get(cacheKey)
     if (cached) return JSON.parse(JSON.stringify(cached))
 
+    // Check if we have result in the OTHER language - reuse scores
+    const otherLang = lang === 'pt' ? 'en' : 'pt'
+    const otherCacheKey = `${textHash}:${otherLang}`
+    const otherCached = analysisCache.get(otherCacheKey)
+
     let result
-    switch (provider) {
-      case 'gemini':
-        if (!apiKey) throw new Error(t(lang, 'geminiKeyError'))
-        result = await callGemini(profileText, apiKey, model, lang)
-        break
-      case 'custom':
-        if (!baseUrl) throw new Error(t(lang, 'customUrlError'))
-        result = await callOpenAI(profileText, apiKey, model, baseUrl, lang)
-        break
-      default:
-        throw new Error('Unknown provider')
+    if (otherCached) {
+      // We already analyzed this text - re-analyze in new lang but force same scores
+      const targetScores = otherCached.sections.map(s => ({ title: s.title, score: s.score }))
+      result = await analyzeWithFixedScores(profileText, settings, lang, targetScores)
+    } else {
+      switch (provider) {
+        case 'gemini':
+          if (!apiKey) throw new Error(t(lang, 'geminiKeyError'))
+          result = await callGemini(profileText, apiKey, model, lang)
+          break
+        case 'custom':
+          if (!baseUrl) throw new Error(t(lang, 'customUrlError'))
+          result = await callOpenAI(profileText, apiKey, model, baseUrl, lang)
+          break
+        default:
+          throw new Error('Unknown provider')
+      }
     }
 
     analysisCache.set(cacheKey, JSON.parse(JSON.stringify(result)))
@@ -194,5 +276,5 @@ export async function analyzeProfile(profileText, settings, lang = 'pt') {
   }
 
   await new Promise((r) => setTimeout(r, 2000 + Math.random() * 1500))
-  return { ...MOCK_ANALYSIS }
+  return getMockAnalysis(lang)
 }
