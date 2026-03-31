@@ -3,13 +3,21 @@ import { analyzeProfile } from '../services/analyzer'
 
 const SECTION_WEIGHTS = {
   'headline': 0.20,
-  'sobre': 0.25,
-  'about': 0.25,
-  'experiência': 0.30,
-  'experiencia': 0.30,
-  'experience': 0.30,
-  'habilidades': 0.15,
-  'skills': 0.15,
+  'sobre': 0.20,
+  'about': 0.20,
+  'experiência': 0.25,
+  'experiencia': 0.25,
+  'experience': 0.25,
+  'habilidades': 0.10,
+  'skills': 0.10,
+  'endorsements': 0.10,
+  'recomendações': 0.10,
+  'formação': 0.10,
+  'education': 0.10,
+  'certif': 0.10,
+  'posicionamento': 0.15,
+  'positioning': 0.15,
+  'strategic': 0.15,
 }
 
 function calcOverallScore(sections) {
