@@ -1,117 +1,130 @@
 # ◉ ProfileLens
 
-> Analise seu perfil LinkedIn com IA e receba um score detalhado com sugestões de melhoria.
+> Analyze your LinkedIn profile with AI and get a detailed score with improvement suggestions.
 
+[![CI](https://github.com/Kear07/profilelens/actions/workflows/ci.yml/badge.svg)](https://github.com/Kear07/profilelens/actions/workflows/ci.yml)
 ![React](https://img.shields.io/badge/React-18-61dafb?logo=react)
 ![Vite](https://img.shields.io/badge/Vite-6-646cff?logo=vite)
-![License](https://img.shields.io/badge/license-MIT-green)
+![License](https://img.shields.io/github/license/Kear07/profilelens)
+![Tests](https://img.shields.io/badge/tests-27%20passing-brightgreen)
 
-## O que faz
+**Live demo:** [kear07.github.io/profilelens](https://kear07.github.io/profilelens/)
 
-Faça upload do PDF do seu perfil LinkedIn (ou cole o texto) e receba:
+## What it does
 
-- **Score geral** (0-100) com breakdown visual por seção
-- **Análise detalhada** — Headline, Sobre, Experiência, Habilidades, Presença Visual
-- **Sugestões de reescrita** — texto pronto pra copiar e colar
-- **Dicas acionáveis** — o que mudar primeiro pra ter mais impacto
+Upload your LinkedIn PDF (or paste the text) and get:
 
-## Como funciona
+- **Overall score** (0-100) with visual breakdown per section
+- **Detailed analysis** of 6 sections: Headline, About, Experience, Skills & Endorsements, Education & Certifications, Strategic Positioning
+- **Rewrite suggestions**: ready-to-paste text, not vague tips
+- **Actionable tips**: what to change first for maximum impact
+- **Bilingual**: full PT-BR and EN support with one-click language toggle
 
-1. No LinkedIn, clique em **Mais** → **Salvar como PDF**
-2. Arraste o PDF para o ProfileLens (ou cole o texto manualmente)
-3. Escolha sua IA preferida em ⚙
-4. Receba a análise completa
+## How it works
 
-## Multi-provider IA
+1. On LinkedIn, click **More** > **Save to PDF**
+2. Drag the PDF into ProfileLens (or paste text manually)
+3. Pick your AI provider in the settings gear icon
+4. Get the full analysis
 
-Escolha o provider que preferir — seus dados ficam no navegador, a API key nunca é armazenada em servidor.
+## AI Providers
 
-| Provider | Modelos | Custo |
-|----------|---------|-------|
-| **Google Gemini** | Gemini 2.5 Flash, 2.5 Pro, 2.0 Flash, 2.0 Flash-Lite | Grátis (free tier) |
-| **OpenAI** | GPT-4.1, GPT-4.1-mini, GPT-4.1-nano, GPT-4o, GPT-4o-mini | Pago |
-| **Anthropic (Claude)** | Claude Sonnet 4, Claude Haiku 4 | Pago |
-| **Ollama** | Llama 3.3, Gemma 3, Mistral, Phi-4, Qwen3, DeepSeek-R1 | Grátis (local) |
-| **Custom** | Qualquer API compatível com formato OpenAI | Variável |
-| **Demo** | Resultado mockado pra testar a interface | Grátis |
+Your data stays in the browser. API keys are never stored on any server.
 
-## Pontuação
+| Provider | Models | Cost |
+|----------|--------|------|
+| **Google Gemini** | Gemini 2.5 Flash, 2.5 Pro, 2.0 Flash, 2.0 Flash-Lite | Free (free tier) |
+| **Custom** | Any OpenAI-compatible API (OpenAI, Anthropic via proxy, Ollama, LM Studio, etc.) | Varies |
+| **Demo** | Mock result to test the interface | Free |
 
-O score geral é calculado no client como média ponderada fixa:
+## Scoring
 
-| Seção | Peso |
-|-------|------|
-| Experiência | 30% |
-| Sobre (About) | 25% |
+The overall score is a weighted average calculated client-side:
+
+| Section | Weight |
+|---------|--------|
+| Experience | 25% |
+| About (Summary) | 20% |
 | Headline | 20% |
-| Habilidades | 15% |
-| Presença Visual | 10% |
+| Strategic Positioning | 15% |
+| Skills & Endorsements | 10% |
+| Education & Certifications | 10% |
 
-## Rodando local
+Scores are cached per profile text (SHA-256 hash) and consistent across languages.
+
+## Running locally
 
 ```bash
-git clone https://github.com/seu-usuario/profilelens.git
+git clone https://github.com/Kear07/profilelens.git
 cd profilelens
 npm install
 npm run dev
 ```
 
-Acesse `http://localhost:3000`
+Open `http://localhost:5173`
 
-## Deploy
+## Testing
 
 ```bash
-npm run build
+npm test          # run all tests
+npm run test:watch # watch mode
+npm run lint       # ESLint
 ```
 
-A pasta `dist/` está pronta pra deploy em qualquer host estático (Vercel, Netlify, GitHub Pages).
+27 unit tests covering:
+- `calcOverallScore` (weighted average, edge cases, language parity)
+- AI response parsing (Gemini and OpenAI-compatible formats)
+- Schema validation (sections, scores, tips)
+- i18n (both languages, fallback behavior)
 
-### Deploy no Vercel (1 clique)
-
-1. Push o repo pro GitHub
-2. Acesse [vercel.com/new](https://vercel.com/new)
-3. Importe o repo → Deploy automático
-
-## Estrutura
+## Project structure
 
 ```
 src/
+├── __tests__/
+│   ├── calcOverallScore.test.js   # Score calculation tests
+│   ├── parseAIResponse.test.js    # AI response parsing + schema validation
+│   ├── i18n.test.js               # Translation tests
+│   └── setup.js                   # Test setup (jsdom)
 ├── components/
-│   ├── Hero.jsx          # Landing page
-│   ├── ProfileInput.jsx  # Tabs: upload PDF ou colar texto
-│   ├── FileUpload.jsx    # Drag & drop de PDF
-│   ├── Settings.jsx      # Painel multi-provider (Gemini, OpenAI, Claude, Ollama, Custom)
-│   ├── Loading.jsx       # Tela de loading animada
-│   ├── Results.jsx       # Score + breakdown + sugestões
-│   ├── ScoreRing.jsx     # Ring animado do score
-│   └── SectionCard.jsx   # Card de cada seção analisada
+│   ├── Hero.jsx            # Landing page
+│   ├── ProfileInput.jsx    # Tabs: upload PDF or paste text
+│   ├── FileUpload.jsx      # Drag & drop PDF
+│   ├── Settings.jsx        # AI provider configuration panel
+│   ├── Loading.jsx         # Animated loading screen
+│   ├── Results.jsx         # Score + breakdown + suggestions
+│   ├── ScoreRing.jsx       # Animated score ring
+│   └── SectionCard.jsx     # Individual section analysis card
 ├── hooks/
-│   └── useAnalysis.js    # Hook de análise + cálculo de score ponderado
+│   └── useAnalysis.js      # Analysis hook + weighted score calculation
 ├── services/
-│   ├── analyzer.js       # Multi-provider: Gemini, OpenAI, Claude, Ollama, Custom, Mock
-│   └── pdfParser.js      # Extração de texto de PDF (pdfjs-dist, client-side)
+│   ├── analyzer.js         # Unified provider caller (Gemini, Custom, Mock)
+│   └── pdfParser.js        # Client-side PDF text extraction (pdfjs-dist)
 ├── data/
-│   └── mockAnalysis.js   # Dados mock para modo demo
+│   └── mockAnalysis.js     # Bilingual mock data for demo mode
+├── i18n.js                 # PT-BR / EN translation system
 ├── App.jsx
 ├── App.css
 └── main.jsx
 ```
 
-## Privacidade
+## Privacy
 
-- Seus dados **nunca saem do navegador** — a chamada de API é feita direto do client
-- O PDF é processado localmente via pdf.js — nenhum upload pra servidor
-- API keys ficam apenas na memória da sessão — não são persistidas
-- Nenhum dado é enviado a servidores próprios — zero backend
+- Your data **never leaves the browser**: API calls go directly from client to provider
+- PDF is processed locally via pdf.js: no upload to any server
+- API keys stay in session memory only: not persisted
+- Zero backend: this is a static site
 
-## Tech
+## Tech stack
 
 - React 18 + Vite 6
-- pdf.js (parsing de PDF client-side, lazy loaded)
-- CSS puro (zero dependências de UI)
-- ~54KB gzipped (core) + ~103KB (pdf.js, carregado sob demanda)
-- 100% responsivo, dark theme
+- pdf.js (client-side PDF parsing, lazy loaded)
+- Vitest + Testing Library (unit tests)
+- ESLint (code quality)
+- GitHub Actions CI (lint + test on every push/PR)
+- Pure CSS (zero UI dependencies)
+- 100% responsive, dark theme
 
-## Licença
+## License
 
-MIT
+[MIT](LICENSE)
