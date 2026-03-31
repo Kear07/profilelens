@@ -44,18 +44,26 @@ export default function App() {
   const { analyze, result, error, loading } = useAnalysis()
 
   const lastProfileText = useRef('')
+  const langRef = useRef(loadLang())
+  const analysisCounter = useRef(0)
 
   const handleLangChange = async (newLang) => {
     setLang(newLang)
+    langRef.current = newLang
     try { localStorage.setItem('profilelens-lang', newLang) } catch {}
-    // Se ta na tela de resultados, re-analisa no novo idioma
-    if (screen === 'results' && lastProfileText.current) {
+    // Se ta na tela de resultados ou loading com texto, re-analisa no novo idioma
+    if ((screen === 'results' || screen === 'loading') && lastProfileText.current) {
+      const myId = ++analysisCounter.current
       setScreen('loading')
       try {
         await analyze(lastProfileText.current, settings, newLang)
-        setScreen('results')
+        if (analysisCounter.current === myId) {
+          setScreen('results')
+        }
       } catch {
-        setScreen('results')
+        if (analysisCounter.current === myId) {
+          setScreen('results')
+        }
       }
     }
   }
@@ -67,12 +75,18 @@ export default function App() {
 
   const handleAnalyze = async (profileText) => {
     lastProfileText.current = profileText
+    const myId = ++analysisCounter.current
+    const currentLang = langRef.current
     setScreen('loading')
     try {
-      await analyze(profileText, settings, lang)
-      setScreen('results')
+      await analyze(profileText, settings, currentLang)
+      if (analysisCounter.current === myId) {
+        setScreen('results')
+      }
     } catch {
-      setScreen('input')
+      if (analysisCounter.current === myId) {
+        setScreen('input')
+      }
     }
   }
 

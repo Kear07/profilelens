@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useRef } from 'react'
 import { analyzeProfile } from '../services/analyzer'
 
 const SECTION_WEIGHTS = {
@@ -41,21 +41,28 @@ export function useAnalysis() {
   const [result, setResult] = useState(null)
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
+  const callId = useRef(0)
 
   const analyze = useCallback(async (profileText, settings, lang) => {
+    const myId = ++callId.current
     setLoading(true)
     setError(null)
     try {
       const data = await analyzeProfile(profileText, settings, lang)
-      // Recalcula overallScore no client, não confia no da IA
+      // Só aceita resultado se nenhuma chamada mais recente foi feita
+      if (callId.current !== myId) return data
       data.overallScore = calcOverallScore(data.sections)
       setResult(data)
       return data
     } catch (err) {
-      setError(err.message)
+      if (callId.current === myId) {
+        setError(err.message)
+      }
       throw err
     } finally {
-      setLoading(false)
+      if (callId.current === myId) {
+        setLoading(false)
+      }
     }
   }, [])
 
