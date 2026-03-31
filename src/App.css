@@ -1,5 +1,5 @@
 /* ==============================
-   ProfileLens — Dark Theme
+   ProfileLens - Dark Theme
    ============================== */
 
 :root {
@@ -905,7 +905,7 @@ body {
   display: flex;
   align-items: center;
   gap: 0.8rem;
-  justify-content: center;
+  width: 100%;
 }
 
 .file-icon {
@@ -916,6 +916,7 @@ body {
   color: var(--text);
   font-weight: 500;
   font-size: 0.95rem;
+  margin-left: auto;
 }
 
 .file-remove {

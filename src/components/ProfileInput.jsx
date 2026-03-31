@@ -11,7 +11,7 @@ SOBRE:
 Profissional com 5 anos de experiência em desenvolvimento web...
 
 EXPERIÊNCIA:
-Empresa X — Desenvolvedor Sênior (2022 - atual)
+Empresa X - Desenvolvedor Sênior (2022 - atual)
 - Liderança técnica de squad com 5 devs...
 
 HABILIDADES:
@@ -75,7 +75,7 @@ export default function ProfileInput({ onAnalyze, onBack, error, provider }) {
 
       {isDemo && (
         <p className="badge-mock-block">
-          Modo demo — clique em <strong>Configurações</strong> (topo direito) para conectar uma IA e desbloquear o upload de PDF
+          Modo demo: clique em <strong>Configurações</strong> (topo direito) para conectar uma IA e desbloquear o upload de PDF
         </p>
       )}
 

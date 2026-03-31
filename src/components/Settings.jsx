@@ -82,7 +82,7 @@ export default function Settings({ settings, onChange, onClose }) {
             />
             <small className="field-hint">
               {local.provider === 'gemini'
-                ? 'Grátis — pegue sua key em aistudio.google.com/apikey'
+                ? 'Grátis: pegue sua key em aistudio.google.com/apikey'
                 : 'Sua key fica apenas no navegador, nunca é enviada a terceiros'}
             </small>
           </label>

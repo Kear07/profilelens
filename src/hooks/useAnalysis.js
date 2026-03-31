@@ -40,7 +40,7 @@ export function useAnalysis() {
     setError(null)
     try {
       const data = await analyzeProfile(profileText, settings)
-      // Recalcula overallScore no client — não confia no da IA
+      // Recalcula overallScore no client, não confia no da IA
       data.overallScore = calcOverallScore(data.sections)
       setResult(data)
       return data

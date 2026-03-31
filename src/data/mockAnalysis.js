@@ -10,16 +10,16 @@ export const MOCK_ANALYSIS = {
       feedback:
         'Headline genérica com pipe separators ("|"). Não comunica seu diferencial nem o valor que você entrega. "Apaixonado por tecnologia" é clichê e não agrega.',
       suggestion:
-        'Engenheiro de Software que transforma requisitos complexos em sistemas escaláveis — React, Node.js & Cloud',
+        'Engenheiro de Software que transforma requisitos complexos em sistemas escaláveis: React, Node.js & Cloud',
     },
     {
       title: '📝 Sobre (About)',
       score: 72,
       status: 'Bom, pode melhorar',
       feedback:
-        'Extensão adequada (150+ palavras). Falta um hook forte na primeira linha — essa é a parte visível antes do "ver mais". Pouca menção a resultados concretos.',
+        'Extensão adequada (150+ palavras). Falta um hook forte na primeira linha, essa é a parte visível antes do "ver mais". Pouca menção a resultados concretos.',
       suggestion:
-        'Nos últimos 5 anos, ajudei empresas a escalar suas plataformas web atendendo milhões de usuários. Minha especialidade é pegar sistemas legados e transformá-los em arquiteturas modernas — com React no front, Node.js no back e infraestrutura cloud-native na AWS.',
+        'Nos últimos 5 anos, ajudei empresas a escalar suas plataformas web atendendo milhões de usuários. Minha especialidade é pegar sistemas legados e transformá-los em arquiteturas modernas, com React no front, Node.js no back e infraestrutura cloud-native na AWS.',
     },
     {
       title: '💼 Experiência',
@@ -48,11 +48,11 @@ export const MOCK_ANALYSIS = {
     },
   ],
   tips: [
-    'Use números sempre que possível — "5 anos" é melhor que "vários anos"',
-    'Primeira linha do Sobre deve ter um hook — é o que aparece antes do "ver mais"',
-    'Remova "apaixonado por tecnologia" — todo dev diz isso, não diferencia',
-    'Adicione um CTA no final do Sobre — "Vamos conversar? Me chama no DM"',
-    'Peça recomendações de colegas — perfis com 5+ recomendações rankeiam melhor',
-    'Publique ao menos 1 post por semana — o algoritmo favorece criadores ativos',
+    'Use números sempre que possível: "5 anos" é melhor que "vários anos"',
+    'Primeira linha do Sobre deve ter um hook, é o que aparece antes do "ver mais"',
+    'Remova "apaixonado por tecnologia", todo dev diz isso, não diferencia',
+    'Adicione um CTA no final do Sobre, tipo "Vamos conversar? Me chama no DM"',
+    'Peça recomendações de colegas, perfis com 5+ recomendações rankeiam melhor',
+    'Publique ao menos 1 post por semana, o algoritmo favorece criadores ativos',
   ],
 }

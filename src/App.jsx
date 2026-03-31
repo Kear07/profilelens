@@ -94,7 +94,7 @@ export default function App() {
 
       <footer className="footer">
         <p>
-          Feito por <strong>Luke Santos</strong> · Seus dados não saem do navegador
+          Feito por <strong>Luke Pereira</strong> · Seus dados não saem do navegador
         </p>
       </footer>
     </div>
