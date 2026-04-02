@@ -30,21 +30,18 @@ export default function Hero({ onStart, lang }) {
         <h3 className="how-title">{t(lang, 'howTitle')}</h3>
         <div className="how-steps">
           <div className="how-step">
-            <div className="how-step-icon">📋</div>
             <div className="how-step-number">1</div>
             <strong>{t(lang, 'howStep1Label')}</strong>
             <span>{t(lang, 'howStep1Desc')}</span>
           </div>
-          <div className="how-step-arrow">→</div>
+          <div className="how-step-arrow">&rarr;</div>
           <div className="how-step">
-            <div className="how-step-icon">🤖</div>
             <div className="how-step-number">2</div>
             <strong>{t(lang, 'howStep2Label')}</strong>
             <span>{t(lang, 'howStep2Desc')}</span>
           </div>
-          <div className="how-step-arrow">→</div>
+          <div className="how-step-arrow">&rarr;</div>
           <div className="how-step">
-            <div className="how-step-icon">✨</div>
             <div className="how-step-number">3</div>
             <strong>{t(lang, 'howStep3Label')}</strong>
             <span>{t(lang, 'howStep3Desc')}</span>
@@ -64,18 +61,18 @@ export default function Hero({ onStart, lang }) {
             <span className="mockup-score-number">67</span>
           </div>
           <div className="mockup-summary">
-            <div className="mockup-bar-label">Headline <span>55</span></div>
+            <div className="mockup-bar-label">{t(lang, 'mockupHeadline')} <span>55</span></div>
             <div className="mockup-bar"><div className="mockup-bar-fill" style={{ width: '55%', background: 'var(--yellow)' }} /></div>
-            <div className="mockup-bar-label">Experience <span>80</span></div>
+            <div className="mockup-bar-label">{t(lang, 'mockupExperience')} <span>80</span></div>
             <div className="mockup-bar"><div className="mockup-bar-fill" style={{ width: '80%', background: 'var(--green)' }} /></div>
-            <div className="mockup-bar-label">Skills <span>45</span></div>
+            <div className="mockup-bar-label">{t(lang, 'mockupSkills')} <span>45</span></div>
             <div className="mockup-bar"><div className="mockup-bar-fill" style={{ width: '45%', background: 'var(--orange)' }} /></div>
           </div>
         </div>
         <div className="mockup-suggestion">
-          <div className="mockup-suggestion-label">REWRITE SUGGESTION</div>
+          <div className="mockup-suggestion-label">{t(lang, 'mockupSuggestionLabel')}</div>
           <div className="mockup-suggestion-text">
-            &quot;Senior Full Stack Engineer | Scaling React + Node.js platforms for 2M+ users&quot;
+            {t(lang, 'mockupSuggestionText')}
           </div>
         </div>
       </div>

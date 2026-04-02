@@ -16,9 +16,16 @@ const translations = {
     howStep1Label: 'Cole seu perfil',
     howStep1Desc: 'Texto ou PDF do LinkedIn',
     howStep2Label: 'IA analisa',
-    howStep2Desc: '6 dimensões avaliadas',
-    howStep3Label: 'Receba sugestões',
+    howStep2Desc: '6 dimensoes avaliadas',
+    howStep3Label: 'Receba sugestoes',
     howStep3Desc: 'Textos prontos pra copiar',
+
+    // Preview mockup
+    mockupHeadline: 'Headline',
+    mockupExperience: 'Experiencia',
+    mockupSkills: 'Habilidades',
+    mockupSuggestionLabel: 'SUGESTAO DE REESCRITA',
+    mockupSuggestionText: '"Engenheiro Full Stack Senior | Escalando plataformas React + Node.js para 2M+ usuarios"',
 
     // Input
     back: '← Voltar',
