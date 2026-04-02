@@ -1,29 +1,8 @@
-import { useState, useEffect } from 'react'
 import { t } from '../i18n'
-
-function useCounter(target, duration = 2000) {
-  const [count, setCount] = useState(0)
-  useEffect(() => {
-    let start = 0
-    const step = Math.ceil(target / (duration / 16))
-    const timer = setInterval(() => {
-      start += step
-      if (start >= target) {
-        setCount(target)
-        clearInterval(timer)
-      } else {
-        setCount(start)
-      }
-    }, 16)
-    return () => clearInterval(timer)
-  }, [target, duration])
-  return count
-}
 
 export default function Hero({ onStart, lang }) {
   const chips = t(lang, 'heroChips')
   const providers = t(lang, 'heroProviders')
-  const counter = useCounter(2847, 1800)
 
   return (
     <section className="hero">
@@ -45,12 +24,6 @@ export default function Hero({ onStart, lang }) {
       <p className="hero-providers">
         {providers[0]}<strong>{providers[1]}</strong>{providers[2]}
       </p>
-
-      {/* Social proof */}
-      <div className="social-proof">
-        <span className="social-proof-number">{counter.toLocaleString(lang === 'pt' ? 'pt-BR' : 'en-US')}+</span>
-        {' '}{t(lang, 'socialProof')}
-      </div>
 
       {/* How it works */}
       <div className="how-section">

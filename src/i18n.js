@@ -6,10 +6,19 @@ const translations = {
     // Hero
     heroTitle1: 'Analise seu perfil LinkedIn',
     heroTitle2: 'com inteligência artificial',
-    heroSubtitle: 'Descubra o que recrutadores realmente pensam do seu perfil. Score detalhado + sugestões reescritas por IA.',
+    heroSubtitle: 'Descubra em 30 segundos o que recrutadores realmente pensam do seu perfil. Score detalhado + sugestões prontas pra copiar.',
     heroChips: ['🎯 Score detalhado', '✍️ Sugestões reescritas', '🔒 100% no navegador', '🤖 Escolha sua IA'],
     heroBtn: 'Ver meu score grátis',
     heroProviders: ['Funciona com ', 'Gemini (grátis)', ' ou qualquer API compatível'],
+
+    // How it works
+    howTitle: 'Como funciona',
+    howStep1Label: 'Cole seu perfil',
+    howStep1Desc: 'Texto ou PDF do LinkedIn',
+    howStep2Label: 'IA analisa',
+    howStep2Desc: '6 dimensões avaliadas',
+    howStep3Label: 'Receba sugestões',
+    howStep3Desc: 'Textos prontos pra copiar',
 
     // Input
     back: '← Voltar',
@@ -115,8 +124,6 @@ React, Node.js, TypeScript, Python, AWS, Docker`,
     howStep3Label: 'Get suggestions',
     howStep3Desc: 'Ready-to-paste text',
     howTitle: 'How it works',
-
-    socialProof: 'profiles analyzed',
 
     back: '← Back',
     yourProfile: 'Your profile',
