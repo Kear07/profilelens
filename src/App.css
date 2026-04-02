@@ -137,6 +137,25 @@ body {
   color: var(--text-muted);
 }
 
+.footer-link {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-link:hover {
+  color: var(--primary);
+}
+
+.footer-link strong {
+  color: var(--text-muted);
+  transition: color 0.2s;
+}
+
+.footer-link:hover strong {
+  color: var(--primary);
+}
+
 /* ====== Buttons ====== */
 
 .btn-primary {
@@ -258,6 +277,192 @@ body {
 
 .hero-providers strong {
   color: var(--text-muted);
+}
+
+/* Social Proof */
+
+.social-proof {
+  margin-top: 1.2rem;
+  font-size: 0.9rem;
+  color: var(--text-dim);
+}
+
+.social-proof-number {
+  font-weight: 700;
+  color: var(--primary);
+  font-size: 1rem;
+}
+
+/* How it works */
+
+.how-section {
+  margin-top: 3rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--border);
+  width: 100%;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.how-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 1.5rem;
+}
+
+.how-steps {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.how-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  flex: 1;
+  position: relative;
+}
+
+.how-step-icon {
+  font-size: 1.8rem;
+  margin-bottom: 0.2rem;
+}
+
+.how-step-number {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.2rem;
+}
+
+.how-step strong {
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+.how-step span {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+}
+
+.how-step-arrow {
+  color: var(--text-dim);
+  font-size: 1.2rem;
+  margin-top: 1.8rem;
+  flex-shrink: 0;
+}
+
+/* Preview mockup */
+
+.preview-mockup {
+  margin-top: 2.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.2rem;
+  width: 100%;
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+}
+
+.mockup-header {
+  display: flex;
+  gap: 1.2rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.mockup-score-ring {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+}
+
+.mockup-ring-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.mockup-score-number {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+.mockup-summary {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.mockup-bar-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+.mockup-bar-label span {
+  font-weight: 600;
+  color: var(--text-dim);
+}
+
+.mockup-bar {
+  height: 4px;
+  background: var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.mockup-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+}
+
+.mockup-suggestion {
+  padding: 0.8rem;
+  background: rgba(108, 99, 255, 0.06);
+  border-left: 3px solid var(--primary);
+  border-radius: 0 8px 8px 0;
+}
+
+.mockup-suggestion-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.3rem;
+}
+
+.mockup-suggestion-text {
+  font-size: 0.82rem;
+  color: var(--text);
+  font-style: italic;
+  line-height: 1.5;
 }
 
 /* ====== Input ====== */
@@ -812,6 +1017,17 @@ body {
 
   .input-mode-tabs {
     flex-direction: column;
+  }
+
+  .how-steps {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .how-step-arrow {
+    transform: rotate(90deg);
+    margin-top: 0;
   }
 }
 
