@@ -23,7 +23,7 @@ export default function Results({ data, onReset, lang }) {
 
       {tips && tips.length > 0 && (
         <div className="tips-box">
-          <h3><svg width="18" height="18" viewBox="0 0 18 18" fill="none" style={{ verticalAlign: '-3px', marginRight: '6px' }}><path d="M9 2a5 5 0 013 9v2a1 1 0 01-1 1H7a1 1 0 01-1-1v-2A5 5 0 019 2z" stroke="currentColor" strokeWidth="1.5"/><path d="M7 16h4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>{t(lang, 'tipsTitle')}</h3>
+          <h3>{t(lang, 'tipsTitle')}</h3>
           <ul>
             {tips.map((tip, i) => (
               <li key={i}>{tip}</li>

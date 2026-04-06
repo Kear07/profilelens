@@ -140,7 +140,7 @@ export default function App() {
         onClick={() => handleLangChange(lang === 'pt' ? 'en' : 'pt')}
         title={lang === 'pt' ? 'Switch to English' : 'Mudar para Português'}
       >
-        {lang === 'pt' ? 'PT-BR' : 'EN'}
+        {lang === 'pt' ? 'PT' : 'EN'}
       </button>
 
       <footer className="footer">
