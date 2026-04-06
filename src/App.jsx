@@ -141,18 +141,26 @@ export default function App() {
         title={lang === 'pt' ? 'Switch to English' : 'Mudar para Português'}
       >
         {lang === 'pt' ? (
-          <svg width="22" height="16" viewBox="0 0 22 16" fill="none">
-            <rect width="22" height="16" rx="2" fill="#009739"/>
-            <path d="M11 2L20 8L11 14L2 8Z" fill="#FEDD00"/>
-            <circle cx="11" cy="8" r="3.2" fill="#012169"/>
+          <svg width="24" height="24" viewBox="0 0 24 24">
+            <clipPath id="flagClip"><circle cx="12" cy="12" r="11"/></clipPath>
+            <g clipPath="url(#flagClip)">
+              <rect width="24" height="24" fill="#009739"/>
+              <path d="M12 3L22 12L12 21L2 12Z" fill="#FEDD00"/>
+              <circle cx="12" cy="12" r="4" fill="#012169"/>
+            </g>
+            <circle cx="12" cy="12" r="11" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="1"/>
           </svg>
         ) : (
-          <svg width="22" height="16" viewBox="0 0 22 16" fill="none">
-            <rect width="22" height="16" rx="2" fill="#B22234"/>
-            <rect y="1.2" width="22" height="1.2" fill="white"/><rect y="3.7" width="22" height="1.2" fill="white"/>
-            <rect y="6.2" width="22" height="1.2" fill="white"/><rect y="8.6" width="22" height="1.2" fill="white"/>
-            <rect y="11.1" width="22" height="1.2" fill="white"/><rect y="13.5" width="22" height="1.2" fill="white"/>
-            <rect width="9" height="8.6" rx="1" fill="#3C3B6E"/>
+          <svg width="24" height="24" viewBox="0 0 24 24">
+            <clipPath id="flagClip2"><circle cx="12" cy="12" r="11"/></clipPath>
+            <g clipPath="url(#flagClip2)">
+              <rect width="24" height="24" fill="#B22234"/>
+              <rect y="1.8" width="24" height="1.8" fill="white"/><rect y="5.5" width="24" height="1.8" fill="white"/>
+              <rect y="9.2" width="24" height="1.8" fill="white"/><rect y="12.9" width="24" height="1.8" fill="white"/>
+              <rect y="16.5" width="24" height="1.8" fill="white"/><rect y="20.2" width="24" height="1.8" fill="white"/>
+              <rect width="10" height="13" fill="#3C3B6E"/>
+            </g>
+            <circle cx="12" cy="12" r="11" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="1"/>
           </svg>
         )}
       </button>
