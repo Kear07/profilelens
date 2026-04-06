@@ -81,7 +81,7 @@ Analise o perfil fornecido e retorne um JSON com EXATAMENTE esta estrutura:
   "summary": "<resumo executivo: o que um recrutador vê em 6 segundos, maior ponto forte, maior lacuna, e uma melhoria rápida de alto impacto>",
   "sections": [
     {
-      "title": "<emoji + nome da seção>",
+      "title": "<nome da seção>",
       "score": <número 0-100>,
       "status": "<frase curta de status>",
       "feedback": "<análise detalhada e específica com exemplos concretos do perfil. Referencie texto real ao apontar problemas. Explique POR QUE algo importa da perspectiva de um recrutador.>",

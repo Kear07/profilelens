@@ -60,7 +60,7 @@ export default function ProfileInput({ onAnalyze, onBack, error, provider, lang 
             className={`tab ${mode === 'pdf' ? 'active' : ''} ${isDemo ? 'tab-disabled' : ''}`}
             onClick={handlePdfTabClick}
           >
-            {t(lang, 'tabPdf')} {isDemo && '🔒'}
+            {t(lang, 'tabPdf')} {isDemo && '(locked)'}
           </button>
           {showPdfTooltip && (
             <div className="pdf-locked-tooltip">

@@ -51,7 +51,7 @@ export default function FileUpload({ onFileText, loading, lang }) {
         />
         {fileName ? (
           <div className="file-selected">
-            <span className="file-icon">📄</span>
+            <span className="file-icon">PDF</span>
             <span className="file-name">{fileName}</span>
             <button
               className="file-remove"
@@ -66,7 +66,7 @@ export default function FileUpload({ onFileText, loading, lang }) {
           </div>
         ) : (
           <>
-            <span className="upload-icon">📄</span>
+            <span className="upload-icon">PDF</span>
             <p className="upload-text">
               <strong>{t(lang, 'dragHere')}</strong>{t(lang, 'orClick')}
             </p>

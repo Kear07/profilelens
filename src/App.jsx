@@ -105,7 +105,7 @@ export default function App() {
           onClick={() => setShowSettings(!showSettings)}
           title={t(lang, 'settings')}
         >
-          <span style={{ fontSize: '1.3rem' }}>⚙</span> {t(lang, 'settings')}
+          {t(lang, 'settings')}
         </button>
       </header>
 
@@ -140,7 +140,7 @@ export default function App() {
         onClick={() => handleLangChange(lang === 'pt' ? 'en' : 'pt')}
         title={lang === 'pt' ? 'Switch to English' : 'Mudar para Português'}
       >
-        {lang === 'pt' ? '🇧🇷' : '🇺🇸'}
+        {lang === 'pt' ? 'PT' : 'EN'}
       </button>
 
       <footer className="footer">
