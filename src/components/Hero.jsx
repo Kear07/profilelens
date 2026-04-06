@@ -48,34 +48,6 @@ export default function Hero({ onStart, lang }) {
           </div>
         </div>
       </div>
-
-      {/* Preview mockup */}
-      <div className="preview-mockup">
-        <div className="mockup-header">
-          <div className="mockup-score-ring">
-            <svg viewBox="0 0 36 36" className="mockup-ring-svg">
-              <circle cx="18" cy="18" r="15" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="3" />
-              <circle cx="18" cy="18" r="15" fill="none" stroke="#6C63FF" strokeWidth="3" strokeLinecap="round"
-                strokeDasharray="63 94" transform="rotate(-90 18 18)" />
-            </svg>
-            <span className="mockup-score-number">67</span>
-          </div>
-          <div className="mockup-summary">
-            <div className="mockup-bar-label">{t(lang, 'mockupHeadline')} <span>55</span></div>
-            <div className="mockup-bar"><div className="mockup-bar-fill" style={{ width: '55%', background: 'var(--yellow)' }} /></div>
-            <div className="mockup-bar-label">{t(lang, 'mockupExperience')} <span>80</span></div>
-            <div className="mockup-bar"><div className="mockup-bar-fill" style={{ width: '80%', background: 'var(--green)' }} /></div>
-            <div className="mockup-bar-label">{t(lang, 'mockupSkills')} <span>45</span></div>
-            <div className="mockup-bar"><div className="mockup-bar-fill" style={{ width: '45%', background: 'var(--orange)' }} /></div>
-          </div>
-        </div>
-        <div className="mockup-suggestion">
-          <div className="mockup-suggestion-label">{t(lang, 'mockupSuggestionLabel')}</div>
-          <div className="mockup-suggestion-text">
-            {t(lang, 'mockupSuggestionText')}
-          </div>
-        </div>
-      </div>
     </section>
   )
 }

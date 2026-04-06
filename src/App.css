@@ -282,168 +282,80 @@ body {
 /* How it works */
 
 .how-section {
-  margin-top: 3rem;
+  margin-top: 3.5rem;
   padding-top: 2.5rem;
   border-top: 1px solid var(--border);
   width: 100%;
-  max-width: 600px;
+  max-width: 640px;
   margin-left: auto;
   margin-right: auto;
 }
 
 .how-title {
-  font-size: 1rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  color: var(--text-muted);
+  color: var(--text-dim);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-bottom: 1.5rem;
+  letter-spacing: 0.12em;
+  margin-bottom: 2rem;
 }
 
 .how-steps {
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 1rem;
 }
 
 .how-step {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.3rem;
+  gap: 0.5rem;
   flex: 1;
-  position: relative;
+  padding: 1.2rem 0.8rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  transition: border-color 0.2s;
+}
+
+.how-step:hover {
+  border-color: var(--border-hover);
 }
 
 .how-step-number {
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   background: var(--primary);
   color: white;
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 0.2rem;
 }
 
 .how-step strong {
   font-size: 0.9rem;
   color: var(--text);
+  margin-top: 0.2rem;
 }
 
 .how-step span {
   font-size: 0.78rem;
   color: var(--text-dim);
+  text-align: center;
+  line-height: 1.4;
 }
 
 .how-step-arrow {
   color: var(--text-dim);
-  font-size: 1.2rem;
-  margin-top: 1.8rem;
-  flex-shrink: 0;
-}
-
-/* Preview mockup */
-
-.preview-mockup {
-  margin-top: 2.5rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 1.2rem;
-  width: 100%;
-  max-width: 480px;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: left;
-}
-
-.mockup-header {
-  display: flex;
-  gap: 1.2rem;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-
-.mockup-score-ring {
-  position: relative;
-  width: 64px;
-  height: 64px;
-  flex-shrink: 0;
-}
-
-.mockup-ring-svg {
-  width: 100%;
-  height: 100%;
-}
-
-.mockup-score-number {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   font-size: 1.1rem;
-  font-weight: 800;
-  color: var(--primary);
-}
-
-.mockup-summary {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-}
-
-.mockup-bar-label {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.72rem;
-  color: var(--text-muted);
-}
-
-.mockup-bar-label span {
-  font-weight: 600;
-  color: var(--text-dim);
-}
-
-.mockup-bar {
-  height: 4px;
-  background: var(--border);
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.mockup-bar-fill {
-  height: 100%;
-  border-radius: 4px;
-}
-
-.mockup-suggestion {
-  padding: 0.8rem;
-  background: rgba(108, 99, 255, 0.06);
-  border-left: 3px solid var(--primary);
-  border-radius: 0 8px 8px 0;
-}
-
-.mockup-suggestion-label {
-  font-size: 0.65rem;
-  font-weight: 600;
-  color: var(--primary);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 0.3rem;
-}
-
-.mockup-suggestion-text {
-  font-size: 0.82rem;
-  color: var(--text);
-  font-style: italic;
-  line-height: 1.5;
+  margin-top: 2.2rem;
+  flex-shrink: 0;
+  opacity: 0.4;
 }
 
 /* ====== Input ====== */
