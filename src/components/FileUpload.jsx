@@ -51,7 +51,7 @@ export default function FileUpload({ onFileText, loading, lang }) {
         />
         {fileName ? (
           <div className="file-selected">
-            <span className="file-icon">PDF</span>
+            <span className="file-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M6 2h6l4 4v12a1 1 0 01-1 1H6a1 1 0 01-1-1V3a1 1 0 011-1z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/><path d="M12 2v4h4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg></span>
             <span className="file-name">{fileName}</span>
             <button
               className="file-remove"
@@ -66,7 +66,7 @@ export default function FileUpload({ onFileText, loading, lang }) {
           </div>
         ) : (
           <>
-            <span className="upload-icon">PDF</span>
+            <span className="upload-icon"><svg width="32" height="32" viewBox="0 0 20 20" fill="none"><path d="M6 2h6l4 4v12a1 1 0 01-1 1H6a1 1 0 01-1-1V3a1 1 0 011-1z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/><path d="M12 2v4h4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><path d="M8 12l2-2 2 2M10 10v5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg></span>
             <p className="upload-text">
               <strong>{t(lang, 'dragHere')}</strong>{t(lang, 'orClick')}
             </p>

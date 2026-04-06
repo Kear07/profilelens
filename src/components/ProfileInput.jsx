@@ -60,7 +60,7 @@ export default function ProfileInput({ onAnalyze, onBack, error, provider, lang 
             className={`tab ${mode === 'pdf' ? 'active' : ''} ${isDemo ? 'tab-disabled' : ''}`}
             onClick={handlePdfTabClick}
           >
-            {t(lang, 'tabPdf')} {isDemo && '(locked)'}
+            {t(lang, 'tabPdf')} {isDemo && <svg width="14" height="14" viewBox="0 0 16 16" fill="none" style={{ verticalAlign: '-2px', opacity: 0.6 }}><rect x="3" y="7" width="10" height="7" rx="1.5" stroke="currentColor" strokeWidth="1.5"/><path d="M5.5 7V5a2.5 2.5 0 015 0v2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>}
           </button>
           {showPdfTooltip && (
             <div className="pdf-locked-tooltip">
@@ -78,6 +78,7 @@ export default function ProfileInput({ onAnalyze, onBack, error, provider, lang 
 
       {isDemo && (
         <p className="badge-demo-positive">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" style={{ verticalAlign: '-2px', marginRight: '4px', flexShrink: 0 }}><path d="M8 1l2 5h5l-4 3 1.5 5L8 11l-4.5 3L5 9 1 6h5z" stroke="currentColor" strokeWidth="1.3" fill="currentColor" opacity="0.3"/></svg>
           {t(lang, 'demoBadge')}
         </p>
       )}

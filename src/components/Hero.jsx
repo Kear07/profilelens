@@ -1,5 +1,12 @@
 import { t } from '../i18n'
 
+const chipIcons = [
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1.5"/><path d="M8 4v4l3 2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>,
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 11l3-6h1l3 6M4.5 9h5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><path d="M13 4v8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>,
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="4" y="2" width="8" height="12" rx="2" stroke="currentColor" strokeWidth="1.5"/><circle cx="8" cy="7" r="1.5" stroke="currentColor" strokeWidth="1.5"/><path d="M8 8.5V11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>,
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" stroke="currentColor" strokeWidth="1.5"/><path d="M3 14c0-2.8 2.2-5 5-5s5 2.2 5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/><path d="M11 4l2-2M13 4l-2-2" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/></svg>,
+]
+
 export default function Hero({ onStart, lang }) {
   const chips = t(lang, 'heroChips')
   const providers = t(lang, 'heroProviders')
@@ -15,7 +22,7 @@ export default function Hero({ onStart, lang }) {
       <p className="hero-subtitle">{t(lang, 'heroSubtitle')}</p>
       <div className="hero-features">
         {chips.map((chip, i) => (
-          <div key={i} className="feature-chip">{chip}</div>
+          <div key={i} className="feature-chip"><span className="chip-icon">{chipIcons[i]}</span>{chip}</div>
         ))}
       </div>
       <button className="btn-primary btn-lg" onClick={onStart}>
