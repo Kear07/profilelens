@@ -140,7 +140,21 @@ export default function App() {
         onClick={() => handleLangChange(lang === 'pt' ? 'en' : 'pt')}
         title={lang === 'pt' ? 'Switch to English' : 'Mudar para Português'}
       >
-        {lang === 'pt' ? 'PT' : 'EN'}
+        {lang === 'pt' ? (
+          <svg width="22" height="16" viewBox="0 0 22 16" fill="none">
+            <rect width="22" height="16" rx="2" fill="#009739"/>
+            <path d="M11 2L20 8L11 14L2 8Z" fill="#FEDD00"/>
+            <circle cx="11" cy="8" r="3.2" fill="#012169"/>
+          </svg>
+        ) : (
+          <svg width="22" height="16" viewBox="0 0 22 16" fill="none">
+            <rect width="22" height="16" rx="2" fill="#B22234"/>
+            <rect y="1.2" width="22" height="1.2" fill="white"/><rect y="3.7" width="22" height="1.2" fill="white"/>
+            <rect y="6.2" width="22" height="1.2" fill="white"/><rect y="8.6" width="22" height="1.2" fill="white"/>
+            <rect y="11.1" width="22" height="1.2" fill="white"/><rect y="13.5" width="22" height="1.2" fill="white"/>
+            <rect width="9" height="8.6" rx="1" fill="#3C3B6E"/>
+          </svg>
+        )}
       </button>
 
       <footer className="footer">

@@ -14,10 +14,21 @@ export default function Loading({ lang }) {
         setTipIdx((i) => (i + 1) % tips.length)
         setTipVisible(true)
       }, 300)
-    }, 2200)
+    }, 2500)
+
+    // Simulates realistic progress: fast start, slow middle, stalls near end
+    let elapsed = 0
     const progTimer = setInterval(() => {
-      setProgress((p) => Math.min(p + Math.random() * 12, 95))
+      elapsed += 500
+      setProgress((p) => {
+        if (p >= 95) return p
+        if (elapsed < 2000) return Math.min(p + 8, 30)       // 0-30: fast (sending)
+        if (elapsed < 6000) return Math.min(p + 3, 65)       // 30-65: medium (processing)
+        if (elapsed < 12000) return Math.min(p + 1.5, 85)    // 65-85: slow (generating)
+        return Math.min(p + 0.5, 95)                          // 85-95: crawl (finishing)
+      })
     }, 500)
+
     return () => {
       clearInterval(tipTimer)
       clearInterval(progTimer)
@@ -45,9 +56,6 @@ export default function Loading({ lang }) {
       <p className={`loading-tip ${tipVisible ? 'tip-visible' : 'tip-hidden'}`}>
         {tips[tipIdx]}
       </p>
-      <div className="loading-dots">
-        <span /><span /><span />
-      </div>
     </section>
   )
 }

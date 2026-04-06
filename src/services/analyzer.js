@@ -2,6 +2,21 @@ import { getMockAnalysis } from '../data/mockAnalysis'
 import { t } from '../i18n'
 
 const analysisCache = new Map()
+const STORAGE_PREFIX = 'profilelens-result-'
+
+function loadFromStorage(key) {
+  try {
+    const raw = localStorage.getItem(STORAGE_PREFIX + key)
+    if (!raw) return null
+    return JSON.parse(raw)
+  } catch { return null }
+}
+
+function saveToStorage(key, data) {
+  try {
+    localStorage.setItem(STORAGE_PREFIX + key, JSON.stringify(data))
+  } catch { /* quota exceeded, ignore */ }
+}
 
 async function hashText(text) {
   const data = new TextEncoder().encode(text)
@@ -214,8 +229,17 @@ export async function analyzeProfile(profileText, settings, lang = 'pt') {
 
   const textHash = await hashText(`${provider}:${model}:${profileText.trim()}`)
   const cacheKey = `${textHash}:${lang}`
+
+  // Memory cache first
   const cached = analysisCache.get(cacheKey)
   if (cached) return JSON.parse(JSON.stringify(cached))
+
+  // localStorage fallback (survives clear + re-analyze)
+  const stored = loadFromStorage(cacheKey)
+  if (stored) {
+    analysisCache.set(cacheKey, stored)
+    return JSON.parse(JSON.stringify(stored))
+  }
 
   // Check if we have result in the OTHER language: reuse scores
   const otherLang = lang === 'pt' ? 'en' : 'pt'
@@ -238,5 +262,6 @@ export async function analyzeProfile(profileText, settings, lang = 'pt') {
   }
 
   analysisCache.set(cacheKey, JSON.parse(JSON.stringify(result)))
+  saveToStorage(cacheKey, result)
   return result
 }
