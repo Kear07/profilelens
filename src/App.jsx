@@ -146,8 +146,8 @@ export default function App() {
       <footer className="footer">
         <p>
           {t(lang, 'madeBy')}{' '}
-          <a href="https://www.linkedin.com/in/luke-santos-pereira/" target="_blank" rel="noopener noreferrer" className="footer-link">
-            <strong>Luke Pereira</strong>
+          <a href="https://www.linkedin.com/in/lukefrancischini" target="_blank" rel="noopener noreferrer" className="footer-link">
+            <strong>Luke Francischini</strong>
           </a>
           {' · '}{t(lang, 'privacy')}
         </p>
