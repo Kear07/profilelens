@@ -1,21 +1,34 @@
-export async function extractTextFromPDF(file) {
-  let pdfjsLib
-  try {
-    pdfjsLib = await import('pdfjs-dist')
-  } catch {
-    // Stale chunk after deploy: force reload once
-    if (!sessionStorage.getItem('pdf-reload')) {
-      sessionStorage.setItem('pdf-reload', '1')
-      window.location.reload()
-      return ''
+let cachedLib = null
+
+async function loadPdfJs(retries = 2) {
+  if (cachedLib) return cachedLib
+  for (let i = 0; i <= retries; i++) {
+    try {
+      const lib = await import('pdfjs-dist')
+      lib.GlobalWorkerOptions.workerSrc = new URL(
+        'pdfjs-dist/build/pdf.worker.min.mjs',
+        import.meta.url
+      ).href
+      cachedLib = lib
+      return lib
+    } catch {
+      if (i === retries) {
+        if (!sessionStorage.getItem('pdf-reload')) {
+          sessionStorage.setItem('pdf-reload', '1')
+          window.location.reload()
+          return null
+        }
+        throw new Error('Failed to load PDF module. Please refresh the page.')
+      }
+      await new Promise((r) => setTimeout(r, 300))
     }
-    throw new Error('Failed to load PDF module. Please refresh the page.')
   }
+}
+
+export async function extractTextFromPDF(file) {
   sessionStorage.removeItem('pdf-reload')
-  pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
-    'pdfjs-dist/build/pdf.worker.min.mjs',
-    import.meta.url
-  ).href
+  const pdfjsLib = await loadPdfJs()
+  if (!pdfjsLib) return ''
 
   const arrayBuffer = await file.arrayBuffer()
   const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise

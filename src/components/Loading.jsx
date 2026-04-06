@@ -5,14 +5,19 @@ export default function Loading({ lang }) {
   const tips = t(lang, 'loadingTips')
   const [tipIdx, setTipIdx] = useState(0)
   const [progress, setProgress] = useState(0)
+  const [tipVisible, setTipVisible] = useState(true)
 
   useEffect(() => {
     const tipTimer = setInterval(() => {
-      setTipIdx((i) => (i + 1) % tips.length)
-    }, 1800)
+      setTipVisible(false)
+      setTimeout(() => {
+        setTipIdx((i) => (i + 1) % tips.length)
+        setTipVisible(true)
+      }, 300)
+    }, 2200)
     const progTimer = setInterval(() => {
-      setProgress((p) => Math.min(p + Math.random() * 15, 95))
-    }, 400)
+      setProgress((p) => Math.min(p + Math.random() * 12, 95))
+    }, 500)
     return () => {
       clearInterval(tipTimer)
       clearInterval(progTimer)
@@ -22,6 +27,7 @@ export default function Loading({ lang }) {
   return (
     <section className="loading-section fade-up">
       <div className="loading-ring">
+        <div className="loading-glow" />
         <svg viewBox="0 0 120 120" className="ring-svg">
           <circle cx="60" cy="60" r="52" className="ring-bg" />
           <circle
@@ -36,7 +42,12 @@ export default function Loading({ lang }) {
         </svg>
         <span className="ring-percent">{Math.round(progress)}%</span>
       </div>
-      <p className="loading-tip">{tips[tipIdx]}</p>
+      <p className={`loading-tip ${tipVisible ? 'tip-visible' : 'tip-hidden'}`}>
+        {tips[tipIdx]}
+      </p>
+      <div className="loading-dots">
+        <span /><span /><span />
+      </div>
     </section>
   )
 }
