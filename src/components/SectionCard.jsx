@@ -21,7 +21,7 @@ export default function SectionCard({ section, lang }) {
       </div>
       <span className="section-status" style={{ color }}>{status}</span>
       <p className="section-feedback">{feedback}</p>
-      {suggestion && (
+      {suggestion && suggestion !== 'null' && (
         <div className="section-suggestion">
           <span className="suggestion-label">{t(lang, 'suggestionLabel')}</span>
           <p className="suggestion-text">{suggestion}</p>

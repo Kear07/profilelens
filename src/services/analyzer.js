@@ -42,7 +42,7 @@ Analyze the provided profile and return a JSON with EXACTLY this structure:
       "score": <number 0-100>,
       "status": "<short status phrase>",
       "feedback": "<detailed, specific analysis with concrete examples from the profile. Reference actual text when pointing out issues. Explain WHY something matters from a recruiter's perspective.>",
-      "suggestion": "<complete rewrite of the section, ready to copy-paste. Not a vague tip, a fully written replacement. null only if score >= 85>"
+      "suggestion": "<complete rewrite of the section, ready to copy-paste. Not a vague tip, a fully written replacement. MUST be a real text suggestion for ANY section with score below 85. null ONLY if score >= 85>"
     }
   ],
   "tips": ["<actionable tip with specific example>", ...]
@@ -100,7 +100,7 @@ Analise o perfil fornecido e retorne um JSON com EXATAMENTE esta estrutura:
       "score": <número 0-100>,
       "status": "<frase curta de status>",
       "feedback": "<análise detalhada e específica com exemplos concretos do perfil. Referencie texto real ao apontar problemas. Explique POR QUE algo importa da perspectiva de um recrutador.>",
-      "suggestion": "<reescrita completa da seção, pronta para copiar e colar. Não uma dica vaga, mas um texto substituto completo. null apenas se score >= 85>"
+      "suggestion": "<reescrita completa da seção, pronta para copiar e colar. Não uma dica vaga, mas um texto substituto completo. OBRIGATÓRIO para qualquer seção com score abaixo de 85. null APENAS se score >= 85>"
     }
   ],
   "tips": ["<dica acionável com exemplo específico>", ...]
@@ -219,6 +219,15 @@ function forceScores(result, targetScores) {
   return result
 }
 
+function sanitizeResult(result) {
+  if (result.sections) {
+    for (const s of result.sections) {
+      if (s.suggestion === 'null' || s.suggestion === '') s.suggestion = null
+    }
+  }
+  return result
+}
+
 export async function analyzeProfile(profileText, settings, lang = 'pt') {
   const { provider, apiKey, model, baseUrl } = settings
 
@@ -261,6 +270,7 @@ export async function analyzeProfile(profileText, settings, lang = 'pt') {
     result = await callProvider(provider, apiKey, model, baseUrl, systemPrompt, userMsg)
   }
 
+  sanitizeResult(result)
   analysisCache.set(cacheKey, JSON.parse(JSON.stringify(result)))
   saveToStorage(cacheKey, result)
   return result
