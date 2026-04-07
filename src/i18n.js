@@ -63,6 +63,7 @@ React, Node.js, TypeScript, Python, AWS, Docker`,
     howStep3Bold: '"Salvar como PDF"',
     howStep4: 'Arraste o arquivo aqui',
     pdfExtractError: 'Não consegui extrair texto do PDF. Tente colar o texto manualmente.',
+    pdfNotLinkedin: 'Este PDF não parece ser um perfil LinkedIn. Baixe seu perfil em LinkedIn > Mais > Salvar como PDF.',
     pdfError: 'Erro ao processar PDF',
 
     // Loading
@@ -166,6 +167,7 @@ React, Node.js, TypeScript, Python, AWS, Docker`,
     howStep3Bold: '"Save to PDF"',
     howStep4: 'Drag the file here',
     pdfExtractError: 'Could not extract text from PDF. Try pasting the text manually.',
+    pdfNotLinkedin: 'This PDF does not look like a LinkedIn profile. Download yours at LinkedIn > More > Save to PDF.',
     pdfError: 'Error processing PDF',
 
     loadingTips: [

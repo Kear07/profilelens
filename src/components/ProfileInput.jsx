@@ -3,6 +3,23 @@ import FileUpload from './FileUpload'
 import { extractTextFromPDF } from '../services/pdfParser'
 import { t } from '../i18n'
 
+const LINKEDIN_KEYWORDS = [
+  'linkedin', 'experience', 'education', 'skills', 'about',
+  'headline', 'summary', 'endorsement', 'recommendation',
+  'experiência', 'experiencia', 'habilidades', 'formação',
+  'formacao', 'educação', 'educacao', 'sobre', 'competências',
+  'competencias', 'recomendações', 'recomendacoes',
+]
+
+function looksLikeLinkedIn(text) {
+  const lower = text.toLowerCase()
+  let matches = 0
+  for (const kw of LINKEDIN_KEYWORDS) {
+    if (lower.includes(kw)) matches++
+  }
+  return matches >= 2
+}
+
 export default function ProfileInput({ onAnalyze, onBack, error, provider, lang }) {
   const isDemo = provider === 'mock'
   const [text, setText] = useState('')
@@ -37,6 +54,9 @@ export default function ProfileInput({ onAnalyze, onBack, error, provider, lang 
       const extracted = await extractTextFromPDF(pdfFile)
       if (extracted.trim().length < 30) {
         throw new Error(t(lang, 'pdfExtractError'))
+      }
+      if (!looksLikeLinkedIn(extracted)) {
+        throw new Error(t(lang, 'pdfNotLinkedin'))
       }
       onAnalyze(extracted.trim())
     } catch (err) {
