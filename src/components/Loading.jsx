@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { t } from '../i18n'
 
-export default function Loading({ lang }) {
+export default function Loading({ lang, done }) {
   const tips = t(lang, 'loadingTips')
   const [tipIdx, setTipIdx] = useState(0)
   const [progress, setProgress] = useState(0)
   const [tipVisible, setTipVisible] = useState(true)
+  const elapsed = useRef(0)
 
   useEffect(() => {
     const tipTimer = setInterval(() => {
@@ -16,16 +17,15 @@ export default function Loading({ lang }) {
       }, 300)
     }, 2500)
 
-    // Simulates realistic progress: fast start, slow middle, stalls near end
-    let elapsed = 0
     const progTimer = setInterval(() => {
-      elapsed += 500
+      elapsed.current += 500
       setProgress((p) => {
         if (p >= 95) return p
-        if (elapsed < 2000) return Math.min(p + 8, 30)       // 0-30: fast (sending)
-        if (elapsed < 6000) return Math.min(p + 3, 65)       // 30-65: medium (processing)
-        if (elapsed < 12000) return Math.min(p + 1.5, 85)    // 65-85: slow (generating)
-        return Math.min(p + 0.5, 95)                          // 85-95: crawl (finishing)
+        const e = elapsed.current
+        if (e < 2000) return Math.min(p + 8, 30)
+        if (e < 6000) return Math.min(p + 3, 65)
+        if (e < 12000) return Math.min(p + 1.5, 85)
+        return Math.min(p + 0.5, 95)
       })
     }, 500)
 
@@ -34,6 +34,11 @@ export default function Loading({ lang }) {
       clearInterval(progTimer)
     }
   }, [tips.length])
+
+  // When analysis is done, jump to 100%
+  useEffect(() => {
+    if (done) setProgress(100)
+  }, [done])
 
   return (
     <section className="loading-section fade-up">
@@ -54,7 +59,7 @@ export default function Loading({ lang }) {
         <span className="ring-percent">{Math.round(progress)}%</span>
       </div>
       <p className={`loading-tip ${tipVisible ? 'tip-visible' : 'tip-hidden'}`}>
-        {tips[tipIdx]}
+        {done ? (lang === 'pt' ? 'Pronto!' : 'Done!') : tips[tipIdx]}
       </p>
     </section>
   )

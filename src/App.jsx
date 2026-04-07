@@ -41,6 +41,7 @@ export default function App() {
   const [settings, setSettings] = useState(loadSettings)
   const [showSettings, setShowSettings] = useState(false)
   const [lang, setLang] = useState(loadLang)
+  const [analysisDone, setAnalysisDone] = useState(false)
   const { analyze, result, error, loading } = useAnalysis()
 
   const lastProfileText = useRef('')
@@ -51,14 +52,16 @@ export default function App() {
     setLang(newLang)
     langRef.current = newLang
     try { localStorage.setItem('profilelens-lang', newLang) } catch {}
-    // Se ta na tela de resultados ou loading com texto, re-analisa no novo idioma
     if ((screen === 'results' || screen === 'loading') && lastProfileText.current) {
       const myId = ++analysisCounter.current
+      setAnalysisDone(false)
       setScreen('loading')
       try {
         await analyze(lastProfileText.current, settings, newLang)
         if (analysisCounter.current === myId) {
-          setScreen('results')
+          setAnalysisDone(true)
+          await new Promise((r) => setTimeout(r, 600))
+          if (analysisCounter.current === myId) setScreen('results')
         }
       } catch {
         if (analysisCounter.current === myId) {
@@ -77,11 +80,14 @@ export default function App() {
     lastProfileText.current = profileText
     const myId = ++analysisCounter.current
     const currentLang = langRef.current
+    setAnalysisDone(false)
     setScreen('loading')
     try {
       await analyze(profileText, settings, currentLang)
       if (analysisCounter.current === myId) {
-        setScreen('results')
+        setAnalysisDone(true)
+        await new Promise((r) => setTimeout(r, 600))
+        if (analysisCounter.current === myId) setScreen('results')
       }
     } catch {
       if (analysisCounter.current === myId) {
@@ -129,7 +135,7 @@ export default function App() {
             lang={lang}
           />
         )}
-        {screen === 'loading' && <Loading lang={lang} />}
+        {screen === 'loading' && <Loading lang={lang} done={analysisDone} />}
         {screen === 'results' && result && (
           <Results data={result} onReset={handleReset} lang={lang} />
         )}
