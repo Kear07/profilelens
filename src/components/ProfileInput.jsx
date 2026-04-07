@@ -42,6 +42,11 @@ export default function ProfileInput({ onAnalyze, onBack, error, provider, lang 
   const handleSubmitText = (e) => {
     e.preventDefault()
     if (text.trim().length < 50) return
+    if (!isDemo && !looksLikeLinkedIn(text)) {
+      setLocalError(t(lang, 'textNotLinkedin'))
+      return
+    }
+    setLocalError(null)
     onAnalyze(text.trim())
   }
 
@@ -145,7 +150,7 @@ export default function ProfileInput({ onAnalyze, onBack, error, provider, lang 
               {t(lang, 'analyzeBtn')}
             </button>
           </div>
-          {error && <p className="error-msg">{error}</p>}
+          {(error || localError) && <p className="error-msg">{localError || error}</p>}
         </form>
       )}
     </section>
