@@ -222,11 +222,19 @@ async function callProvider(provider, apiKey, model, baseUrl, systemPrompt, user
 
     if (!res.ok) {
       const err = await res.json().catch(() => ({}))
-      throw new Error(err.error?.message || `Error ${res.status}: ${res.statusText}`)
+      const msg = err.error?.message || ''
+      const status = res.status
+      if (status === 400 && (msg.includes('API key') || msg.includes('API_KEY'))) {
+        throw new Error('INVALID_KEY:gemini')
+      }
+      if (status === 429) throw new Error('QUOTA_EXCEEDED:gemini')
+      if (status === 403) throw new Error('INVALID_KEY:gemini')
+      throw new Error(msg || `Error ${status}: ${res.statusText}`)
     }
 
     const data = await res.json()
     const content = data.candidates?.[0]?.content?.parts?.[0]?.text
+    if (!content) throw new Error('EMPTY_RESPONSE')
     return JSON.parse(content)
   }
 
@@ -248,12 +256,53 @@ async function callProvider(provider, apiKey, model, baseUrl, systemPrompt, user
 
   if (!res.ok) {
     const err = await res.json().catch(() => ({}))
-    throw new Error(err.error?.message || `Error ${res.status}: ${res.statusText}`)
+    const msg = err.error?.message || ''
+    const status = res.status
+    if (status === 401 || status === 403) throw new Error('INVALID_KEY:custom')
+    if (status === 429) throw new Error('QUOTA_EXCEEDED:custom')
+    throw new Error(msg || `Error ${status}: ${res.statusText}`)
   }
 
   const data = await res.json()
   const content = data.choices?.[0]?.message?.content
+  if (!content) throw new Error('EMPTY_RESPONSE')
   return JSON.parse(content)
+}
+
+function humanizeError(err, lang) {
+  const msg = err.message || ''
+  const pt = lang === 'pt'
+  if (msg === 'INVALID_KEY:gemini') {
+    return pt
+      ? 'Gemini API Key inválida. Verifique sua key em aistudio.google.com/apikey e salve novamente em Configurações.'
+      : 'Invalid Gemini API Key. Check your key at aistudio.google.com/apikey and save again in Settings.'
+  }
+  if (msg === 'INVALID_KEY:custom') {
+    return pt
+      ? 'API Key inválida ou sem permissão. Verifique a key e a URL base em Configurações.'
+      : 'Invalid API Key or unauthorized. Check your key and base URL in Settings.'
+  }
+  if (msg === 'QUOTA_EXCEEDED:gemini') {
+    return pt
+      ? 'Limite de uso do Gemini atingido. Aguarde alguns minutos ou use outro modelo.'
+      : 'Gemini usage limit reached. Wait a few minutes or switch to another model.'
+  }
+  if (msg === 'QUOTA_EXCEEDED:custom') {
+    return pt
+      ? 'Limite de requisições atingido para este provedor.'
+      : 'Request limit reached for this provider.'
+  }
+  if (msg === 'EMPTY_RESPONSE') {
+    return pt
+      ? 'A IA não retornou resposta. Tente novamente.'
+      : 'The AI returned an empty response. Please try again.'
+  }
+  if (msg.includes('Failed to fetch') || msg.includes('NetworkError') || msg.includes('fetch')) {
+    return pt
+      ? 'Sem conexão com a API. Verifique sua internet ou a URL base em Configurações.'
+      : 'Could not reach the API. Check your internet or the base URL in Settings.'
+  }
+  return msg
 }
 
 function forceScores(result, targetScores) {
@@ -307,13 +356,21 @@ export async function analyzeProfile(profileText, settings, lang = 'pt') {
   if (otherCached) {
     const targetScores = otherCached.sections.map(s => ({ title: s.title, score: s.score }))
     const userMsg = getUserMessageWithScores(profileText, lang, targetScores)
-    result = forceScores(await callProvider(provider, apiKey, model, baseUrl, systemPrompt, userMsg), targetScores)
+    try {
+      result = forceScores(await callProvider(provider, apiKey, model, baseUrl, systemPrompt, userMsg), targetScores)
+    } catch (err) {
+      throw new Error(humanizeError(err, lang))
+    }
   } else {
     if (provider === 'gemini' && !apiKey) throw new Error(t(lang, 'geminiKeyError'))
     if (provider === 'custom' && !baseUrl) throw new Error(t(lang, 'customUrlError'))
 
     const userMsg = getUserMessage(profileText, lang)
-    result = await callProvider(provider, apiKey, model, baseUrl, systemPrompt, userMsg)
+    try {
+      result = await callProvider(provider, apiKey, model, baseUrl, systemPrompt, userMsg)
+    } catch (err) {
+      throw new Error(humanizeError(err, lang))
+    }
   }
 
   sanitizeResult(result)
