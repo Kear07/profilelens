@@ -229,6 +229,9 @@ async function callProvider(provider, apiKey, model, baseUrl, systemPrompt, user
       }
       if (status === 429) throw new Error('QUOTA_EXCEEDED:gemini')
       if (status === 403) throw new Error('INVALID_KEY:gemini')
+      if (status === 503 || msg.includes('overloaded') || msg.includes('high demand') || msg.includes('RESOURCE_EXHAUSTED')) {
+        throw new Error('OVERLOADED:gemini')
+      }
       throw new Error(msg || `Error ${status}: ${res.statusText}`)
     }
 
@@ -282,10 +285,10 @@ function humanizeError(err, lang) {
       ? 'API Key inválida ou sem permissão. Verifique a key e a URL base em Configurações.'
       : 'Invalid API Key or unauthorized. Check your key and base URL in Settings.'
   }
-  if (msg === 'QUOTA_EXCEEDED:gemini') {
+  if (msg === 'QUOTA_EXCEEDED:gemini' || msg === 'OVERLOADED:gemini') {
     return pt
-      ? 'Limite de uso do Gemini atingido. Aguarde alguns minutos ou use outro modelo.'
-      : 'Gemini usage limit reached. Wait a few minutes or switch to another model.'
+      ? 'O modelo está sobrecarregado no momento. Aguarde alguns minutos e tente novamente.'
+      : 'This model is currently experiencing high demand. Please try again in a few minutes.'
   }
   if (msg === 'QUOTA_EXCEEDED:custom') {
     return pt
@@ -301,6 +304,11 @@ function humanizeError(err, lang) {
     return pt
       ? 'Sem conexão com a API. Verifique sua internet ou a URL base em Configurações.'
       : 'Could not reach the API. Check your internet or the base URL in Settings.'
+  }
+  if (msg.includes('high demand') || msg.includes('overloaded') || msg.includes('RESOURCE_EXHAUSTED') || msg.includes('currently experiencing')) {
+    return pt
+      ? 'O modelo está sobrecarregado no momento. Aguarde alguns minutos e tente novamente.'
+      : 'This model is currently experiencing high demand. Please try again in a few minutes.'
   }
   return msg
 }
