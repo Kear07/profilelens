@@ -310,7 +310,10 @@ function humanizeError(err, lang) {
       ? 'O modelo está sobrecarregado no momento. Aguarde alguns minutos e tente novamente.'
       : 'This model is currently experiencing high demand. Please try again in a few minutes.'
   }
-  return msg
+  // Fallback: any unrecognized error gets a generic translated message
+  return pt
+    ? 'Algo deu errado ao analisar o perfil. Tente novamente em alguns instantes.'
+    : 'Something went wrong while analyzing the profile. Please try again shortly.'
 }
 
 function forceScores(result, targetScores) {
