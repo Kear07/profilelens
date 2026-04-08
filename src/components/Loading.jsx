@@ -4,7 +4,7 @@ import { t } from '../i18n'
 export default function Loading({ lang, done }) {
   const tips = t(lang, 'loadingTips')
   const [tipIdx, setTipIdx] = useState(0)
-  const [progress, setProgress] = useState(0)
+  const [simulatedProgress, setSimulatedProgress] = useState(0)
   const [tipVisible, setTipVisible] = useState(true)
   const elapsed = useRef(0)
 
@@ -19,7 +19,7 @@ export default function Loading({ lang, done }) {
 
     const progTimer = setInterval(() => {
       elapsed.current += 500
-      setProgress((p) => {
+      setSimulatedProgress((p) => {
         if (p >= 95) return p
         const e = elapsed.current
         if (e < 2000) return Math.min(p + 8, 30)
@@ -35,10 +35,7 @@ export default function Loading({ lang, done }) {
     }
   }, [tips.length])
 
-  // When analysis is done, jump to 100%
-  useEffect(() => {
-    if (done) setProgress(100)
-  }, [done])
+  const progress = done ? 100 : simulatedProgress
 
   return (
     <section className="loading-section fade-up">

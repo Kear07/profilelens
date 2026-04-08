@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react'
 import { t } from '../i18n'
 
-export default function FileUpload({ onFileText, loading, lang }) {
+export default function FileUpload({ onFileText, lang }) {
   const [dragOver, setDragOver] = useState(false)
   const [fileName, setFileName] = useState(null)
   const [error, setError] = useState(null)

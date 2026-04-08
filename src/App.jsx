@@ -42,7 +42,7 @@ export default function App() {
   const [showSettings, setShowSettings] = useState(false)
   const [lang, setLang] = useState(loadLang)
   const [analysisDone, setAnalysisDone] = useState(false)
-  const { analyze, result, error, loading } = useAnalysis()
+  const { analyze, result, error } = useAnalysis()
 
   const lastProfileText = useRef('')
   const langRef = useRef(loadLang())
