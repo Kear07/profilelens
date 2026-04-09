@@ -205,6 +205,8 @@ function getUserMessageWithScores(profileText, lang, targetScores) {
 
 // Unified provider call: handles Gemini and OpenAI-compatible APIs
 const FETCH_TIMEOUT_MS = 60_000
+const MAX_RETRIES = 3
+const GEMINI_FALLBACK_MODELS = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash']
 
 function fetchWithTimeout(url, opts) {
   const controller = new AbortController()
@@ -212,41 +214,68 @@ function fetchWithTimeout(url, opts) {
   return fetch(url, { ...opts, signal: controller.signal }).finally(() => clearTimeout(timer))
 }
 
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)) }
+
 async function callProvider(provider, apiKey, model, baseUrl, systemPrompt, userMessage) {
   if (provider === 'gemini') {
-    const modelId = model || 'gemini-2.5-flash'
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelId}:generateContent`
+    const preferredModel = model || 'gemini-2.5-flash'
+    const models = [preferredModel, ...GEMINI_FALLBACK_MODELS.filter(m => m !== preferredModel)]
     const cleanMsg = userMessage.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g, ' ').trim()
+    let lastError = null
 
-    const res = await fetchWithTimeout(`${url}?key=${encodeURIComponent(apiKey)}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        system_instruction: { parts: [{ text: systemPrompt }] },
-        contents: [{ role: 'user', parts: [{ text: cleanMsg }] }],
-        generationConfig: { temperature: 0, topP: 1, topK: 1, responseMimeType: 'application/json' },
-      }),
-    })
+    for (const modelId of models) {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelId}:generateContent`
+      for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
+        try {
+          const res = await fetchWithTimeout(`${url}?key=${encodeURIComponent(apiKey)}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              system_instruction: { parts: [{ text: systemPrompt }] },
+              contents: [{ role: 'user', parts: [{ text: cleanMsg }] }],
+              generationConfig: { temperature: 0, topP: 1, topK: 1, responseMimeType: 'application/json' },
+            }),
+          })
 
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({}))
-      const msg = err.error?.message || ''
-      const status = res.status
-      if (status === 400 && (msg.includes('API key') || msg.includes('API_KEY'))) {
-        throw new Error('INVALID_KEY:gemini')
+          if (res.ok) {
+            const data = await res.json()
+            const content = data.candidates?.[0]?.content?.parts?.[0]?.text
+            if (!content) throw new Error('EMPTY_RESPONSE')
+            return JSON.parse(content)
+          }
+
+          const err = await res.json().catch(() => ({}))
+          const msg = err.error?.message || ''
+          const status = res.status
+
+          if (status === 400 && (msg.includes('API key') || msg.includes('API_KEY'))) {
+            throw new Error('INVALID_KEY:gemini')
+          }
+          if (status === 403) throw new Error('INVALID_KEY:gemini')
+
+          // Retryable errors: 429, 503, overloaded
+          if (status === 429 || status === 503 || msg.includes('overloaded') || msg.includes('RESOURCE_EXHAUSTED')) {
+            lastError = new Error('OVERLOADED:gemini')
+            if (attempt < MAX_RETRIES - 1) {
+              await sleep(2000 * (attempt + 1))
+              continue
+            }
+            break // try next model
+          }
+
+          throw new Error(msg || `Error ${status}: ${res.statusText}`)
+        } catch (e) {
+          if (e.message === 'INVALID_KEY:gemini' || e.message === 'EMPTY_RESPONSE') throw e
+          lastError = e
+          if (e.name === 'AbortError') break // timeout, try next model
+          if (attempt < MAX_RETRIES - 1) {
+            await sleep(2000 * (attempt + 1))
+          }
+        }
       }
-      if (status === 429) throw new Error('QUOTA_EXCEEDED:gemini')
-      if (status === 403) throw new Error('INVALID_KEY:gemini')
-      if (status === 503 || msg.includes('overloaded') || msg.includes('high demand') || msg.includes('RESOURCE_EXHAUSTED')) {
-        throw new Error('OVERLOADED:gemini')
-      }
-      throw new Error(msg || `Error ${status}: ${res.statusText}`)
     }
 
-    const data = await res.json()
-    const content = data.candidates?.[0]?.content?.parts?.[0]?.text
-    if (!content) throw new Error('EMPTY_RESPONSE')
-    return JSON.parse(content)
+    throw lastError || new Error('OVERLOADED:gemini')
   }
 
   // OpenAI-compatible (custom provider)
