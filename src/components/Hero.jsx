@@ -6,26 +6,25 @@ export default function Hero({ onStart, lang }) {
 
   return (
     <section className="hero">
-      <div className="hero-bg-grid" />
-      <div className="hero-glow hero-glow-1" />
-      <div className="hero-glow hero-glow-2" />
+      <div className="hero-aura" />
+      <div className="hero-crosshair" />
 
-      <div className="hero-badge">
-        <span className="hero-badge-dot" />
-        {lang === 'pt' ? 'Ferramenta gratuita' : 'Free tool'}
+      <div className="hero-tag">
+        <span className="hero-tag-pulse" />
+        {lang === 'pt' ? 'ONLINE' : 'ONLINE'}
       </div>
 
       <h1 className="hero-title">
         {t(lang, 'heroTitle1')}
         <br />
-        <span className="hero-title-gradient">{t(lang, 'heroTitle2')}</span>
+        <span className="hero-title-lit">{t(lang, 'heroTitle2')}</span>
       </h1>
-      <p className="hero-subtitle">{t(lang, 'heroSubtitle')}</p>
+      <p className="hero-sub">{t(lang, 'heroSubtitle')}</p>
 
-      <div className="hero-features">
+      <div className="hero-stats">
         {chips.map((chip, i) => (
-          <span key={i} className="feature-chip">
-            <span className="chip-icon" />
+          <span key={i} className="stat-pill">
+            <span className="stat-dot" />
             {chip}
           </span>
         ))}
@@ -36,21 +35,21 @@ export default function Hero({ onStart, lang }) {
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </button>
 
-      <p className="hero-providers">
+      <p className="hero-powered">
         {providers[0]}<strong>{providers[1]}</strong>{providers[2]}
       </p>
 
-      <div className="how-section">
-        <div className="how-steps">
+      <div className="hero-pipeline">
+        <div className="pipeline-steps">
           {[
             { num: '01', label: t(lang, 'howStep1Label'), desc: t(lang, 'howStep1Desc') },
             { num: '02', label: t(lang, 'howStep2Label'), desc: t(lang, 'howStep2Desc') },
             { num: '03', label: t(lang, 'howStep3Label'), desc: t(lang, 'howStep3Desc') },
           ].map((step, i) => (
-            <div key={i} className="how-step">
-              <span className="how-step-num">{step.num}</span>
+            <div key={i} className="pipe-step">
+              <span className="pipe-num">{step.num}</span>
               <strong>{step.label}</strong>
-              <span className="how-step-desc">{step.desc}</span>
+              <span className="pipe-desc">{step.desc}</span>
             </div>
           ))}
         </div>
