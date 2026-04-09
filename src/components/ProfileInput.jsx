@@ -71,6 +71,32 @@ export default function ProfileInput({ onAnalyze, onBack, error, provider, lang 
     }
   }
 
+  // Demo mode: simple card with one button
+  if (isDemo) {
+    return (
+      <section className="input-section fade-up">
+        <button className="btn-ghost back-btn" onClick={onBack}>
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" style={{ verticalAlign: '-1px', marginRight: '4px' }}><path d="M10 3L5 8l5 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          {t(lang, 'back')}
+        </button>
+
+        <div className="demo-card">
+          <div className="demo-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M15 3H9v2H5v14h14V5h-4V3zm-4 2h2v2h-2V5zM7 7h10v10H7V7z" fill="currentColor" opacity="0.2"/><path d="M9 3h6v4h4v14H5V7h4V3zm2 2v2h2V5h-2zm-4 4v8h10V9H7z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round"/><path d="M9 13h6M9 15.5h4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/></svg>
+          </div>
+          <h2 className="section-title">{t(lang, 'demoTitle')}</h2>
+          <p className="demo-desc">{t(lang, 'demoDesc')}</p>
+          <button className="btn-primary btn-lg demo-btn" onClick={() => onAnalyze('demo')}>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ verticalAlign: '-2px', marginRight: '6px' }}><path d="M3 8h7M10 8l-3-3M10 8l-3 3" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            {t(lang, 'demoBtn')}
+          </button>
+          <p className="demo-hint">{t(lang, 'demoHint')}</p>
+        </div>
+      </section>
+    )
+  }
+
+  // Real mode: PDF or text input
   return (
     <section className="input-section fade-up">
       <button className="btn-ghost back-btn" onClick={onBack}>
@@ -84,10 +110,10 @@ export default function ProfileInput({ onAnalyze, onBack, error, provider, lang 
       <div className="input-mode-tabs">
         <div className="tab-wrapper">
           <button
-            className={`tab ${mode === 'pdf' ? 'active' : ''} ${isDemo ? 'tab-disabled' : ''}`}
+            className={`tab ${mode === 'pdf' ? 'active' : ''}`}
             onClick={handlePdfTabClick}
           >
-            {t(lang, 'tabPdf')} {isDemo && <svg width="14" height="14" viewBox="0 0 16 16" fill="none" style={{ verticalAlign: '-2px', opacity: 0.6 }}><rect x="3" y="7" width="10" height="7" rx="1.5" stroke="currentColor" strokeWidth="1.5"/><path d="M5.5 7V5a2.5 2.5 0 015 0v2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>}
+            {t(lang, 'tabPdf')}
           </button>
           {showPdfTooltip && (
             <div className="pdf-locked-tooltip">
@@ -102,12 +128,6 @@ export default function ProfileInput({ onAnalyze, onBack, error, provider, lang 
           {t(lang, 'tabText')}
         </button>
       </div>
-
-      {isDemo && (
-        <p className="badge-demo-positive">
-          {t(lang, 'demoBadge')}
-        </p>
-      )}
 
       {mode === 'pdf' ? (
         <form onSubmit={handleSubmitPdf}>
