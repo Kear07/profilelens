@@ -33,7 +33,7 @@ export default function Hero({ onStart, lang }) {
 
       <p className="hero-sub">
         {lang === 'pt' ? (
-          <>IA analisa seu perfil como um <strong>recrutador senior</strong> faria. Score detalhado em 6 dimensoes + sugestoes prontas pra copiar e colar.</>
+          <>IA analisa seu perfil como um <strong>recrutador sênior</strong> faria. Score detalhado em 6 dimensões + sugestões prontas pra copiar e colar.</>
         ) : (
           <>AI analyzes your profile like a <strong>senior recruiter</strong> would. Detailed score in 6 dimensions + suggestions ready to copy and paste.</>
         )}

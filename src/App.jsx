@@ -107,17 +107,19 @@ export default function App() {
           ProfileLens
         </button>
         <div className="nav-actions">
-          <button
-            className="settings-btn"
-            onClick={() => setShowSettings(!showSettings)}
-            title={t(lang, 'settings')}
-          >
-            <svg width="16" height="16" viewBox="0 0 18 18" fill="none" style={{ flexShrink: 0 }}><circle cx="9" cy="9" r="2.5" stroke="currentColor" strokeWidth="1.5"/><path d="M9 1.5v2M9 14.5v2M1.5 9h2M14.5 9h2M3.7 3.7l1.4 1.4M12.9 12.9l1.4 1.4M3.7 14.3l1.4-1.4M12.9 5.1l1.4-1.4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
-            {t(lang, 'settings')}
-          </button>
+          {screen !== 'hero' && (
+            <button
+              className="settings-btn"
+              onClick={() => setShowSettings(!showSettings)}
+              title={t(lang, 'settings')}
+            >
+              <svg width="16" height="16" viewBox="0 0 18 18" fill="none" style={{ flexShrink: 0 }}><circle cx="9" cy="9" r="2.5" stroke="currentColor" strokeWidth="1.5"/><path d="M9 1.5v2M9 14.5v2M1.5 9h2M14.5 9h2M3.7 3.7l1.4 1.4M12.9 12.9l1.4 1.4M3.7 14.3l1.4-1.4M12.9 5.1l1.4-1.4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+              {t(lang, 'settings')}
+            </button>
+          )}
           {screen === 'hero' && (
             <button className="nav-cta" onClick={() => setScreen('input')}>
-              {lang === 'pt' ? 'Analisar gratis' : 'Analyze free'}
+              {lang === 'pt' ? 'Analisar gr\u00e1tis' : 'Analyze free'}
             </button>
           )}
         </div>

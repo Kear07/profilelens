@@ -285,7 +285,7 @@ function humanizeError(err, lang) {
   const pt = lang === 'pt'
   if (err.name === 'AbortError' || msg.includes('abort')) {
     return pt
-      ? 'A analise demorou demais e foi cancelada. Tente novamente ou escolha um modelo mais rapido em Configuracoes.'
+      ? 'A análise demorou demais e foi cancelada. Tente novamente ou escolha um modelo mais rápido em Configurações.'
       : 'Analysis timed out. Please try again or pick a faster model in Settings.'
   }
   if (msg === 'INVALID_KEY:gemini') {

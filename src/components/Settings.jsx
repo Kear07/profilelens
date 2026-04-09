@@ -15,7 +15,7 @@ function getProviders(lang) {
       desc: t(lang, 'providerGeminiDesc'),
       fields: ['apiKey', 'model'],
       models: [
-        { id: 'gemini-2.5-flash', label: 'Gemini 2.5 Flash', note: lang === 'pt' ? 'Recomendado, gratis' : 'Recommended, free' },
+        { id: 'gemini-2.5-flash', label: 'Gemini 2.5 Flash', note: lang === 'pt' ? 'Recomendado, grátis' : 'Recommended, free' },
         { id: 'gemini-2.5-pro', label: 'Gemini 2.5 Pro', note: null },
         { id: 'gemini-2.5-flash-lite', label: 'Gemini 2.5 Flash-Lite', note: lang === 'pt' ? 'Mais rapido' : 'Fastest' },
         { id: 'gemini-3-flash', label: 'Gemini 3 Flash', note: 'Preview' },
