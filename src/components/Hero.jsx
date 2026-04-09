@@ -7,12 +7,10 @@ const pillIcons = [
   <svg key="1" width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M11.5 1.5l3 3L5 14H2v-3l9.5-9.5z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round"/></svg>,
   // shield
   <svg key="2" width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 1.5L2.5 4v4c0 3.5 2.3 5.8 5.5 6.5 3.2-.7 5.5-3 5.5-6.5V4L8 1.5z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round"/></svg>,
-  // cpu
-  <svg key="3" width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="4" y="4" width="8" height="8" rx="1" stroke="currentColor" strokeWidth="1.3"/><path d="M6 1v3M10 1v3M6 12v3M10 12v3M1 6h3M1 10h3M12 6h3M12 10h3" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/></svg>,
 ]
 
-const pillColors = ['var(--accent-soft)', 'var(--green-soft)', 'var(--cyan-soft)', 'var(--pink-soft)']
-const pillTextColors = ['var(--accent-light)', 'var(--green)', 'var(--cyan)', 'var(--pink)']
+const pillColors = ['var(--accent-soft)', 'var(--green-soft)', 'var(--cyan-soft)']
+const pillTextColors = ['var(--accent-light)', 'var(--green)', 'var(--cyan)']
 
 export default function Hero({ onStart, lang }) {
   const chips = t(lang, 'heroChips')

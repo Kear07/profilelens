@@ -7,7 +7,7 @@ const translations = {
     heroTitle1: 'Analise seu perfil LinkedIn',
     heroTitle2: 'com inteligência artificial',
     heroSubtitle: 'Descubra em 30 segundos o que recrutadores realmente pensam do seu perfil. Score detalhado + sugestões prontas pra copiar.',
-    heroChips: ['Score detalhado', 'Sugestões reescritas', '100% no navegador', 'Escolha sua IA'],
+    heroChips: ['Score detalhado', 'Sugestoes reescritas', '100% no navegador'],
     heroBtn: 'Ver meu score grátis',
     heroProviders: ['Funciona com ', 'Gemini (grátis)', ' ou qualquer API compatível'],
 
@@ -115,7 +115,7 @@ React, Node.js, TypeScript, Python, AWS, Docker`,
     heroTitle1: 'Analyze your LinkedIn profile',
     heroTitle2: 'with artificial intelligence',
     heroSubtitle: 'Find out in 30 seconds what recruiters really think of your profile. Detailed score + ready-to-paste suggestions.',
-    heroChips: ['Detailed score', 'Rewritten suggestions', '100% in browser', 'Choose your AI'],
+    heroChips: ['Detailed score', 'Rewritten suggestions', '100% in browser'],
     heroBtn: 'See my score for free',
     heroProviders: ['Works with ', 'Gemini (free)', ' or any compatible API'],
 
