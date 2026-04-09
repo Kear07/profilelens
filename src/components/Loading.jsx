@@ -42,6 +42,12 @@ export default function Loading({ lang, done }) {
       <div className="loading-ring">
         <div className="loading-glow" />
         <svg viewBox="0 0 120 120" className="ring-svg">
+          <defs>
+            <linearGradient id="loading-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style={{ stopColor: 'var(--accent-light)' }} />
+              <stop offset="100%" style={{ stopColor: 'var(--green)' }} />
+            </linearGradient>
+          </defs>
           <circle cx="60" cy="60" r="52" className="ring-bg" />
           <circle
             cx="60"
