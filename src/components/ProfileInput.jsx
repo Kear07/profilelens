@@ -36,6 +36,7 @@ export default function ProfileInput({ onAnalyze, onBack, error, provider, lang 
     } else {
       setMode('pdf')
       setShowPdfTooltip(false)
+      setLocalError(null)
     }
   }
 
@@ -120,7 +121,7 @@ export default function ProfileInput({ onAnalyze, onBack, error, provider, lang 
         </div>
         <button
           className={`tab ${mode === 'text' ? 'active' : ''}`}
-          onClick={() => { setMode('text'); setShowPdfTooltip(false) }}
+          onClick={() => { setMode('text'); setShowPdfTooltip(false); setLocalError(null) }}
         >
           {t(lang, 'tabText')}
         </button>
