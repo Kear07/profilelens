@@ -1,7 +1,7 @@
 const translations = {
   pt: {
     // Topbar
-    settings: 'Configurações',
+    settings: 'Configurar IA',
 
     // Hero
     heroTitle1: 'Analise seu perfil LinkedIn',
@@ -115,7 +115,7 @@ React, Node.js, TypeScript, Python, AWS, Docker`,
   },
 
   en: {
-    settings: 'Settings',
+    settings: 'Set up AI',
 
     heroTitle1: 'Analyze your LinkedIn profile',
     heroTitle2: 'with artificial intelligence',
