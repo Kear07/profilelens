@@ -65,33 +65,83 @@ body::before {
   position: sticky; top: 0; z-index: 100;
   display: flex; align-items: center; justify-content: space-between;
   padding: 0 clamp(1.5rem, 4vw, 3rem);
-  height: 64px;
-  background: rgba(6,6,11,0.7);
-  backdrop-filter: blur(20px) saturate(180%);
-  border-bottom: 1px solid var(--border);
+  height: 72px;
+  background: rgba(6,6,11,0.82);
+  backdrop-filter: blur(24px) saturate(180%);
+  border-bottom: none;
   transition: all 0.3s ease;
+  /* position context for ::after gradient line */
+}
+.topbar::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--accent) 25%, var(--accent-light) 50%, var(--green) 75%, transparent 100%);
+  opacity: 0.4;
 }
 .logo {
   display: flex; align-items: center; gap: 10px;
-  font-weight: 700; font-size: 1.1rem; letter-spacing: -0.02em;
+  font-weight: 700; font-size: 1.15rem; letter-spacing: -0.02em;
   background: none; border: none; color: var(--text); cursor: pointer;
-  font-family: var(--font);
+  font-family: var(--font); text-decoration: none;
 }
-.logo-icon-img {
-  width: 32px; height: 32px; border-radius: 9px;
-  box-shadow: 0 0 16px var(--accent-glow);
-  transition: transform 0.3s ease;
+.logo-icon-wrap {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: linear-gradient(135deg, var(--accent), var(--green), var(--cyan));
+  background-size: 200% 200%;
+  animation: logoShift 6s ease infinite;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 24px var(--accent-glow), 0 0 8px rgba(0,217,163,0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  flex-shrink: 0;
+  position: relative;
 }
-.logo:hover .logo-icon-img { transform: rotate(-8deg) scale(1.05); }
+@keyframes logoShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+.logo-icon-wrap span {
+  font-size: 1.05rem; font-weight: 800; color: #fff; line-height: 1;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+.logo:hover .logo-icon-wrap {
+  transform: rotate(-8deg) scale(1.08);
+  box-shadow: 0 0 32px var(--accent-glow), 0 0 16px rgba(0,217,163,0.25);
+}
+.logo-icon-img { display: none; }
 
+.nav-actions { display: flex; gap: 10px; align-items: center; }
 .settings-btn {
-  padding: 8px 18px; border-radius: var(--radius-xs);
-  border: none; background: transparent;
+  padding: 8px 14px; border-radius: var(--radius-xs);
+  border: 1px solid transparent; background: transparent;
   font: 500 0.82rem var(--font); color: var(--text-secondary);
   cursor: pointer; transition: all 0.25s ease;
   display: flex; align-items: center; gap: 6px;
 }
-.settings-btn:hover { color: var(--text); background: rgba(255,255,255,0.04); }
+.settings-btn:hover {
+  color: var(--text);
+  background: rgba(255,255,255,0.04);
+  border-color: var(--border-hover);
+}
+.nav-cta {
+  padding: 9px 20px; border-radius: var(--radius-xs); border: none;
+  background: linear-gradient(135deg, var(--accent), var(--accent-light));
+  color: #fff; font: 600 0.82rem var(--font); cursor: pointer;
+  box-shadow: 0 2px 16px var(--accent-glow);
+  transition: all 0.25s ease;
+  position: relative;
+}
+.nav-cta::before {
+  content: ''; position: absolute; inset: -1px; border-radius: inherit;
+  background: linear-gradient(135deg, var(--accent), var(--accent-light));
+  opacity: 0; filter: blur(12px);
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+.nav-cta:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 24px var(--accent-glow);
+}
+.nav-cta:hover::before { opacity: 0.5; }
 
 /* ═══ Footer ═══ */
 .footer {
@@ -592,4 +642,6 @@ body::before {
   .hero-pills { gap: 6px; }
   .pill { font-size: 0.76rem; padding: 6px 12px; }
   .footer { flex-direction: column; gap: 6px; text-align: center; }
+  .nav-cta { display: none; }
+  .settings-btn span { display: none; }
 }

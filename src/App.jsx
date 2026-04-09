@@ -6,7 +6,6 @@ import Loading from './components/Loading'
 import Results from './components/Results'
 import { useAnalysis } from './hooks/useAnalysis'
 import { t } from './i18n'
-import logoImg from './assets/logo.png'
 
 const DEFAULT_SETTINGS = {
   provider: 'mock',
@@ -104,15 +103,24 @@ export default function App() {
     <div className="app">
       <header className="topbar">
         <button className="logo" onClick={() => setScreen('hero')}>
-          <img src={logoImg} alt="ProfileLens" className="logo-icon-img" /> ProfileLens
+          <span className="logo-icon-wrap"><span>P</span></span>
+          ProfileLens
         </button>
-        <button
-          className="settings-btn"
-          onClick={() => setShowSettings(!showSettings)}
-          title={t(lang, 'settings')}
-        >
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style={{ flexShrink: 0 }}><circle cx="9" cy="9" r="2.5" stroke="currentColor" strokeWidth="1.5"/><path d="M9 1.5v2M9 14.5v2M1.5 9h2M14.5 9h2M3.7 3.7l1.4 1.4M12.9 12.9l1.4 1.4M3.7 14.3l1.4-1.4M12.9 5.1l1.4-1.4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg> {t(lang, 'settings')}
-        </button>
+        <div className="nav-actions">
+          <button
+            className="settings-btn"
+            onClick={() => setShowSettings(!showSettings)}
+            title={t(lang, 'settings')}
+          >
+            <svg width="16" height="16" viewBox="0 0 18 18" fill="none" style={{ flexShrink: 0 }}><circle cx="9" cy="9" r="2.5" stroke="currentColor" strokeWidth="1.5"/><path d="M9 1.5v2M9 14.5v2M1.5 9h2M14.5 9h2M3.7 3.7l1.4 1.4M12.9 12.9l1.4 1.4M3.7 14.3l1.4-1.4M12.9 5.1l1.4-1.4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+            {t(lang, 'settings')}
+          </button>
+          {screen === 'hero' && (
+            <button className="nav-cta" onClick={() => setScreen('input')}>
+              {lang === 'pt' ? 'Analisar gratis' : 'Analyze free'}
+            </button>
+          )}
+        </div>
       </header>
 
       {showSettings && (
