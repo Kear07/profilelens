@@ -206,7 +206,7 @@ function getUserMessageWithScores(profileText, lang, targetScores) {
 // Unified provider call: handles Gemini and OpenAI-compatible APIs
 const FETCH_TIMEOUT_MS = 60_000
 const MAX_RETRIES = 3
-const GEMINI_FALLBACK_MODELS = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash']
+const GEMINI_FALLBACK_MODELS = ['gemini-2.5-flash']
 
 function fetchWithTimeout(url, opts) {
   const controller = new AbortController()
