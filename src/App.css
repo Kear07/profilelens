@@ -257,6 +257,10 @@ body::before {
   padding: 2px 8px; border-radius: 4px; color: var(--accent-light);
   font-size: 0.78rem; font-weight: 500;
 }
+.hero-counter {
+  font-size: 0.8rem; color: var(--text-muted);
+  display: flex; align-items: center; gap: 4px;
+}
 
 /* Feature pills */
 .hero-pills {

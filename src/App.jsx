@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import Hero from './components/Hero'
 import ProfileInput from './components/ProfileInput'
 import Settings from './components/Settings'
@@ -6,6 +6,7 @@ import Loading from './components/Loading'
 import Results from './components/Results'
 import { useAnalysis } from './hooks/useAnalysis'
 import { t } from './i18n'
+import { getCount, incrementCount } from './services/counter'
 
 const DEFAULT_SETTINGS = {
   provider: 'mock',
@@ -41,11 +42,14 @@ export default function App() {
   const [showSettings, setShowSettings] = useState(false)
   const [lang, setLang] = useState(loadLang)
   const [analysisDone, setAnalysisDone] = useState(false)
+  const [userCount, setUserCount] = useState(null)
   const { analyze, result, error } = useAnalysis()
 
   const lastProfileText = useRef('')
   const langRef = useRef(loadLang())
   const analysisCounter = useRef(0)
+
+  useEffect(() => { getCount().then(c => { if (c) setUserCount(c) }) }, [])
 
   const handleLangChange = async (newLang) => {
     setLang(newLang)
@@ -85,6 +89,7 @@ export default function App() {
       await analyze(profileText, settings, currentLang)
       if (analysisCounter.current === myId) {
         setAnalysisDone(true)
+        incrementCount().then(c => { if (c) setUserCount(c) })
         await new Promise((r) => setTimeout(r, 600))
         if (analysisCounter.current === myId) setScreen('results')
       }
@@ -135,7 +140,7 @@ export default function App() {
       )}
 
       <main className="main">
-        {screen === 'hero' && <Hero onStart={() => setScreen('input')} lang={lang} />}
+        {screen === 'hero' && <Hero onStart={() => setScreen('input')} lang={lang} userCount={userCount} />}
         {screen === 'input' && (
           <ProfileInput
             onAnalyze={handleAnalyze}

@@ -12,7 +12,7 @@ const pillIcons = [
 const pillColors = ['var(--accent-soft)', 'var(--green-soft)', 'var(--cyan-soft)']
 const pillTextColors = ['var(--accent-light)', 'var(--green)', 'var(--cyan)']
 
-export default function Hero({ onStart, lang }) {
+export default function Hero({ onStart, lang, userCount }) {
   const chips = t(lang, 'heroChips')
   const providers = t(lang, 'heroProviders')
 
@@ -47,6 +47,15 @@ export default function Hero({ onStart, lang }) {
         <span className="hero-cta-hint">
           {providers[0]}<code>{providers[1]}</code>{providers[2]}
         </span>
+        {userCount > 0 && (
+          <span className="hero-counter">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" style={{ verticalAlign: '-2px' }}><path d="M8 1.5a3.5 3.5 0 100 7 3.5 3.5 0 000-7zM2.5 13.5c0-2.5 2-4 5.5-4s5.5 1.5 5.5 4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/></svg>
+            {' '}{userCount.toLocaleString()}{' '}
+            {lang === 'pt'
+              ? (userCount === 1 ? 'perfil analisado' : 'perfis analisados')
+              : (userCount === 1 ? 'profile analyzed' : 'profiles analyzed')}
+          </span>
+        )}
       </div>
 
       <div className="hero-pills">
