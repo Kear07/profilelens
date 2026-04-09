@@ -1,11 +1,14 @@
 import { useEffect, useState, useRef } from 'react'
 import { t } from '../i18n'
 
-export default function Loading({ lang, done }) {
+const SAFETY_TIMEOUT_MS = 90_000
+
+export default function Loading({ lang, done, onTimeout }) {
   const tips = t(lang, 'loadingTips')
   const [tipIdx, setTipIdx] = useState(0)
   const [simulatedProgress, setSimulatedProgress] = useState(0)
   const [tipVisible, setTipVisible] = useState(true)
+  const [timedOut, setTimedOut] = useState(false)
   const elapsed = useRef(0)
 
   useEffect(() => {
@@ -29,13 +32,27 @@ export default function Loading({ lang, done }) {
       })
     }, 500)
 
+    const safetyTimer = setTimeout(() => {
+      if (!done) {
+        setTimedOut(true)
+        if (onTimeout) onTimeout()
+      }
+    }, SAFETY_TIMEOUT_MS)
+
     return () => {
       clearInterval(tipTimer)
       clearInterval(progTimer)
+      clearTimeout(safetyTimer)
     }
-  }, [tips.length])
+  }, [tips.length, done, onTimeout])
 
   const progress = done ? 100 : simulatedProgress
+
+  const statusText = timedOut
+    ? (lang === 'pt' ? 'Demorou demais... tente novamente' : 'Taking too long... please retry')
+    : done
+      ? (lang === 'pt' ? 'Pronto!' : 'Done!')
+      : tips[tipIdx]
 
   return (
     <section className="loading-section fade-up">
@@ -62,7 +79,7 @@ export default function Loading({ lang, done }) {
         <span className="ring-percent">{Math.round(progress)}%</span>
       </div>
       <p className={`loading-tip ${tipVisible ? 'tip-visible' : 'tip-hidden'}`}>
-        {done ? (lang === 'pt' ? 'Pronto!' : 'Done!') : tips[tipIdx]}
+        {statusText}
       </p>
     </section>
   )

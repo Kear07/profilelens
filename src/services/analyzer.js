@@ -204,13 +204,21 @@ function getUserMessageWithScores(profileText, lang, targetScores) {
 }
 
 // Unified provider call: handles Gemini and OpenAI-compatible APIs
+const FETCH_TIMEOUT_MS = 60_000
+
+function fetchWithTimeout(url, opts) {
+  const controller = new AbortController()
+  const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS)
+  return fetch(url, { ...opts, signal: controller.signal }).finally(() => clearTimeout(timer))
+}
+
 async function callProvider(provider, apiKey, model, baseUrl, systemPrompt, userMessage) {
   if (provider === 'gemini') {
     const modelId = model || 'gemini-2.5-flash'
     const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelId}:generateContent`
     const cleanMsg = userMessage.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g, ' ').trim()
 
-    const res = await fetch(`${url}?key=${encodeURIComponent(apiKey)}`, {
+    const res = await fetchWithTimeout(`${url}?key=${encodeURIComponent(apiKey)}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -244,7 +252,7 @@ async function callProvider(provider, apiKey, model, baseUrl, systemPrompt, user
   // OpenAI-compatible (custom provider)
   const url = baseUrl ? `${baseUrl.replace(/\/$/, '')}/chat/completions` : 'https://api.openai.com/v1/chat/completions'
 
-  const res = await fetch(url, {
+  const res = await fetchWithTimeout(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${apiKey}` },
     body: JSON.stringify({
@@ -275,6 +283,11 @@ async function callProvider(provider, apiKey, model, baseUrl, systemPrompt, user
 function humanizeError(err, lang) {
   const msg = err.message || ''
   const pt = lang === 'pt'
+  if (err.name === 'AbortError' || msg.includes('abort')) {
+    return pt
+      ? 'A analise demorou demais e foi cancelada. Tente novamente ou escolha um modelo mais rapido em Configuracoes.'
+      : 'Analysis timed out. Please try again or pick a faster model in Settings.'
+  }
   if (msg === 'INVALID_KEY:gemini') {
     return pt
       ? 'Gemini API Key inválida. Verifique sua key em aistudio.google.com/apikey e salve novamente em Configurações.'

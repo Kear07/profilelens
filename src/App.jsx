@@ -143,7 +143,7 @@ export default function App() {
             lang={lang}
           />
         )}
-        {screen === 'loading' && <Loading lang={lang} done={analysisDone} />}
+        {screen === 'loading' && <Loading lang={lang} done={analysisDone} onTimeout={() => setScreen('input')} />}
         {screen === 'results' && result && (
           <Results data={result} onReset={handleReset} lang={lang} />
         )}
