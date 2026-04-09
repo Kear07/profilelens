@@ -152,29 +152,39 @@ export default function App() {
       <button
         className="lang-toggle"
         onClick={() => handleLangChange(lang === 'pt' ? 'en' : 'pt')}
-        title={lang === 'pt' ? 'Switch to English' : 'Mudar para Português'}
+        title={lang === 'pt' ? 'Switch to English' : 'Mudar para Portugues'}
       >
         {lang === 'pt' ? (
           <svg width="24" height="24" viewBox="0 0 24 24">
-            <clipPath id="flagClip"><circle cx="12" cy="12" r="11"/></clipPath>
-            <g clipPath="url(#flagClip)">
-              <rect width="24" height="24" fill="#009739"/>
-              <path d="M12 3L22 12L12 21L2 12Z" fill="#FEDD00"/>
-              <circle cx="12" cy="12" r="4" fill="#012169"/>
+            <defs><clipPath id="fc"><circle cx="12" cy="12" r="11"/></clipPath></defs>
+            <g clipPath="url(#fc)">
+              <rect width="24" height="24" fill="#009c3b"/>
+              <path d="M12 3.5L22.5 12 12 20.5 1.5 12Z" fill="#ffdf00"/>
+              <circle cx="12" cy="12" r="4.2" fill="#002776"/>
+              <path d="M8.2 13.2c0 0 1.5-2.2 3.8-2.2s3.8 2.2 3.8 2.2" fill="none" stroke="#fff" strokeWidth="0.5"/>
+              <rect x="8" y="11.6" width="8" height="0.6" rx="0.3" fill="#fff" opacity="0.9"/>
             </g>
-            <circle cx="12" cy="12" r="11" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="1"/>
+            <circle cx="12" cy="12" r="11" fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="0.8"/>
           </svg>
         ) : (
           <svg width="24" height="24" viewBox="0 0 24 24">
-            <clipPath id="flagClip2"><circle cx="12" cy="12" r="11"/></clipPath>
-            <g clipPath="url(#flagClip2)">
-              <rect width="24" height="24" fill="#B22234"/>
-              <rect y="1.8" width="24" height="1.8" fill="white"/><rect y="5.5" width="24" height="1.8" fill="white"/>
-              <rect y="9.2" width="24" height="1.8" fill="white"/><rect y="12.9" width="24" height="1.8" fill="white"/>
-              <rect y="16.5" width="24" height="1.8" fill="white"/><rect y="20.2" width="24" height="1.8" fill="white"/>
-              <rect width="10" height="13" fill="#3C3B6E"/>
+            <defs><clipPath id="fc2"><circle cx="12" cy="12" r="11"/></clipPath></defs>
+            <g clipPath="url(#fc2)">
+              <rect width="24" height="24" fill="#b22234"/>
+              <rect y="1.85" width="24" height="1.85" fill="#fff"/><rect y="5.54" width="24" height="1.85" fill="#fff"/>
+              <rect y="9.23" width="24" height="1.85" fill="#fff"/><rect y="12.92" width="24" height="1.85" fill="#fff"/>
+              <rect y="16.62" width="24" height="1.85" fill="#fff"/><rect y="20.31" width="24" height="1.85" fill="#fff"/>
+              <rect width="9.6" height="12.92" fill="#3c3b6e"/>
+              <g fill="#fff" opacity="0.9">
+                <circle cx="2.4" cy="2" r="0.55"/><circle cx="4.8" cy="2" r="0.55"/><circle cx="7.2" cy="2" r="0.55"/>
+                <circle cx="1.6" cy="3.7" r="0.55"/><circle cx="3.6" cy="3.7" r="0.55"/><circle cx="5.6" cy="3.7" r="0.55"/><circle cx="7.6" cy="3.7" r="0.55"/>
+                <circle cx="2.4" cy="5.4" r="0.55"/><circle cx="4.8" cy="5.4" r="0.55"/><circle cx="7.2" cy="5.4" r="0.55"/>
+                <circle cx="1.6" cy="7.1" r="0.55"/><circle cx="3.6" cy="7.1" r="0.55"/><circle cx="5.6" cy="7.1" r="0.55"/><circle cx="7.6" cy="7.1" r="0.55"/>
+                <circle cx="2.4" cy="8.8" r="0.55"/><circle cx="4.8" cy="8.8" r="0.55"/><circle cx="7.2" cy="8.8" r="0.55"/>
+                <circle cx="1.6" cy="10.5" r="0.55"/><circle cx="3.6" cy="10.5" r="0.55"/><circle cx="5.6" cy="10.5" r="0.55"/><circle cx="7.6" cy="10.5" r="0.55"/>
+              </g>
             </g>
-            <circle cx="12" cy="12" r="11" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="1"/>
+            <circle cx="12" cy="12" r="11" fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="0.8"/>
           </svg>
         )}
       </button>
