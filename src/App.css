@@ -85,27 +85,16 @@ body::before {
   font-family: var(--font); text-decoration: none;
 }
 .logo-icon-wrap {
-  width: 36px; height: 36px; border-radius: 10px;
-  background: linear-gradient(135deg, var(--accent), var(--green), var(--cyan));
-  background-size: 200% 200%;
-  animation: logoShift 6s ease infinite;
+  width: 34px; height: 34px; border-radius: 10px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-light));
   display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 0 24px var(--accent-glow), 0 0 8px rgba(0,217,163,0.15);
+  box-shadow: 0 0 16px var(--accent-glow);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   flex-shrink: 0;
-  position: relative;
-}
-@keyframes logoShift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-.logo-icon-wrap span {
-  font-size: 1.05rem; font-weight: 800; color: #fff; line-height: 1;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.3);
 }
 .logo:hover .logo-icon-wrap {
-  transform: rotate(-8deg) scale(1.08);
-  box-shadow: 0 0 32px var(--accent-glow), 0 0 16px rgba(0,217,163,0.25);
+  transform: scale(1.06);
+  box-shadow: 0 0 24px var(--accent-glow);
 }
 .logo-icon-img { display: none; }
 

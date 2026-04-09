@@ -103,7 +103,7 @@ export default function App() {
     <div className="app">
       <header className="topbar">
         <button className="logo" onClick={() => setScreen('hero')}>
-          <span className="logo-icon-wrap"><span>P</span></span>
+          <span className="logo-icon-wrap"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="8.5" cy="8.5" r="5.5" stroke="#fff" strokeWidth="2"/><line x1="12.5" y1="12.5" x2="17.5" y2="17.5" stroke="#fff" strokeWidth="2" strokeLinecap="round"/></svg></span>
           ProfileLens
         </button>
         <div className="nav-actions">
