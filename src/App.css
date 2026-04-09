@@ -300,21 +300,43 @@ body::before {
 .step-desc { font: 400 0.75rem var(--font); color: var(--text-muted); }
 
 /* ═══ Input ═══ */
-.input-section { width: 100%; }
-.back-btn { margin-bottom: 0.8rem; }
-.section-title { font-size: 1.35rem; font-weight: 700; margin-bottom: 0.4rem; letter-spacing: -0.02em; }
+.input-section {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2rem 2rem 1.8rem;
+  position: relative;
+  overflow: hidden;
+}
+.input-section::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent-light) 30%, var(--green) 70%, transparent);
+  opacity: 0.5;
+}
+.back-btn { margin-bottom: 1rem; }
+.section-title {
+  font-size: 1.4rem; font-weight: 700; margin-bottom: 0.15rem; letter-spacing: -0.02em;
+  background: linear-gradient(135deg, var(--text) 0%, var(--accent-light) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.input-subtitle {
+  font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.2rem;
+}
 
 .profile-textarea {
   width: 100%;
-  background: var(--bg-card); border: 1px solid var(--border);
+  background: rgba(255,255,255,0.02); border: 1px solid var(--border);
   border-radius: var(--radius-sm); padding: 1.1rem;
   color: var(--text); font-family: var(--font); font-size: 0.9rem;
-  line-height: 1.65; resize: vertical; min-height: 260px;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  line-height: 1.65; resize: vertical; min-height: 240px;
+  transition: border-color 0.25s, box-shadow 0.25s;
 }
 .profile-textarea:focus {
   outline: none; border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-soft), 0 0 20px rgba(108,92,231,0.08);
+  box-shadow: 0 0 0 3px var(--accent-soft), 0 0 24px rgba(108,92,231,0.1);
 }
 .profile-textarea::placeholder { color: var(--text-muted); }
 
@@ -329,7 +351,7 @@ body::before {
 /* Tabs */
 .input-mode-tabs {
   display: flex; gap: 0; margin-bottom: 1rem;
-  background: var(--bg-card); border: 1px solid var(--border);
+  background: rgba(255,255,255,0.02); border: 1px solid var(--border);
   border-radius: var(--radius-sm); padding: 4px;
 }
 .tab {

@@ -21,8 +21,9 @@ const translations = {
     howStep3Desc: 'Textos prontos pra copiar',
 
     // Input
-    back: '← Voltar',
+    back: 'Voltar',
     yourProfile: 'Seu perfil',
+    inputSubtitle: 'Cole o texto ou suba o PDF exportado do LinkedIn',
     tabPdf: 'Upload PDF',
     tabText: 'Colar texto',
     demoBadge: 'Modo demo ativo: cole qualquer texto e veja um resultado de exemplo',
@@ -127,8 +128,9 @@ React, Node.js, TypeScript, Python, AWS, Docker`,
     howStep3Desc: 'Ready-to-paste text',
     howTitle: 'How it works',
 
-    back: '← Back',
+    back: 'Back',
     yourProfile: 'Your profile',
+    inputSubtitle: 'Paste the text or upload your exported LinkedIn PDF',
     tabPdf: 'Upload PDF',
     tabText: 'Paste text',
     demoBadge: 'Demo mode active: paste any text and see a sample result',

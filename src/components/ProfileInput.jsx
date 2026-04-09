@@ -74,10 +74,12 @@ export default function ProfileInput({ onAnalyze, onBack, error, provider, lang 
   return (
     <section className="input-section fade-up">
       <button className="btn-ghost back-btn" onClick={onBack}>
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" style={{ verticalAlign: '-1px', marginRight: '4px' }}><path d="M10 3L5 8l5 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
         {t(lang, 'back')}
       </button>
 
       <h2 className="section-title">{t(lang, 'yourProfile')}</h2>
+      <p className="input-subtitle">{t(lang, 'inputSubtitle')}</p>
 
       <div className="input-mode-tabs">
         <div className="tab-wrapper">
