@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react'
 import { t } from '../i18n'
 
-const SAFETY_TIMEOUT_MS = 90_000
+const SAFETY_TIMEOUT_MS = 180_000
 
 export default function Loading({ lang, done, onTimeout }) {
   const tips = t(lang, 'loadingTips')
@@ -25,10 +25,11 @@ export default function Loading({ lang, done, onTimeout }) {
       setSimulatedProgress((p) => {
         if (p >= 95) return p
         const e = elapsed.current
-        if (e < 2000) return Math.min(p + 8, 30)
-        if (e < 6000) return Math.min(p + 3, 65)
-        if (e < 12000) return Math.min(p + 1.5, 85)
-        return Math.min(p + 0.5, 95)
+        if (e < 3000) return Math.min(p + 5, 25)
+        if (e < 10000) return Math.min(p + 2, 50)
+        if (e < 30000) return Math.min(p + 0.8, 70)
+        if (e < 60000) return Math.min(p + 0.4, 85)
+        return Math.min(p + 0.15, 95)
       })
     }, 500)
 

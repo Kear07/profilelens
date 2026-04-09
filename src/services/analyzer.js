@@ -204,8 +204,8 @@ function getUserMessageWithScores(profileText, lang, targetScores) {
 }
 
 // Unified provider call: handles Gemini and OpenAI-compatible APIs
-const FETCH_TIMEOUT_MS = 60_000
-const MAX_RETRIES = 3
+const FETCH_TIMEOUT_MS = 90_000
+const MAX_RETRIES = 4
 const GEMINI_FALLBACK_MODELS = ['gemini-2.5-flash']
 
 function fetchWithTimeout(url, opts) {
@@ -215,6 +215,8 @@ function fetchWithTimeout(url, opts) {
 }
 
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)) }
+
+const RETRY_DELAYS = [5000, 15000, 30000, 45000]
 
 async function callProvider(provider, apiKey, model, baseUrl, systemPrompt, userMessage) {
   if (provider === 'gemini') {
@@ -257,7 +259,7 @@ async function callProvider(provider, apiKey, model, baseUrl, systemPrompt, user
           if (status === 429 || status === 503 || msg.includes('overloaded') || msg.includes('RESOURCE_EXHAUSTED')) {
             lastError = new Error('OVERLOADED:gemini')
             if (attempt < MAX_RETRIES - 1) {
-              await sleep(2000 * (attempt + 1))
+              await sleep(RETRY_DELAYS[attempt] || 30000)
               continue
             }
             break // try next model
@@ -269,7 +271,7 @@ async function callProvider(provider, apiKey, model, baseUrl, systemPrompt, user
           lastError = e
           if (e.name === 'AbortError') break // timeout, try next model
           if (attempt < MAX_RETRIES - 1) {
-            await sleep(2000 * (attempt + 1))
+            await sleep(RETRY_DELAYS[attempt] || 30000)
           }
         }
       }
