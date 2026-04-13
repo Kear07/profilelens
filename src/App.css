@@ -477,7 +477,7 @@ body::before {
 .score-label { font: 500 0.78rem var(--font); color: var(--text-muted); margin-top: 0.4rem; }
 
 /* Section cards */
-.sections-grid { display: flex; flex-direction: column; gap: 6px; }
+.sections-grid { display: flex; flex-direction: column; gap: 14px; }
 .section-card {
   background: var(--bg-card); border: 1px solid var(--border);
   border-radius: var(--radius); padding: 0;
