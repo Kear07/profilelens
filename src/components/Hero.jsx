@@ -6,6 +6,12 @@ export default function Hero({ onStart, lang, userCount }) {
       <div className="hero-badge">
         <span className="hero-badge-dot" />
         {lang === 'pt' ? 'Powered by Gemini · 100% gratuito' : 'Powered by Gemini · 100% free'}
+        {userCount > 0 && (
+          <span className="hero-badge-sep">{' · '}</span>
+        )}
+        {userCount > 0 && (
+          <span>{userCount.toLocaleString()} {lang === 'pt' ? (userCount === 1 ? 'perfil analisado' : 'perfis analisados') : (userCount === 1 ? 'profile analyzed' : 'profiles analyzed')}</span>
+        )}
       </div>
 
       <h1 className="hero-title">
@@ -29,15 +35,6 @@ export default function Hero({ onStart, lang, userCount }) {
           {t(lang, 'heroBtn')}
           <svg className="arrow-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </button>
-        {userCount > 0 && (
-          <span className="hero-counter">
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" style={{ verticalAlign: '-2px' }}><path d="M8 1.5a3.5 3.5 0 100 7 3.5 3.5 0 000-7zM2.5 13.5c0-2.5 2-4 5.5-4s5.5 1.5 5.5 4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/></svg>
-            {' '}{userCount.toLocaleString()}{' '}
-            {lang === 'pt'
-              ? (userCount === 1 ? 'perfil analisado' : 'perfis analisados')
-              : (userCount === 1 ? 'profile analyzed' : 'profiles analyzed')}
-          </span>
-        )}
       </div>
 
       <div className="hero-steps">
