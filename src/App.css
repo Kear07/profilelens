@@ -230,7 +230,7 @@ body::before {
 .hero-title {
   font-size: clamp(2.4rem, 5.5vw, 3.8rem); font-weight: 800;
   line-height: 1.06; letter-spacing: -0.035em;
-  max-width: 700px; margin: 0 auto;
+  max-width: 820px; margin: 0 auto;
   position: relative;
 }
 .hero-title-gradient {
@@ -241,7 +241,7 @@ body::before {
 
 .hero-sub {
   font-size: clamp(0.95rem, 1.8vw, 1.15rem); color: var(--text-secondary);
-  max-width: 520px; margin: 2rem auto 0; line-height: 1.7; font-weight: 400;
+  max-width: 620px; margin: 2rem auto 0; line-height: 1.7; font-weight: 400;
   position: relative;
 }
 .hero-sub strong { color: var(--text); font-weight: 600; }
