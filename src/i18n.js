@@ -8,7 +8,7 @@ const translations = {
     heroTitle2: 'com inteligência artificial',
     heroSubtitle: 'Descubra em 30 segundos o que recrutadores realmente pensam do seu perfil. Score detalhado + sugestões prontas pra copiar.',
     heroChips: ['Score detalhado', 'Sugestões reescritas', '100% no navegador'],
-    heroBtn: 'Ver meu score grátis',
+    heroBtn: 'Analisar agora',
     heroProviders: ['Funciona com ', 'Gemini (grátis)', ' ou qualquer API compatível'],
 
     // How it works
@@ -122,7 +122,7 @@ React, Node.js, TypeScript, Python, AWS, Docker`,
     heroTitle2: 'with artificial intelligence',
     heroSubtitle: 'Find out in 30 seconds what recruiters really think of your profile. Detailed score + ready-to-paste suggestions.',
     heroChips: ['Detailed score', 'Rewritten suggestions', '100% in browser'],
-    heroBtn: 'See my score for free',
+    heroBtn: 'Analyze now',
     heroProviders: ['Works with ', 'Gemini (free)', ' or any compatible API'],
 
     howStep1Label: 'Paste your profile',
