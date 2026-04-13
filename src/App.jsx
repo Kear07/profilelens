@@ -107,7 +107,7 @@ export default function App() {
   return (
     <div className="app">
       <header className="topbar">
-        <button className="logo" onClick={() => setScreen('hero')}>
+        <button className={`logo${screen === 'hero' ? ' logo-static' : ''}`} onClick={() => setScreen('hero')} disabled={screen === 'hero'}>
           <span className="logo-icon-wrap"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="8.5" cy="8.5" r="5.5" stroke="#fff" strokeWidth="2"/><line x1="12.5" y1="12.5" x2="17.5" y2="17.5" stroke="#fff" strokeWidth="2" strokeLinecap="round"/></svg></span>
           ProfileLens
         </button>

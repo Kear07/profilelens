@@ -62,7 +62,7 @@ body::before {
 
 /* ═══ Topbar ═══ */
 .topbar {
-  position: sticky; top: 0; z-index: 100;
+  position: relative; z-index: 100;
   display: flex; align-items: center; justify-content: space-between;
   padding: 0 clamp(1.5rem, 4vw, 3rem);
   height: 72px;
@@ -96,6 +96,8 @@ body::before {
   transform: scale(1.06);
   box-shadow: 0 0 24px var(--accent-glow);
 }
+.logo-static { cursor: default; opacity: 1; }
+.logo-static:hover .logo-icon-wrap { transform: none; box-shadow: 0 0 16px var(--accent-glow); }
 .logo-icon-img { display: none; }
 
 .nav-actions { display: flex; gap: 10px; align-items: center; }
@@ -134,9 +136,9 @@ body::before {
 
 /* ═══ Footer ═══ */
 .footer {
-  padding: 20px clamp(1.5rem, 4vw, 3rem);
+  padding: 32px clamp(1.5rem, 4vw, 3rem) 40px;
   border-top: 1px solid var(--border);
-  display: flex; justify-content: space-between; align-items: center;
+  display: flex; justify-content: center; align-items: center;
   font: 400 0.82rem var(--font); color: var(--text-muted);
 }
 .footer strong { color: var(--text-secondary); font-weight: 600; }
