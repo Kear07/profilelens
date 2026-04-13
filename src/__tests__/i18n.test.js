@@ -3,11 +3,11 @@ import { t } from '../i18n'
 
 describe('i18n', () => {
   it('returns PT-BR translation for known key', () => {
-    expect(t('pt', 'heroBtn')).toBe('Ver meu score grátis')
+    expect(t('pt', 'heroBtn')).toBe('Analisar agora')
   })
 
   it('returns EN translation for known key', () => {
-    expect(t('en', 'heroBtn')).toBe('See my score for free')
+    expect(t('en', 'heroBtn')).toBe('Analyze now')
   })
 
   it('falls back to PT-BR when EN key is missing', () => {
@@ -22,7 +22,7 @@ describe('i18n', () => {
   })
 
   it('handles unknown language by falling back to PT-BR', () => {
-    expect(t('fr', 'heroBtn')).toBe('Ver meu score grátis')
+    expect(t('fr', 'heroBtn')).toBe('Analisar agora')
   })
 
   it('has matching keys in PT and EN', () => {
