@@ -36,6 +36,11 @@ export default function Results({ data, onReset, lang }) {
         <button className="btn-primary" onClick={onReset}>
           {t(lang, 'analyzeAnother')}
         </button>
+        <p className="results-disclaimer">
+          {lang === 'pt'
+            ? 'Scores podem variar levemente entre an\u00e1lises. Modelos mais leves tendem a gerar resultados menos precisos.'
+            : 'Scores may vary slightly between analyses. Lighter models tend to produce less accurate results.'}
+        </p>
       </div>
     </section>
   )
