@@ -202,6 +202,7 @@ React, Node.js, TypeScript, Python, AWS, Docker`,
     cancel: 'Cancel',
     save: 'Save',
     geminiHint: 'Free: get your key at aistudio.google.com/apikey',
+    modelHint: 'Lighter models may produce less detailed analyses.',
     keyPrivacy: 'Your key stays in your browser only, never sent to third parties',
 
     madeBy: 'Made by',

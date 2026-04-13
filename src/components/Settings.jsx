@@ -125,6 +125,7 @@ export default function Settings({ settings, onChange, onClose, lang }) {
                 <label className="field">
                   <span>{t(lang, 'model')}</span>
                   {provider.models.length > 0 ? (
+                    <>
                     <div className="model-list">
                       {provider.models.map((m) => (
                         <button
@@ -138,6 +139,8 @@ export default function Settings({ settings, onChange, onClose, lang }) {
                         </button>
                       ))}
                     </div>
+                    <small className="field-hint">{t(lang, 'modelHint')}</small>
+                    </>
                   ) : (
                     <input
                       type="text"
