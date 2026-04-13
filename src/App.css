@@ -600,8 +600,8 @@ body::before {
 .provider-info strong { font-size: 0.86rem; font-weight: 600; }
 .provider-info span { font-size: 0.73rem; color: var(--text-muted); }
 
-.settings-fields { padding-top: 0.8rem; border-top: 1px solid var(--border); }
-.field { display: block; margin-bottom: 0.9rem; }
+.settings-fields { padding-top: 1rem; border-top: 1px solid var(--border); }
+.field { display: block; margin-bottom: 1.1rem; }
 .field span { display: block; font-size: 0.82rem; font-weight: 500; margin-bottom: 0.35rem; color: var(--text-secondary); }
 .field input {
   width: 100%; padding: 9px 12px;
@@ -656,3 +656,4 @@ body::before {
   .nav-cta { display: none; }
   .settings-btn span { display: none; }
 }
+
