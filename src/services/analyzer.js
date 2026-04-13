@@ -245,7 +245,14 @@ async function callProvider(provider, apiKey, model, baseUrl, systemPrompt, user
             const data = await res.json()
             const content = data.candidates?.[0]?.content?.parts?.[0]?.text
             if (!content) throw new Error('EMPTY_RESPONSE')
-            return JSON.parse(content)
+            try {
+              return JSON.parse(content)
+            } catch {
+              // Try to extract JSON from markdown fences
+              const match = content.match(/```(?:json)?\s*([\s\S]*?)```/)
+              if (match) return JSON.parse(match[1].trim())
+              throw new Error('INVALID_JSON')
+            }
           }
 
           const err = await res.json().catch(() => ({}))
@@ -310,7 +317,13 @@ async function callProvider(provider, apiKey, model, baseUrl, systemPrompt, user
   const data = await res.json()
   const content = data.choices?.[0]?.message?.content
   if (!content) throw new Error('EMPTY_RESPONSE')
-  return JSON.parse(content)
+  try {
+    return JSON.parse(content)
+  } catch {
+    const match = content.match(/```(?:json)?\s*([\s\S]*?)```/)
+    if (match) return JSON.parse(match[1].trim())
+    throw new Error('INVALID_JSON')
+  }
 }
 
 function humanizeError(err, lang) {
@@ -345,6 +358,11 @@ function humanizeError(err, lang) {
     return pt
       ? 'A IA não retornou resposta. Tente novamente.'
       : 'The AI returned an empty response. Please try again.'
+  }
+  if (msg === 'INVALID_JSON') {
+    return pt
+      ? 'A IA retornou uma resposta em formato inválido. Tente novamente.'
+      : 'The AI returned an invalid format. Please try again.'
   }
   if (msg.includes('Failed to fetch') || msg.includes('NetworkError') || msg.includes('fetch')) {
     return pt

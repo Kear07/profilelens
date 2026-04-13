@@ -95,6 +95,8 @@ export default function App() {
       }
     } catch {
       if (analysisCounter.current === myId) {
+        // Small delay so error state from useAnalysis propagates before screen change
+        await new Promise((r) => setTimeout(r, 100))
         setScreen('input')
       }
     }
