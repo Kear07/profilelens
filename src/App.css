@@ -55,7 +55,7 @@ body::before {
 /* ═══ Layout ═══ */
 .app { display: flex; flex-direction: column; min-height: 100vh; }
 .main {
-  flex: 1; display: flex; align-items: center; justify-content: center;
+  flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
   padding: 2.5rem clamp(1.5rem, 4vw, 3rem);
   max-width: 880px; margin: 0 auto; width: 100%;
 }
@@ -321,7 +321,7 @@ body::before {
   background: linear-gradient(90deg, transparent, var(--accent-light) 30%, var(--green) 70%, transparent);
   opacity: 0.5;
 }
-.back-btn { margin-bottom: 1rem; }
+.back-btn { margin-bottom: 0.5rem; align-self: flex-start; }
 .section-title {
   font-size: 1.4rem; font-weight: 700; margin-bottom: 0.15rem; letter-spacing: -0.02em;
   background: linear-gradient(135deg, var(--text) 0%, var(--accent-light) 100%);

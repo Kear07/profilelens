@@ -75,11 +75,12 @@ export default function ProfileInput({ onAnalyze, onBack, error, provider, lang 
   // Demo mode: simple card with one button
   if (isDemo) {
     return (
+      <>
+      <button className="btn-ghost back-btn fade-up" onClick={onBack}>
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" style={{ verticalAlign: '-1px', marginRight: '4px' }}><path d="M10 3L5 8l5 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
+        {t(lang, 'back')}
+      </button>
       <section className="input-section fade-up">
-        <button className="btn-ghost back-btn" onClick={onBack}>
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" style={{ verticalAlign: '-1px', marginRight: '4px' }}><path d="M10 3L5 8l5 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
-          {t(lang, 'back')}
-        </button>
 
         <div className="demo-card">
           <h2 className="section-title">{t(lang, 'demoTitle')}</h2>
@@ -91,17 +92,18 @@ export default function ProfileInput({ onAnalyze, onBack, error, provider, lang 
           <p className="demo-hint">{t(lang, 'demoHint')}</p>
         </div>
       </section>
+      </>
     )
   }
 
   // Real mode: PDF or text input
   return (
+    <>
+    <button className="btn-ghost back-btn fade-up" onClick={onBack}>
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" style={{ verticalAlign: '-1px', marginRight: '4px' }}><path d="M10 3L5 8l5 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
+      {t(lang, 'back')}
+    </button>
     <section className="input-section fade-up">
-      <button className="btn-ghost back-btn" onClick={onBack}>
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" style={{ verticalAlign: '-1px', marginRight: '4px' }}><path d="M10 3L5 8l5 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
-        {t(lang, 'back')}
-      </button>
-
       <h2 className="section-title">{t(lang, 'yourProfile')}</h2>
       <p className="input-subtitle">{t(lang, 'inputSubtitle')}</p>
 
@@ -174,5 +176,6 @@ export default function ProfileInput({ onAnalyze, onBack, error, provider, lang 
         </form>
       )}
     </section>
+    </>
   )
 }
