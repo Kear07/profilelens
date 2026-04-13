@@ -37,9 +37,7 @@ export default function Results({ data, onReset, lang }) {
           {t(lang, 'analyzeAnother')}
         </button>
         <p className="results-disclaimer">
-          {lang === 'pt'
-            ? 'Scores podem variar levemente entre an\u00e1lises. Modelos mais leves tendem a gerar resultados menos precisos.'
-            : 'Scores may vary slightly between analyses. Lighter models tend to produce less accurate results.'}
+          {t(lang, 'resultsDisclaimer')}
         </p>
       </div>
     </section>

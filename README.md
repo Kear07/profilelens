@@ -35,9 +35,11 @@ Your data stays in the browser. API keys are stored locally, never sent to any s
 
 | Provider | Models | Cost |
 |----------|--------|------|
-| **Google Gemini** | Gemini 2.5 Flash, 2.5 Pro, 2.5 Flash-Lite, 3 Flash, 3.1 Pro, 3.1 Flash-Lite | Free tier available |
+| **Google Gemini** | Gemini 2.5 Flash, 2.5 Pro, 2.0 Flash, 2.0 Flash-Lite + custom model input | Free tier available |
 | **Custom** | Any OpenAI-compatible API (OpenAI, Anthropic via proxy, Ollama, LM Studio, etc.) | Varies |
 | **Demo** | Mock result to test the interface | Free |
+
+The Gemini selector shows 4 curated models by default. You can also type any valid Gemini model ID manually — it's validated against the API before saving (must exist and support text generation).
 
 ## Scoring
 
@@ -102,6 +104,7 @@ src/
 ├── services/
 │   ├── analyzer.js         # Unified provider caller + persistent cache
 │   ├── counter.js          # User counter via counterapi.dev
+│   ├── geminiModels.js     # Dynamic model fetch, allowlist + custom validation
 │   └── pdfParser.js        # Client-side PDF extraction with retry
 ├── data/
 │   └── mockAnalysis.js     # Bilingual mock data for demo mode

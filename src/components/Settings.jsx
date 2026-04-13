@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { t } from '../i18n'
-import { fetchGeminiModels, FALLBACK_MODELS } from '../services/geminiModels'
+import { fetchGeminiModels, validateGeminiModel, FALLBACK_MODELS } from '../services/geminiModels'
 
 function getProviders(lang) {
   return [
@@ -33,6 +33,9 @@ export default function Settings({ settings, onChange, onClose, lang }) {
   const [local, setLocal] = useState({ ...settings })
   const [geminiModels, setGeminiModels] = useState(FALLBACK_MODELS)
   const [loadingModels, setLoadingModels] = useState(false)
+  const [customInput, setCustomInput] = useState('')
+  const [validating, setValidating] = useState(false)
+  const [modelError, setModelError] = useState('')
   const fetchedKey = useRef('')
 
   const PROVIDERS = getProviders(lang)
@@ -61,14 +64,44 @@ export default function Settings({ settings, onChange, onClose, lang }) {
       model: p?.defaultModel || '',
       baseUrl: '',
     })
+    setCustomInput('')
+    setModelError('')
     if (id !== 'gemini') {
       setGeminiModels(FALLBACK_MODELS)
       fetchedKey.current = ''
     }
   }
 
-  const handleSave = () => {
-    onChange(local)
+  const isCustomModel = local.provider === 'gemini' && customInput.trim() !== ''
+
+  const handleSave = async () => {
+    setModelError('')
+
+    // If user typed a custom Gemini model, validate it first
+    if (isCustomModel) {
+      const modelId = customInput.trim()
+      const key = local.apiKey?.trim()
+      if (!key || key.length < 10) {
+        setModelError(t(lang, 'customModelNetwork'))
+        return
+      }
+
+      setValidating(true)
+      const result = await validateGeminiModel(key, modelId)
+      setValidating(false)
+
+      if (!result.valid) {
+        setModelError(
+          result.reason === 'network'
+            ? t(lang, 'customModelNetwork')
+            : t(lang, 'customModelInvalid')
+        )
+        return
+      }
+      onChange({ ...local, model: modelId })
+    } else {
+      onChange(local)
+    }
     onClose()
   }
 
@@ -148,14 +181,24 @@ export default function Settings({ settings, onChange, onClose, lang }) {
                         <button
                           key={m.id}
                           type="button"
-                          className={`model-item ${local.model === m.id ? 'active' : ''}`}
-                          onClick={() => update('model', m.id)}
+                          className={`model-item ${local.model === m.id && !customInput ? 'active' : ''}`}
+                          onClick={() => { update('model', m.id); setCustomInput(''); setModelError('') }}
                         >
                           <span className="model-name">{m.label}</span>
                           {m.note && <span className="model-note">{m.note}</span>}
                         </button>
                       ))}
                     </div>
+                    {local.provider === 'gemini' && (
+                      <input
+                        type="text"
+                        className="custom-model-input"
+                        value={customInput}
+                        onChange={(e) => { setCustomInput(e.target.value); setModelError('') }}
+                        placeholder={t(lang, 'customModelPlaceholder')}
+                      />
+                    )}
+                    {modelError && <small className="field-error">{modelError}</small>}
                     <small className="field-hint">{t(lang, 'modelHint')}</small>
                     </>
                   ) : (
@@ -173,7 +216,9 @@ export default function Settings({ settings, onChange, onClose, lang }) {
         </div>
 
         <div className="settings-footer">
-          <button className="btn-primary" onClick={handleSave}>{t(lang, 'save')}</button>
+          <button className="btn-primary" onClick={handleSave} disabled={validating}>
+            {validating ? t(lang, 'validatingModel') : t(lang, 'save')}
+          </button>
         </div>
       </div>
     </div>

@@ -67,8 +67,9 @@ export default function App() {
           if (analysisCounter.current === myId) setScreen('results')
         }
       } catch {
+        // error state is set by useAnalysis hook, stay on results to show it
         if (analysisCounter.current === myId) {
-          setScreen('results')
+          setScreen('input')
         }
       }
     }
@@ -154,7 +155,7 @@ export default function App() {
       <button
         className="lang-toggle"
         onClick={() => handleLangChange(lang === 'pt' ? 'en' : 'pt')}
-        title={lang === 'pt' ? 'Switch to English' : 'Mudar para Portugues'}
+        title={lang === 'pt' ? 'Switch to English' : 'Mudar para Português'}
       >
         {lang === 'pt' ? (
           <svg width="32" height="32" viewBox="0 0 24 24">

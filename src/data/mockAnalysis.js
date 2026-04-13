@@ -22,7 +22,7 @@ const MOCK_PT = {
         'Nos últimos 5 anos, ajudei [N] empresas a escalar suas plataformas de [X] para [Y] milhões de usuários. Minha especialidade: pegar sistemas legados que travam a operação e transformá-los em arquiteturas modernas, escaláveis e observáveis.\n\nHoje como Engenheiro Sênior na [Empresa], lidero um squad de [N] pessoas responsável por [produto/sistema], que processa [volume] transações por dia. Antes disso, na [Empresa anterior], fui o engenheiro principal da migração de monolito para microsserviços que reduziu o tempo de deploy de 4h para 15min.\n\nStack principal: React, Node.js, TypeScript, Python, AWS (ECS, Lambda, DynamoDB), Kafka, Terraform.\n\nBuscando minha próxima oportunidade como Senior/Staff Engineer em produto de alto impacto. Vamos conversar? Me mande uma mensagem.',
     },
     {
-      title: 'Experiencia',
+      title: 'Experiência',
       score: 50,
       status: 'Precisa de métricas',
       feedback:
@@ -31,7 +31,7 @@ const MOCK_PT = {
         '[Empresa X] | Engenheiro de Software Sênior | Jan 2022, presente\n\n> Lidero squad de 5 engenheiros responsável pelo [produto], que processa [X]M transações/mês\n\n- Arquitetei a migração de monolito para 8 microsserviços, reduzindo deploy time de 4h para 15min e aumentando uptime de 99.2% para 99.95%\n- Implementei pipeline de CI/CD que cortou o ciclo de release de 2 semanas para deploy contínuo (15+ deploys/semana)\n- Reduzi custo de infraestrutura em [X]% otimizando queries e implementando cache distribuído com Redis\n- Mentorei 3 desenvolvedores juniores, 2 dos quais foram promovidos a pleno em 12 meses',
     },
     {
-      title: 'Habilidades e Recomendacoes',
+      title: 'Habilidades e Recomendações',
       score: 65,
       status: 'Bom, falta endosso social',
       feedback:
@@ -39,7 +39,7 @@ const MOCK_PT = {
       suggestion: null,
     },
     {
-      title: 'Formacao e Certificacoes',
+      title: 'Formação e Certificações',
       score: 60,
       status: 'Pode fortalecer',
       feedback:
@@ -47,7 +47,7 @@ const MOCK_PT = {
       suggestion: null,
     },
     {
-      title: 'Posicionamento Estrategico',
+      title: 'Posicionamento Estratégico',
       score: 52,
       status: 'Narrativa fragmentada',
       feedback:
@@ -141,4 +141,3 @@ export function getMockAnalysis(lang) {
     : { ...MOCK_PT, sections: MOCK_PT.sections.map(s => ({...s})), tips: [...MOCK_PT.tips] }
 }
 
-export const MOCK_ANALYSIS = MOCK_PT

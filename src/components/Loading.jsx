@@ -50,9 +50,9 @@ export default function Loading({ lang, done, onTimeout }) {
   const progress = done ? 100 : simulatedProgress
 
   const statusText = timedOut
-    ? (lang === 'pt' ? 'Demorou demais... tente novamente' : 'Taking too long... please retry')
+    ? t(lang, 'loadingTimeout')
     : done
-      ? (lang === 'pt' ? 'Pronto!' : 'Done!')
+      ? t(lang, 'loadingDone')
       : tips[tipIdx]
 
   return (

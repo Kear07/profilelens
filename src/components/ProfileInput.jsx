@@ -66,7 +66,10 @@ export default function ProfileInput({ onAnalyze, onBack, error, provider, lang 
       }
       onAnalyze(extracted.trim())
     } catch (err) {
-      setLocalError(err.message || t(lang, 'pdfError'))
+      const msg = err.message === 'PDF_MODULE_LOAD_FAILED'
+        ? t(lang, 'pdfModuleError')
+        : t(lang, 'pdfError')
+      setLocalError(msg)
     } finally {
       setParsing(false)
     }

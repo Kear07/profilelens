@@ -18,7 +18,7 @@ async function loadPdfJs(retries = 2) {
           window.location.reload()
           return null
         }
-        throw new Error('Failed to load PDF module. Please refresh the page.')
+        throw new Error('PDF_MODULE_LOAD_FAILED')
       }
       await new Promise((r) => setTimeout(r, 300))
     }
