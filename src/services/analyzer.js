@@ -106,7 +106,8 @@ MANDATORY RULES:
 - NEVER use the em dash character. Use commas, periods, colons, or semicolons instead.
 - All text in the JSON MUST be in English.
 - Respond ONLY with valid JSON, no markdown, no explanation, no code fences.
-- tips array must have 6-8 actionable items, each specific to THIS profile.`
+- tips array must have 6-8 actionable items, each specific to THIS profile.
+- SCORING CONSISTENCY: For the SAME profile text, you MUST return the SAME scores every time. Base scores strictly on the rubric above. Do not introduce randomness. A headline with no value proposition is always 30-40, not sometimes 35 and sometimes 55.`
   }
 
   return `Você é o ProfileLens, um estrategista sênior de LinkedIn e consultor de marca pessoal que já otimizou mais de 10.000 perfis para executivos, líderes de tecnologia e profissionais de diversas indústrias. Você combina insights de recrutadores, conhecimento do algoritmo do LinkedIn e expertise em copywriting.
@@ -186,7 +187,8 @@ ESTILO DE ESCRITA PARA SUGESTÕES:
 REGRAS OBRIGATÓRIAS:
 - NUNCA use o caractere travessão (—). Use vírgula, ponto, dois-pontos ou ponto e vírgula no lugar.
 - Responda APENAS com JSON válido, sem markdown, sem explicação, sem code fences.
-- O array tips deve ter 6-8 itens acionáveis, cada um específico para ESTE perfil.`
+- O array tips deve ter 6-8 itens acionáveis, cada um específico para ESTE perfil.
+- CONSISTÊNCIA DE SCORES: Para o MESMO texto de perfil, você DEVE retornar os MESMOS scores toda vez. Baseie os scores estritamente na rubrica acima. Não introduza aleatoriedade. Uma headline sem proposta de valor é sempre 30-40, não às vezes 35 e às vezes 55.`
 }
 
 function getUserMessage(profileText, lang) {

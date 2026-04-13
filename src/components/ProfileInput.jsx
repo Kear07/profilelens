@@ -81,6 +81,7 @@ export default function ProfileInput({ onAnalyze, onBack, error, provider, lang 
         {t(lang, 'back')}
       </button>
       <section className="input-section fade-up">
+        {error && <p className="error-msg">{error}</p>}
 
         <div className="demo-card">
           <h2 className="section-title">{t(lang, 'demoTitle')}</h2>
@@ -104,6 +105,7 @@ export default function ProfileInput({ onAnalyze, onBack, error, provider, lang 
       {t(lang, 'back')}
     </button>
     <section className="input-section fade-up">
+      {error && <p className="error-msg">{error}</p>}
       <h2 className="section-title">{t(lang, 'yourProfile')}</h2>
       <p className="input-subtitle">{t(lang, 'inputSubtitle')}</p>
 
