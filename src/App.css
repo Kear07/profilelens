@@ -614,7 +614,7 @@ body::before {
 .field input::placeholder { color: var(--text-muted); }
 .field-hint { display: block; font-size: 0.7rem; color: var(--text-muted); margin-top: 0.25rem; }
 
-.model-list { display: flex; flex-direction: column; gap: 4px; }
+.model-list { display: flex; flex-direction: column; gap: 10px; }
 .model-item {
   display: flex; align-items: center; justify-content: space-between;
   padding: 8px 12px; background: transparent;
