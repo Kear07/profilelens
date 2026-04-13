@@ -112,21 +112,14 @@ export default function App() {
           ProfileLens
         </button>
         <div className="nav-actions">
-          {screen !== 'hero' && (
-            <button
-              className="settings-btn"
-              onClick={() => setShowSettings(!showSettings)}
-              title={t(lang, 'settings')}
-            >
-              <svg width="16" height="16" viewBox="0 0 18 18" fill="none" style={{ flexShrink: 0 }}><circle cx="9" cy="9" r="2.5" stroke="currentColor" strokeWidth="1.5"/><path d="M9 1.5v2M9 14.5v2M1.5 9h2M14.5 9h2M3.7 3.7l1.4 1.4M12.9 12.9l1.4 1.4M3.7 14.3l1.4-1.4M12.9 5.1l1.4-1.4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
-              {t(lang, 'settings')}
-            </button>
-          )}
-          {screen === 'hero' && (
-            <button className="nav-cta" onClick={() => setScreen('input')}>
-              {lang === 'pt' ? 'Analisar gr\u00e1tis' : 'Analyze free'}
-            </button>
-          )}
+          <button
+            className="settings-btn"
+            onClick={() => setShowSettings(!showSettings)}
+            title={t(lang, 'settings')}
+          >
+            <svg width="16" height="16" viewBox="0 0 18 18" fill="none" style={{ flexShrink: 0 }}><circle cx="9" cy="9" r="2.5" stroke="currentColor" strokeWidth="1.5"/><path d="M9 1.5v2M9 14.5v2M1.5 9h2M14.5 9h2M3.7 3.7l1.4 1.4M12.9 12.9l1.4 1.4M3.7 14.3l1.4-1.4M12.9 5.1l1.4-1.4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+            {t(lang, 'settings')}
+          </button>
         </div>
       </header>
 
@@ -162,7 +155,7 @@ export default function App() {
         title={lang === 'pt' ? 'Switch to English' : 'Mudar para Portugues'}
       >
         {lang === 'pt' ? (
-          <svg width="24" height="24" viewBox="0 0 24 24">
+          <svg width="32" height="32" viewBox="0 0 24 24">
             <defs><clipPath id="fc"><circle cx="12" cy="12" r="11"/></clipPath></defs>
             <g clipPath="url(#fc)">
               <rect width="24" height="24" fill="#009c3b"/>
@@ -174,7 +167,7 @@ export default function App() {
             <circle cx="12" cy="12" r="11" fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="0.8"/>
           </svg>
         ) : (
-          <svg width="24" height="24" viewBox="0 0 24 24">
+          <svg width="32" height="32" viewBox="0 0 24 24">
             <defs><clipPath id="fc2"><circle cx="12" cy="12" r="11"/></clipPath></defs>
             <g clipPath="url(#fc2)">
               <rect width="24" height="24" fill="#b22234"/>
