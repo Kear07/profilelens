@@ -1,21 +1,6 @@
 import { t } from '../i18n'
 
-const pillIcons = [
-  // chart bar
-  <svg key="0" width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="1" y="8" width="3" height="6" rx="0.5" fill="currentColor" opacity="0.5"/><rect x="6" y="4" width="3" height="10" rx="0.5" fill="currentColor" opacity="0.7"/><rect x="11" y="1" width="3" height="13" rx="0.5" fill="currentColor"/></svg>,
-  // pen
-  <svg key="1" width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M11.5 1.5l3 3L5 14H2v-3l9.5-9.5z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round"/></svg>,
-  // shield
-  <svg key="2" width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 1.5L2.5 4v4c0 3.5 2.3 5.8 5.5 6.5 3.2-.7 5.5-3 5.5-6.5V4L8 1.5z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round"/></svg>,
-]
-
-const pillColors = ['var(--accent-soft)', 'var(--green-soft)', 'var(--cyan-soft)']
-const pillTextColors = ['var(--accent-light)', 'var(--green)', 'var(--cyan)']
-
 export default function Hero({ onStart, lang, userCount }) {
-  const chips = t(lang, 'heroChips')
-  const providers = t(lang, 'heroProviders')
-
   return (
     <section className="hero">
       <div className="hero-badge">
@@ -33,7 +18,7 @@ export default function Hero({ onStart, lang, userCount }) {
 
       <p className="hero-sub">
         {lang === 'pt' ? (
-          <>IA analisa seu perfil como um <strong>recrutador sênior</strong> faria. Score detalhado em 6 dimensões + sugestões prontas pra copiar e colar.</>
+          <>IA analisa seu perfil como um <strong>recrutador s{'\u00ea'}nior</strong> faria. Score detalhado em 6 dimens{'\u00f5'}es + sugest{'\u00f5'}es prontas pra copiar e colar.</>
         ) : (
           <>AI analyzes your profile like a <strong>senior recruiter</strong> would. Detailed score in 6 dimensions + suggestions ready to copy and paste.</>
         )}
@@ -44,9 +29,6 @@ export default function Hero({ onStart, lang, userCount }) {
           {t(lang, 'heroBtn')}
           <svg className="arrow-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </button>
-        <span className="hero-cta-hint">
-          {providers[0]}<code>{providers[1]}</code>{providers[2]}
-        </span>
         {userCount > 0 && (
           <span className="hero-counter">
             <svg width="14" height="14" viewBox="0 0 16 16" fill="none" style={{ verticalAlign: '-2px' }}><path d="M8 1.5a3.5 3.5 0 100 7 3.5 3.5 0 000-7zM2.5 13.5c0-2.5 2-4 5.5-4s5.5 1.5 5.5 4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/></svg>
@@ -56,17 +38,6 @@ export default function Hero({ onStart, lang, userCount }) {
               : (userCount === 1 ? 'profile analyzed' : 'profiles analyzed')}
           </span>
         )}
-      </div>
-
-      <div className="hero-pills">
-        {chips.map((chip, i) => (
-          <span key={i} className="pill">
-            <span className="pill-icon" style={{ background: pillColors[i], color: pillTextColors[i] }}>
-              {pillIcons[i]}
-            </span>
-            {chip}
-          </span>
-        ))}
       </div>
 
       <div className="hero-steps">

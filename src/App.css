@@ -218,7 +218,7 @@ body::before {
   padding: 6px 16px 6px 10px; border-radius: 100px;
   background: var(--green-soft); border: 1px solid rgba(0,217,163,0.15);
   font: 500 0.78rem var(--font); color: var(--green);
-  margin-bottom: 2rem; position: relative;
+  margin-bottom: 2.5rem; position: relative;
 }
 .hero-badge-dot {
   width: 7px; height: 7px; border-radius: 50%; background: var(--green);
@@ -241,52 +241,25 @@ body::before {
 
 .hero-sub {
   font-size: clamp(0.95rem, 1.8vw, 1.15rem); color: var(--text-secondary);
-  max-width: 520px; margin: 1.5rem auto 0; line-height: 1.7; font-weight: 400;
+  max-width: 520px; margin: 2rem auto 0; line-height: 1.7; font-weight: 400;
   position: relative;
 }
 .hero-sub strong { color: var(--text); font-weight: 600; }
 
 /* CTA group */
 .hero-cta-group {
-  display: flex; flex-direction: column; align-items: center; gap: 14px;
-  margin-top: 2.5rem; position: relative;
-}
-.hero-cta-hint {
-  font-size: 0.82rem; color: var(--text-muted);
-}
-.hero-cta-hint code {
-  font-family: var(--mono); background: var(--accent-soft);
-  padding: 2px 8px; border-radius: 4px; color: var(--accent-light);
-  font-size: 0.78rem; font-weight: 500;
+  display: flex; flex-direction: column; align-items: center; gap: 16px;
+  margin-top: 3rem; position: relative;
 }
 .hero-counter {
   font-size: 0.8rem; color: var(--text-muted);
   display: flex; align-items: center; gap: 4px;
 }
 
-/* Feature pills */
-.hero-pills {
-  display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;
-  margin-top: 2rem; position: relative;
-}
-.pill {
-  display: flex; align-items: center; gap: 6px;
-  padding: 8px 16px; border-radius: 100px;
-  background: var(--bg-card); border: 1px solid var(--border);
-  font: 500 0.8rem var(--font); color: var(--text-secondary);
-  transition: all 0.3s ease; cursor: default;
-}
-.pill:hover { border-color: var(--border-hover); background: var(--bg-card-hover); color: var(--text); }
-.pill-icon {
-  width: 18px; height: 18px; border-radius: 5px;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-}
-
 /* Pipeline steps */
 .hero-steps {
   display: flex; justify-content: center; gap: 1px;
-  margin-top: 3rem; max-width: 640px; width: 100%;
+  margin-top: 4rem; max-width: 640px; width: 100%;
   position: relative;
 }
 .step-card {
@@ -671,8 +644,6 @@ body::before {
   .hero-steps { flex-direction: column; gap: 8px; }
   .step-card { border-radius: var(--radius-sm) !important; }
   .input-mode-tabs { flex-direction: column; }
-  .hero-pills { gap: 6px; }
-  .pill { font-size: 0.76rem; padding: 6px 12px; }
   .footer { flex-direction: column; gap: 6px; text-align: center; }
   .nav-cta { display: none; }
   .settings-btn span { display: none; }
