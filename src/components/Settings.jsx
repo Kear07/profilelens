@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { t } from '../i18n'
+import { fetchGeminiModels, FALLBACK_MODELS } from '../services/geminiModels'
 
 function getProviders(lang) {
   return [
@@ -14,14 +15,7 @@ function getProviders(lang) {
       name: 'Google Gemini',
       desc: t(lang, 'providerGeminiDesc'),
       fields: ['apiKey', 'model'],
-      models: [
-        { id: 'gemini-2.5-flash', label: 'Gemini 2.5 Flash', note: lang === 'pt' ? 'Recomendado, grátis' : 'Recommended, free' },
-        { id: 'gemini-2.5-pro', label: 'Gemini 2.5 Pro', note: null },
-        { id: 'gemini-2.5-flash-lite', label: 'Gemini 2.5 Flash-Lite', note: lang === 'pt' ? 'Mais rapido' : 'Fastest' },
-        { id: 'gemini-3-flash', label: 'Gemini 3 Flash', note: 'Preview' },
-        { id: 'gemini-3.1-pro', label: 'Gemini 3.1 Pro', note: 'Preview' },
-        { id: 'gemini-3.1-flash-lite', label: 'Gemini 3.1 Flash-Lite', note: 'Preview' },
-      ],
+      models: [],
       defaultModel: 'gemini-2.5-flash',
     },
     {
@@ -37,10 +31,27 @@ function getProviders(lang) {
 
 export default function Settings({ settings, onChange, onClose, lang }) {
   const [local, setLocal] = useState({ ...settings })
+  const [geminiModels, setGeminiModels] = useState(FALLBACK_MODELS)
+  const [loadingModels, setLoadingModels] = useState(false)
+  const fetchedKey = useRef('')
+
   const PROVIDERS = getProviders(lang)
   const provider = PROVIDERS.find((p) => p.id === local.provider) || PROVIDERS[0]
 
   const update = (key, val) => setLocal((s) => ({ ...s, [key]: val }))
+
+  // Fetch models when Gemini is selected and key looks valid
+  useEffect(() => {
+    if (local.provider !== 'gemini') return
+    const key = local.apiKey?.trim()
+    if (!key || key.length < 10 || key === fetchedKey.current) return
+
+    fetchedKey.current = key
+    setLoadingModels(true)
+    fetchGeminiModels(key)
+      .then(models => setGeminiModels(models))
+      .finally(() => setLoadingModels(false))
+  }, [local.provider, local.apiKey])
 
   const handleProviderChange = (id) => {
     const p = PROVIDERS.find((x) => x.id === id)
@@ -50,12 +61,18 @@ export default function Settings({ settings, onChange, onClose, lang }) {
       model: p?.defaultModel || '',
       baseUrl: '',
     })
+    if (id !== 'gemini') {
+      setGeminiModels(FALLBACK_MODELS)
+      fetchedKey.current = ''
+    }
   }
 
   const handleSave = () => {
     onChange(local)
     onClose()
   }
+
+  const displayModels = local.provider === 'gemini' ? geminiModels : provider.models
 
   return (
     <div className="settings-overlay" onClick={onClose}>
@@ -123,11 +140,11 @@ export default function Settings({ settings, onChange, onClose, lang }) {
 
               {provider.fields.includes('model') && (
                 <label className="field">
-                  <span>{t(lang, 'model')}</span>
-                  {provider.models.length > 0 ? (
+                  <span>{t(lang, 'model')}{loadingModels ? '...' : ''}</span>
+                  {displayModels.length > 0 ? (
                     <>
                     <div className="model-list">
-                      {provider.models.map((m) => (
+                      {displayModels.map((m) => (
                         <button
                           key={m.id}
                           type="button"
