@@ -156,7 +156,6 @@ export default function Settings({ settings, onChange, onClose, lang }) {
         </div>
 
         <div className="settings-footer">
-          <button className="btn-ghost" onClick={onClose}>{t(lang, 'cancel')}</button>
           <button className="btn-primary" onClick={handleSave}>{t(lang, 'save')}</button>
         </div>
       </div>
