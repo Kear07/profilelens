@@ -3,14 +3,16 @@ import { t } from '../i18n'
 export default function Hero({ onStart, lang, userCount }) {
   return (
     <section className="hero">
-      <div className="hero-badge">
-        <span className="hero-badge-dot" />
-        {lang === 'pt' ? 'Powered by Gemini · 100% gratuito' : 'Powered by Gemini · 100% free'}
+      <div className="hero-badges">
+        <div className="hero-badge">
+          <span className="hero-badge-dot" />
+          {lang === 'pt' ? 'Powered by Gemini · 100% gratuito' : 'Powered by Gemini · 100% free'}
+        </div>
         {userCount > 0 && (
-          <span className="hero-badge-sep">{' · '}</span>
-        )}
-        {userCount > 0 && (
-          <span>{userCount.toLocaleString()} {lang === 'pt' ? (userCount === 1 ? 'perfil analisado' : 'perfis analisados') : (userCount === 1 ? 'profile analyzed' : 'profiles analyzed')}</span>
+          <div className="hero-badge hero-badge-blue">
+            <svg className="hero-badge-icon" width="10" height="10" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5.5" r="3.5" stroke="currentColor" strokeWidth="1.8"/><path d="M2.5 14.5c0-2.5 2-4 5.5-4s5.5 1.5 5.5 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/></svg>
+            {userCount.toLocaleString()} {lang === 'pt' ? (userCount === 1 ? 'perfil analisado' : 'perfis analisados') : (userCount === 1 ? 'profile analyzed' : 'profiles analyzed')}
+          </div>
         )}
       </div>
 

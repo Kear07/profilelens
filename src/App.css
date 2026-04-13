@@ -214,13 +214,22 @@ body::before {
   100% { opacity: 0.3; transform: translateX(-50%) scale(1.12); }
 }
 
+.hero-badges {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  margin-bottom: 2.5rem; flex-wrap: wrap;
+}
 .hero-badge {
   display: inline-flex; align-items: center; gap: 8px;
   padding: 6px 16px 6px 10px; border-radius: 100px;
   background: var(--green-soft); border: 1px solid rgba(0,217,163,0.15);
   font: 500 0.78rem var(--font); color: var(--green);
-  margin-bottom: 2.5rem; position: relative;
+  position: relative;
 }
+.hero-badge-blue {
+  background: var(--accent-soft); border-color: rgba(108,92,231,0.2);
+  color: var(--accent-light);
+}
+.hero-badge-icon { flex-shrink: 0; }
 .hero-badge-dot {
   width: 7px; height: 7px; border-radius: 50%; background: var(--green);
   box-shadow: 0 0 8px var(--green-glow);
@@ -252,7 +261,6 @@ body::before {
   display: flex; flex-direction: column; align-items: center; gap: 16px;
   margin-top: 2rem; position: relative;
 }
-.hero-badge-sep { opacity: 0.4; }
 
 /* Pipeline steps */
 .hero-steps {
