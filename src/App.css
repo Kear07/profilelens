@@ -103,15 +103,15 @@ body::before {
 .nav-actions { display: flex; gap: 10px; align-items: center; }
 .settings-btn {
   padding: 8px 14px; border-radius: var(--radius-xs);
-  border: 1px solid transparent; background: transparent;
-  font: 500 0.82rem var(--font); color: var(--text-secondary);
+  border: 1px solid var(--border-hover); background: rgba(255,255,255,0.04);
+  font: 500 0.82rem var(--font); color: var(--text);
   cursor: pointer; transition: all 0.25s ease;
   display: flex; align-items: center; gap: 6px;
 }
 .settings-btn:hover {
-  color: var(--text);
-  background: rgba(255,255,255,0.04);
-  border-color: var(--border-hover);
+  background: rgba(255,255,255,0.08);
+  border-color: var(--accent);
+  color: var(--accent-light);
 }
 .nav-cta {
   padding: 9px 20px; border-radius: var(--radius-xs); border: none;
