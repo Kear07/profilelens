@@ -14,7 +14,7 @@ function loadCache() {
 function saveCache(models) {
   try {
     localStorage.setItem(CACHE_KEY, JSON.stringify({ models, ts: Date.now() }))
-  } catch {}
+  } catch { /* storage quota */ }
 }
 
 export const FALLBACK_MODELS = [

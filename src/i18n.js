@@ -5,6 +5,15 @@ const translations = {
 
     // Hero
     heroBtn: 'Analisar agora',
+    heroBadge: 'Powered by Gemini · 100% gratuito',
+    heroProfileCount: 'perfil analisado',
+    heroProfilesCount: 'perfis analisados',
+    heroTitle1: 'Descubra seu ',
+    heroTitleGradient: 'score no LinkedIn',
+    heroTitle2: ' em 30 segundos',
+    heroSub: 'IA analisa seu perfil como um <strong>recrutador sênior</strong> faria. Score detalhado em 6 dimensões + sugestões prontas pra copiar e colar.',
+    stepPrefix: 'Passo',
+    switchLang: 'Switch to English',
 
     // How it works
     howStep1Label: 'Cole seu perfil',
@@ -112,12 +121,31 @@ React, Node.js, TypeScript, Python, AWS, Docker`,
     // Errors
     geminiKeyError: 'Configure sua Gemini API Key em Configurações (grátis em aistudio.google.com)',
     customUrlError: 'Configure a URL base da API em Configurações',
+    errTimeout: 'A análise demorou demais e foi cancelada. Tente novamente ou escolha um modelo mais rápido em Configurações.',
+    errInvalidKeyGemini: 'Gemini API Key inválida. Verifique sua key em aistudio.google.com/apikey e salve novamente em Configurações.',
+    errInvalidKeyCustom: 'API Key inválida ou sem permissão. Verifique a key e a URL base em Configurações.',
+    errQuotaGemini: 'O modelo está sobrecarregado no momento. Aguarde alguns minutos e tente novamente.',
+    errQuotaCustom: 'Limite de requisições atingido para este provedor.',
+    errEmptyResponse: 'A IA não retornou resposta. Tente novamente.',
+    errInvalidJson: 'A IA retornou uma resposta em formato inválido. Tente novamente.',
+    errNetwork: 'Sem conexão com a API. Verifique sua internet ou a URL base em Configurações.',
+    errOverloaded: 'O modelo está sobrecarregado no momento. Aguarde alguns minutos e tente novamente.',
+    errGeneric: 'Algo deu errado ao analisar o perfil. Tente novamente em alguns instantes.',
   },
 
   en: {
     settings: 'Set up AI',
 
     heroBtn: 'Analyze now',
+    heroBadge: 'Powered by Gemini · 100% free',
+    heroProfileCount: 'profile analyzed',
+    heroProfilesCount: 'profiles analyzed',
+    heroTitle1: 'Discover your ',
+    heroTitleGradient: 'LinkedIn score',
+    heroTitle2: ' in 30 seconds',
+    heroSub: 'AI analyzes your profile like a <strong>senior recruiter</strong> would. Detailed score in 6 dimensions + suggestions ready to copy and paste.',
+    stepPrefix: 'Step',
+    switchLang: 'Mudar para Português',
 
     howStep1Label: 'Paste your profile',
     howStep1Desc: 'Text or LinkedIn PDF',
@@ -216,6 +244,16 @@ React, Node.js, TypeScript, Python, AWS, Docker`,
 
     geminiKeyError: 'Set your Gemini API Key in Settings (free at aistudio.google.com)',
     customUrlError: 'Set the API base URL in Settings',
+    errTimeout: 'Analysis timed out. Please try again or pick a faster model in Settings.',
+    errInvalidKeyGemini: 'Invalid Gemini API Key. Check your key at aistudio.google.com/apikey and save again in Settings.',
+    errInvalidKeyCustom: 'Invalid API Key or unauthorized. Check your key and base URL in Settings.',
+    errQuotaGemini: 'This model is currently experiencing high demand. Please try again in a few minutes.',
+    errQuotaCustom: 'Request limit reached for this provider.',
+    errEmptyResponse: 'The AI returned an empty response. Please try again.',
+    errInvalidJson: 'The AI returned an invalid format. Please try again.',
+    errNetwork: 'Could not reach the API. Check your internet or the base URL in Settings.',
+    errOverloaded: 'This model is currently experiencing high demand. Please try again in a few minutes.',
+    errGeneric: 'Something went wrong while analyzing the profile. Please try again shortly.',
   },
 }
 

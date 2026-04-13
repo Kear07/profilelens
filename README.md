@@ -117,7 +117,7 @@ src/
 ## Security
 
 - Content Security Policy (CSP) enforced via meta tag
-- Zero `innerHTML`, `dangerouslySetInnerHTML`, or `eval()`
+- `dangerouslySetInnerHTML` used only with hardcoded i18n strings (never user input)
 - API key input uses `type="password"`
 - No backend, no data collection, no tracking
 

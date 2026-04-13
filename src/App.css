@@ -351,12 +351,6 @@ body::before {
   display: flex; flex-direction: column; align-items: center;
   text-align: center; padding: 1.5rem 0 0.5rem;
 }
-.demo-icon {
-  width: 56px; height: 56px; border-radius: 14px;
-  background: var(--accent-soft); color: var(--accent-light);
-  display: flex; align-items: center; justify-content: center;
-  margin-bottom: 1.2rem;
-}
 .demo-card .section-title { margin-bottom: 0.4rem; }
 .demo-desc {
   font-size: 0.9rem; color: var(--text-secondary); line-height: 1.55;

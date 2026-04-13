@@ -19,20 +19,20 @@ function loadSettings() {
   try {
     const saved = localStorage.getItem('profilelens-settings')
     if (saved) return { ...DEFAULT_SETTINGS, ...JSON.parse(saved) }
-  } catch {}
+  } catch { /* storage unavailable */ }
   return DEFAULT_SETTINGS
 }
 
 function saveSettings(s) {
   try {
     localStorage.setItem('profilelens-settings', JSON.stringify(s))
-  } catch {}
+  } catch { /* storage quota */ }
 }
 
 function loadLang() {
   try {
     return localStorage.getItem('profilelens-lang') || 'pt'
-  } catch {}
+  } catch { /* storage unavailable */ }
   return 'pt'
 }
 
@@ -49,12 +49,12 @@ export default function App() {
   const langRef = useRef(loadLang())
   const analysisCounter = useRef(0)
 
-  useEffect(() => { getCount().then(c => { if (c) setUserCount(c) }) }, [])
+  useEffect(() => { getCount().then(c => { if (c) setUserCount(c) }).catch(() => {}) }, [])
 
   const handleLangChange = async (newLang) => {
     setLang(newLang)
     langRef.current = newLang
-    try { localStorage.setItem('profilelens-lang', newLang) } catch {}
+    try { localStorage.setItem('profilelens-lang', newLang) } catch { /* storage quota */ }
     if ((screen === 'results' || screen === 'loading') && lastProfileText.current) {
       const myId = ++analysisCounter.current
       setAnalysisDone(false)
@@ -90,7 +90,7 @@ export default function App() {
       await analyze(profileText, settings, currentLang)
       if (analysisCounter.current === myId) {
         setAnalysisDone(true)
-        incrementCount().then(c => { if (c) setUserCount(c) })
+        incrementCount().then(c => { if (c) setUserCount(c) }).catch(() => {})
         await new Promise((r) => setTimeout(r, 600))
         if (analysisCounter.current === myId) setScreen('results')
       }
@@ -155,7 +155,7 @@ export default function App() {
       <button
         className="lang-toggle"
         onClick={() => handleLangChange(lang === 'pt' ? 'en' : 'pt')}
-        title={lang === 'pt' ? 'Switch to English' : 'Mudar para Português'}
+        title={t(lang, 'switchLang')}
       >
         {lang === 'pt' ? (
           <svg width="32" height="32" viewBox="0 0 24 24">

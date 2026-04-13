@@ -53,6 +53,7 @@ export default function Settings({ settings, onChange, onClose, lang }) {
     setLoadingModels(true)
     fetchGeminiModels(key)
       .then(models => setGeminiModels(models))
+      .catch(() => setGeminiModels(FALLBACK_MODELS))
       .finally(() => setLoadingModels(false))
   }, [local.provider, local.apiKey])
 

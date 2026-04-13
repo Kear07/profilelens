@@ -328,56 +328,16 @@ async function callProvider(provider, apiKey, model, baseUrl, systemPrompt, user
 
 function humanizeError(err, lang) {
   const msg = err.message || ''
-  const pt = lang === 'pt'
-  if (err.name === 'AbortError' || msg.includes('abort')) {
-    return pt
-      ? 'A análise demorou demais e foi cancelada. Tente novamente ou escolha um modelo mais rápido em Configurações.'
-      : 'Analysis timed out. Please try again or pick a faster model in Settings.'
-  }
-  if (msg === 'INVALID_KEY:gemini') {
-    return pt
-      ? 'Gemini API Key inválida. Verifique sua key em aistudio.google.com/apikey e salve novamente em Configurações.'
-      : 'Invalid Gemini API Key. Check your key at aistudio.google.com/apikey and save again in Settings.'
-  }
-  if (msg === 'INVALID_KEY:custom') {
-    return pt
-      ? 'API Key inválida ou sem permissão. Verifique a key e a URL base em Configurações.'
-      : 'Invalid API Key or unauthorized. Check your key and base URL in Settings.'
-  }
-  if (msg === 'QUOTA_EXCEEDED:gemini' || msg === 'OVERLOADED:gemini') {
-    return pt
-      ? 'O modelo está sobrecarregado no momento. Aguarde alguns minutos e tente novamente.'
-      : 'This model is currently experiencing high demand. Please try again in a few minutes.'
-  }
-  if (msg === 'QUOTA_EXCEEDED:custom') {
-    return pt
-      ? 'Limite de requisições atingido para este provedor.'
-      : 'Request limit reached for this provider.'
-  }
-  if (msg === 'EMPTY_RESPONSE') {
-    return pt
-      ? 'A IA não retornou resposta. Tente novamente.'
-      : 'The AI returned an empty response. Please try again.'
-  }
-  if (msg === 'INVALID_JSON') {
-    return pt
-      ? 'A IA retornou uma resposta em formato inválido. Tente novamente.'
-      : 'The AI returned an invalid format. Please try again.'
-  }
-  if (msg.includes('Failed to fetch') || msg.includes('NetworkError') || msg.includes('fetch')) {
-    return pt
-      ? 'Sem conexão com a API. Verifique sua internet ou a URL base em Configurações.'
-      : 'Could not reach the API. Check your internet or the base URL in Settings.'
-  }
-  if (msg.includes('high demand') || msg.includes('overloaded') || msg.includes('RESOURCE_EXHAUSTED') || msg.includes('currently experiencing')) {
-    return pt
-      ? 'O modelo está sobrecarregado no momento. Aguarde alguns minutos e tente novamente.'
-      : 'This model is currently experiencing high demand. Please try again in a few minutes.'
-  }
-  // Fallback: any unrecognized error gets a generic translated message
-  return pt
-    ? 'Algo deu errado ao analisar o perfil. Tente novamente em alguns instantes.'
-    : 'Something went wrong while analyzing the profile. Please try again shortly.'
+  if (err.name === 'AbortError' || msg.includes('abort')) return t(lang, 'errTimeout')
+  if (msg === 'INVALID_KEY:gemini') return t(lang, 'errInvalidKeyGemini')
+  if (msg === 'INVALID_KEY:custom') return t(lang, 'errInvalidKeyCustom')
+  if (msg === 'QUOTA_EXCEEDED:gemini' || msg === 'OVERLOADED:gemini') return t(lang, 'errQuotaGemini')
+  if (msg === 'QUOTA_EXCEEDED:custom') return t(lang, 'errQuotaCustom')
+  if (msg === 'EMPTY_RESPONSE') return t(lang, 'errEmptyResponse')
+  if (msg === 'INVALID_JSON') return t(lang, 'errInvalidJson')
+  if (msg.includes('Failed to fetch') || msg.includes('NetworkError') || msg.includes('fetch')) return t(lang, 'errNetwork')
+  if (msg.includes('high demand') || msg.includes('overloaded') || msg.includes('RESOURCE_EXHAUSTED') || msg.includes('currently experiencing')) return t(lang, 'errOverloaded')
+  return t(lang, 'errGeneric')
 }
 
 function forceScores(result, targetScores) {
