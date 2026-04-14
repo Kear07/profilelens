@@ -2,6 +2,31 @@ import { useState, useEffect, useRef } from 'react'
 import { t } from '../i18n'
 import { fetchGeminiModels, validateGeminiModel, FALLBACK_MODELS } from '../services/geminiModels'
 
+// Allowlist of trusted domains for custom API providers.
+// CSP connect-src must also include any domain listed here.
+const TRUSTED_API_DOMAINS = [
+  'api.openai.com',
+  'generativelanguage.googleapis.com',
+  'api.anthropic.com',
+  'api.groq.com',
+  'openrouter.ai',
+  'api.together.xyz',
+  'api.fireworks.ai',
+  'api.mistral.ai',
+  'api.perplexity.ai',
+  'api.deepseek.com',
+]
+
+function isBaseUrlTrusted(url) {
+  if (!url) return true
+  try {
+    const hostname = new URL(url).hostname
+    return TRUSTED_API_DOMAINS.some(d => hostname === d || hostname.endsWith('.' + d))
+  } catch {
+    return false
+  }
+}
+
 function getProviders(lang) {
   return [
     {
@@ -95,6 +120,11 @@ export default function Settings({ settings, onChange, onClose, lang }) {
   const handleSave = async () => {
     setModelError('')
 
+    // Block untrusted base URLs
+    if (local.provider === 'custom' && local.baseUrl && !isBaseUrlTrusted(local.baseUrl)) {
+      return // UI already shows the blocked message
+    }
+
     // If user typed a custom Gemini model, validate it first
     if (isCustomModel) {
       const modelId = customInput.trim()
@@ -187,8 +217,11 @@ export default function Settings({ settings, onChange, onClose, lang }) {
                     onChange={(e) => update('baseUrl', e.target.value)}
                     placeholder="https://api.openai.com/v1"
                   />
-                  {local.baseUrl && !local.baseUrl.includes('openai.com') && !local.baseUrl.includes('googleapis.com') && (
-                    <small className="field-error">{t(lang, 'baseUrlWarning')}</small>
+                  {local.baseUrl && !isBaseUrlTrusted(local.baseUrl) && (
+                    <small className="field-error">{t(lang, 'baseUrlBlocked')}</small>
+                  )}
+                  {local.baseUrl && isBaseUrlTrusted(local.baseUrl) && !local.baseUrl.includes('openai.com') && !local.baseUrl.includes('googleapis.com') && (
+                    <small className="field-hint">{t(lang, 'baseUrlWarning')}</small>
                   )}
                 </label>
               )}

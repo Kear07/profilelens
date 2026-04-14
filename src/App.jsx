@@ -42,6 +42,22 @@ function loadLang() {
   return 'pt'
 }
 
+// Cleanup sensitive data from sessionStorage when user leaves the page
+if (typeof window !== 'undefined') {
+  window.addEventListener('beforeunload', () => {
+    try {
+      const keysToRemove = []
+      for (let i = 0; i < sessionStorage.length; i++) {
+        const key = sessionStorage.key(i)
+        if (key && (key.startsWith('profilelens-result-') || key === 'profilelens-gemini-models-v2')) {
+          keysToRemove.push(key)
+        }
+      }
+      keysToRemove.forEach(k => sessionStorage.removeItem(k))
+    } catch { /* ignore */ }
+  })
+}
+
 export default function App() {
   const [screen, setScreen] = useState('hero')
   const [settings, setSettings] = useState(loadSettings)

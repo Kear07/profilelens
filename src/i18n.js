@@ -107,6 +107,7 @@ React, Node.js, TypeScript, Python, AWS, Docker`,
     validatingModel: 'Validando modelo...',
     keyPrivacy: 'Sua key fica apenas no navegador, nunca é enviada a terceiros',
     baseUrlWarning: 'URL personalizada: a API key será enviada para este domínio.',
+    baseUrlBlocked: 'Domínio não permitido. Use um provedor conhecido (OpenAI, Groq, Together, Fireworks, Mistral, OpenRouter, DeepSeek).',
     apiKeySessionNote: 'A key não fica salva. Você precisará digitá-la novamente a cada sessão.',
 
     // Footer
@@ -235,6 +236,7 @@ React, Node.js, TypeScript, Python, AWS, Docker`,
     validatingModel: 'Validating model...',
     keyPrivacy: 'Your key stays in your browser only, never sent to third parties',
     baseUrlWarning: 'Custom URL: API key will be sent to this domain.',
+    baseUrlBlocked: 'Domain not allowed. Use a known provider (OpenAI, Groq, Together, Fireworks, Mistral, OpenRouter, DeepSeek).',
     apiKeySessionNote: 'Key is not saved. You will need to re-enter it each session.',
 
     madeBy: 'Made by',
