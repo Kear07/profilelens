@@ -1,0 +1,8 @@
+# Security headers (used by Cloudflare Pages, Netlify, etc.)
+# GitHub Pages ignores this file, but it's ready for migration.
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: no-referrer
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  X-XSS-Protection: 0

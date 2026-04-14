@@ -1,6 +1,8 @@
 import { useState, useCallback, useRef } from 'react'
 import { analyzeProfile } from '../services/analyzer'
 
+const MIN_ANALYSIS_INTERVAL_MS = 30_000 // 30s debounce between analyses
+
 const SECTION_WEIGHTS = {
   'headline': 0.20,
   'sobre': 0.20,
@@ -43,7 +45,17 @@ export function useAnalysis() {
   const [loading, setLoading] = useState(false)
   const callId = useRef(0)
 
+  const lastAnalysisTime = useRef(0)
+
   const analyze = useCallback(async (profileText, settings, lang) => {
+    // Rate limit: minimum 30s between analyses
+    const now = Date.now()
+    const elapsed = now - lastAnalysisTime.current
+    if (lastAnalysisTime.current > 0 && elapsed < MIN_ANALYSIS_INTERVAL_MS) {
+      throw new Error(`Rate limited. Wait ${Math.ceil((MIN_ANALYSIS_INTERVAL_MS - elapsed) / 1000)}s.`)
+    }
+    lastAnalysisTime.current = now
+
     const myId = ++callId.current
     setLoading(true)
     setError(null)

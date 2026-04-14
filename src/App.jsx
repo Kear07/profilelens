@@ -17,15 +17,21 @@ const DEFAULT_SETTINGS = {
 
 function loadSettings() {
   try {
-    const saved = localStorage.getItem('profilelens-settings')
-    if (saved) return { ...DEFAULT_SETTINGS, ...JSON.parse(saved) }
+    const saved = sessionStorage.getItem('profilelens-settings')
+    if (saved) {
+      const parsed = JSON.parse(saved)
+      // Never restore apiKey from storage — require re-entry each session
+      return { ...DEFAULT_SETTINGS, ...parsed, apiKey: '' }
+    }
   } catch { /* storage unavailable */ }
   return DEFAULT_SETTINGS
 }
 
 function saveSettings(s) {
   try {
-    localStorage.setItem('profilelens-settings', JSON.stringify(s))
+    // Persist provider/model/baseUrl but NEVER the apiKey
+    const { apiKey: _apiKey, ...safe } = s
+    sessionStorage.setItem('profilelens-settings', JSON.stringify(safe))
   } catch { /* storage quota */ }
 }
 

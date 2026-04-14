@@ -3,7 +3,7 @@ const CACHE_TTL = 24 * 60 * 60 * 1000 // 24h
 
 function loadCache() {
   try {
-    const raw = localStorage.getItem(CACHE_KEY)
+    const raw = sessionStorage.getItem(CACHE_KEY)
     if (!raw) return null
     const { models, ts } = JSON.parse(raw)
     if (Date.now() - ts > CACHE_TTL) return null
@@ -13,7 +13,7 @@ function loadCache() {
 
 function saveCache(models) {
   try {
-    localStorage.setItem(CACHE_KEY, JSON.stringify({ models, ts: Date.now() }))
+    sessionStorage.setItem(CACHE_KEY, JSON.stringify({ models, ts: Date.now() }))
   } catch { /* storage quota */ }
 }
 
@@ -38,7 +38,8 @@ export async function fetchGeminiModels(apiKey) {
 
   try {
     const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models?key=${encodeURIComponent(apiKey)}&pageSize=100`
+      `https://generativelanguage.googleapis.com/v1beta/models?pageSize=100`,
+      { headers: { 'x-goog-api-key': apiKey } }
     )
     if (!res.ok) return FALLBACK_MODELS
 
@@ -76,7 +77,8 @@ export async function fetchGeminiModels(apiKey) {
 export async function validateGeminiModel(apiKey, modelId) {
   try {
     const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(modelId)}?key=${encodeURIComponent(apiKey)}`
+      `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(modelId)}`,
+      { headers: { 'x-goog-api-key': apiKey } }
     )
     if (!res.ok) return { valid: false, reason: 'not_found' }
 

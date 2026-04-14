@@ -106,10 +106,12 @@ React, Node.js, TypeScript, Python, AWS, Docker`,
     customModelNetwork: 'Não foi possível validar o modelo. Verifique sua conexão.',
     validatingModel: 'Validando modelo...',
     keyPrivacy: 'Sua key fica apenas no navegador, nunca é enviada a terceiros',
+    baseUrlWarning: 'URL personalizada: a API key será enviada para este domínio.',
+    apiKeySessionNote: 'A key não fica salva. Você precisará digitá-la novamente a cada sessão.',
 
     // Footer
     madeBy: 'Feito por',
-    privacy: 'Seus dados não saem do navegador',
+    privacy: 'Chamadas de API diretas do navegador para o provedor',
 
     // Providers
     providerMockName: 'Demo (sem API)',
@@ -232,9 +234,11 @@ React, Node.js, TypeScript, Python, AWS, Docker`,
     customModelNetwork: 'Could not validate model. Check your connection.',
     validatingModel: 'Validating model...',
     keyPrivacy: 'Your key stays in your browser only, never sent to third parties',
+    baseUrlWarning: 'Custom URL: API key will be sent to this domain.',
+    apiKeySessionNote: 'Key is not saved. You will need to re-enter it each session.',
 
     madeBy: 'Made by',
-    privacy: 'Your data never leaves the browser',
+    privacy: 'API calls go directly from browser to provider',
 
     providerMockName: 'Demo (no API)',
     providerMockDesc: 'Sample result to test the interface',

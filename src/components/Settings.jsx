@@ -41,7 +41,16 @@ export default function Settings({ settings, onChange, onClose, lang }) {
   const PROVIDERS = getProviders(lang)
   const provider = PROVIDERS.find((p) => p.id === local.provider) || PROVIDERS[0]
 
-  const update = (key, val) => setLocal((s) => ({ ...s, [key]: val }))
+  const update = (key, val) => {
+    setLocal((s) => {
+      const next = { ...s, [key]: val }
+      // Clear apiKey when baseUrl changes to prevent accidental exfiltration
+      if (key === 'baseUrl' && s.provider === 'custom' && val !== s.baseUrl) {
+        next.apiKey = ''
+      }
+      return next
+    })
+  }
 
   // Fetch models when Gemini is selected and key looks valid
   useEffect(() => {
@@ -50,11 +59,19 @@ export default function Settings({ settings, onChange, onClose, lang }) {
     if (!key || key.length < 10 || key === fetchedKey.current) return
 
     fetchedKey.current = key
-    setLoadingModels(true)
-    fetchGeminiModels(key)
-      .then(models => setGeminiModels(models))
-      .catch(() => setGeminiModels(FALLBACK_MODELS))
-      .finally(() => setLoadingModels(false))
+    let cancelled = false
+    ;(async () => {
+      setLoadingModels(true)
+      try {
+        const models = await fetchGeminiModels(key)
+        if (!cancelled) setGeminiModels(models)
+      } catch {
+        if (!cancelled) setGeminiModels(FALLBACK_MODELS)
+      } finally {
+        if (!cancelled) setLoadingModels(false)
+      }
+    })()
+    return () => { cancelled = true }
   }, [local.provider, local.apiKey])
 
   const handleProviderChange = (id) => {
@@ -157,6 +174,7 @@ export default function Settings({ settings, onChange, onClose, lang }) {
                       ? t(lang, 'geminiHint')
                       : t(lang, 'keyPrivacy')}
                   </small>
+                  <small className="field-hint">{t(lang, 'apiKeySessionNote')}</small>
                 </label>
               )}
 
@@ -169,6 +187,9 @@ export default function Settings({ settings, onChange, onClose, lang }) {
                     onChange={(e) => update('baseUrl', e.target.value)}
                     placeholder="https://api.openai.com/v1"
                   />
+                  {local.baseUrl && !local.baseUrl.includes('openai.com') && !local.baseUrl.includes('googleapis.com') && (
+                    <small className="field-error">{t(lang, 'baseUrlWarning')}</small>
+                  )}
                 </label>
               )}
 
