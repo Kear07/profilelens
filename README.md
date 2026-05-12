@@ -3,10 +3,11 @@
 > Analyze your LinkedIn profile with AI and get a detailed score with improvement suggestions.
 
 [![CI](https://github.com/Kear07/profilelens/actions/workflows/ci.yml/badge.svg)](https://github.com/Kear07/profilelens/actions/workflows/ci.yml)
-![React](https://img.shields.io/badge/React-19-61dafb?logo=react)
+![React](https://img.shields.io/badge/React-18-61dafb?logo=react)
 ![Vite](https://img.shields.io/badge/Vite-6-646cff?logo=vite)
 ![License](https://img.shields.io/github/license/Kear07/profilelens)
 ![Tests](https://img.shields.io/badge/tests-27%20passing-brightgreen)
+![Mobile](https://img.shields.io/badge/mobile-optimized-A29BFE)
 
 **Live:** [kear07.github.io/profilelens](https://kear07.github.io/profilelens/)
 
@@ -19,8 +20,9 @@ Upload your LinkedIn PDF (or paste the text) and get:
 - **Accordion sections**: click to expand feedback and suggestions, keeping the view clean
 - **Rewrite suggestions**: ready-to-paste text, not vague tips
 - **Actionable tips**: what to change first for maximum impact
-- **User counter**: live count of profiles analyzed (via counterapi.dev)
+- **User counter**: live count of *real* profile analyses (demo runs are excluded)
 - **Bilingual**: full PT-BR and EN support with one-click flag toggle
+- **Mobile-first**: bottom-sheet settings, full-width CTAs, no auto-zoom on input focus, safe-area aware
 
 ## How it works
 
@@ -116,28 +118,40 @@ src/
 
 ## Security
 
-- Content Security Policy (CSP) enforced via meta tag
+- **CSP** locked down via `<meta>`: only allowlisted provider domains in `connect-src`, `object-src 'none'`, `frame-ancestors 'none'`, `base-uri 'self'`
+- **Custom provider URL** validated against a hardcoded allowlist of trusted AI vendors (OpenAI, Anthropic, Groq, OpenRouter, Together, Fireworks, Mistral, Perplexity, DeepSeek)
+- **Rate limiting** in two places: 30s between analyses (client-side) and 30s between counter increments (anti-spam)
+- **Session-only API key**: never persisted to localStorage; `apiKey` is stripped from saved settings and cleared automatically when `baseUrl` changes
+- **Sensitive storage cleanup** on `beforeunload`: cached results and model lists are purged when the user leaves
+- **Prompt-injection hardening**: the system prompt explicitly instructs the model to treat profile text as data, never as instructions
 - `dangerouslySetInnerHTML` used only with hardcoded i18n strings (never user input)
-- API key input uses `type="password"`
-- No backend, no data collection, no tracking
 
 ## Privacy
 
 - Your data **never leaves the browser**: API calls go directly from client to provider
 - PDF is processed locally via pdf.js, no upload to any server
-- API keys stay in localStorage on your machine only
+- API keys are kept in sessionStorage and wiped between sessions (re-entry required)
 - Zero backend: this is a static site hosted on GitHub Pages
+
+## Architecture highlights
+
+- **Layered cache**: in-memory `Map` (LRU, max 10 entries) → sessionStorage (24h TTL, LRU) — same profile = same scores, every time
+- **Cross-language reuse**: re-analyzing in the other language reuses the per-section scores so PT and EN stay consistent
+- **Race-condition safe**: every `analyze()` call gets a monotonic ID; stale responses are discarded
+- **Provider fallback**: if a Gemini model is overloaded, automatic retry with exponential backoff (5s → 15s → 30s → 45s) then fallback to `gemini-2.5-flash`
+- **Lazy PDF parsing**: `pdfjs-dist` is a dynamic import with retry, so the initial bundle stays lean
 
 ## Tech stack
 
-- React 19 + Vite 6
+- React 18 + Vite 6
 - pdf.js (client-side PDF parsing, lazy loaded with retry)
 - Vitest + Testing Library (unit tests)
 - ESLint (code quality)
 - GitHub Actions CI (lint + test on every push/PR)
 - Pure CSS with custom properties (zero UI dependencies)
-- SVG icons (no emoji in the interface)
-- 100% responsive, dark theme
+- SVG icons + SVG favicon (sharp at every DPI)
+- Mobile-first responsive: 640px / 380px breakpoints + `hover: none` for touch devices
+- Dark theme only (high-contrast, WCAG AA on body text)
 
 ## License
 
