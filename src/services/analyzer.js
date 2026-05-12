@@ -6,6 +6,16 @@ const STORAGE_PREFIX = 'profilelens-result-'
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000 // 24h
 const MAX_CACHED_RESULTS = 10
 
+function setMemoryCache(key, value) {
+  // LRU: evict oldest when over limit
+  if (analysisCache.has(key)) analysisCache.delete(key)
+  analysisCache.set(key, value)
+  while (analysisCache.size > MAX_CACHED_RESULTS) {
+    const oldest = analysisCache.keys().next().value
+    analysisCache.delete(oldest)
+  }
+}
+
 function loadFromStorage(key) {
   try {
     const raw = sessionStorage.getItem(STORAGE_PREFIX + key)
@@ -402,12 +412,15 @@ export async function analyzeProfile(profileText, settings, lang = 'pt') {
 
   // Memory cache first
   const cached = analysisCache.get(cacheKey)
-  if (cached) return JSON.parse(JSON.stringify(cached))
+  if (cached) {
+    setMemoryCache(cacheKey, cached) // bump recency
+    return JSON.parse(JSON.stringify(cached))
+  }
 
   // sessionStorage fallback (survives clear + re-analyze within same session)
   const stored = loadFromStorage(cacheKey)
   if (stored) {
-    analysisCache.set(cacheKey, stored)
+    setMemoryCache(cacheKey, stored)
     return JSON.parse(JSON.stringify(stored))
   }
 
@@ -440,7 +453,7 @@ export async function analyzeProfile(profileText, settings, lang = 'pt') {
   }
 
   sanitizeResult(result)
-  analysisCache.set(cacheKey, JSON.parse(JSON.stringify(result)))
+  setMemoryCache(cacheKey, JSON.parse(JSON.stringify(result)))
   saveToStorage(cacheKey, result)
   return result
 }

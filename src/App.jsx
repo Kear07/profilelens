@@ -42,20 +42,17 @@ function loadLang() {
   return 'pt'
 }
 
-// Cleanup sensitive data from sessionStorage when user leaves the page
-if (typeof window !== 'undefined') {
-  window.addEventListener('beforeunload', () => {
-    try {
-      const keysToRemove = []
-      for (let i = 0; i < sessionStorage.length; i++) {
-        const key = sessionStorage.key(i)
-        if (key && (key.startsWith('profilelens-result-') || key === 'profilelens-gemini-models-v2')) {
-          keysToRemove.push(key)
-        }
+function cleanupSensitiveStorage() {
+  try {
+    const keysToRemove = []
+    for (let i = 0; i < sessionStorage.length; i++) {
+      const key = sessionStorage.key(i)
+      if (key && (key.startsWith('profilelens-result-') || key === 'profilelens-gemini-models-v2')) {
+        keysToRemove.push(key)
       }
-      keysToRemove.forEach(k => sessionStorage.removeItem(k))
-    } catch { /* ignore */ }
-  })
+    }
+    keysToRemove.forEach(k => sessionStorage.removeItem(k))
+  } catch { /* ignore */ }
 }
 
 export default function App() {
@@ -68,10 +65,15 @@ export default function App() {
   const { analyze, result, error } = useAnalysis()
 
   const lastProfileText = useRef('')
-  const langRef = useRef(loadLang())
+  const langRef = useRef(lang)
   const analysisCounter = useRef(0)
 
-  useEffect(() => { getCount().then(c => { if (c) setUserCount(c) }).catch(() => {}) }, [])
+  useEffect(() => { getCount().then(c => { if (c != null) setUserCount(c) }).catch(() => {}) }, [])
+
+  useEffect(() => {
+    window.addEventListener('beforeunload', cleanupSensitiveStorage)
+    return () => window.removeEventListener('beforeunload', cleanupSensitiveStorage)
+  }, [])
 
   const handleLangChange = async (newLang) => {
     setLang(newLang)
@@ -112,7 +114,10 @@ export default function App() {
       await analyze(profileText, settings, currentLang)
       if (analysisCounter.current === myId) {
         setAnalysisDone(true)
-        incrementCount().then(c => { if (c) setUserCount(c) }).catch(() => {})
+        // Only count real analyses, never demo (mock) runs
+        if (settings.provider !== 'mock') {
+          incrementCount().then(c => { if (c != null) setUserCount(c) }).catch(() => {})
+        }
         await new Promise((r) => setTimeout(r, 600))
         if (analysisCounter.current === myId) setScreen('results')
       }
