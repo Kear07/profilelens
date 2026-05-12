@@ -198,6 +198,10 @@ export default function Settings({ settings, onChange, onClose, lang }) {
                     value={local.apiKey}
                     onChange={(e) => update('apiKey', e.target.value)}
                     placeholder={local.provider === 'gemini' ? 'AIzaSy...' : 'sk-...'}
+                    autoComplete="off"
+                    autoCorrect="off"
+                    autoCapitalize="off"
+                    spellCheck="false"
                   />
                   <small className="field-hint">
                     {local.provider === 'gemini'
@@ -216,6 +220,11 @@ export default function Settings({ settings, onChange, onClose, lang }) {
                     value={local.baseUrl}
                     onChange={(e) => update('baseUrl', e.target.value)}
                     placeholder="https://api.openai.com/v1"
+                    autoComplete="off"
+                    autoCorrect="off"
+                    autoCapitalize="off"
+                    spellCheck="false"
+                    inputMode="url"
                   />
                   {local.baseUrl && !isBaseUrlTrusted(local.baseUrl) && (
                     <small className="field-error">{t(lang, 'baseUrlBlocked')}</small>
@@ -251,6 +260,10 @@ export default function Settings({ settings, onChange, onClose, lang }) {
                         value={customInput}
                         onChange={(e) => { setCustomInput(e.target.value); setModelError('') }}
                         placeholder={t(lang, 'customModelPlaceholder')}
+                        autoComplete="off"
+                        autoCorrect="off"
+                        autoCapitalize="off"
+                        spellCheck="false"
                       />
                     )}
                     {modelError && <small className="field-error">{modelError}</small>}
@@ -262,6 +275,10 @@ export default function Settings({ settings, onChange, onClose, lang }) {
                       value={local.model}
                       onChange={(e) => update('model', e.target.value)}
                       placeholder="gpt-4.1-mini"
+                      autoComplete="off"
+                      autoCorrect="off"
+                      autoCapitalize="off"
+                      spellCheck="false"
                     />
                   )}
                 </label>
